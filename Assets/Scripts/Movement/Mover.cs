@@ -3,39 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Mover : MonoBehaviour
+namespace RPG.Movement
 {
-    [SerializeField] Transform target;
-
-    NavMeshAgent nma;
-
-    void Awake()
+    public class Mover : MonoBehaviour
     {
-        nma = GetComponent<NavMeshAgent>();
-    }
+        [SerializeField] Transform target;
 
-    void Update()
-    {
-        //if (Input.GetMouseButton(0))
-        //{
-        //    MoveToCursor();
-        //}
+        NavMeshAgent nma;
 
-        SetAnimationBlend();
-    }
+        void Awake()
+        {
+            nma = GetComponent<NavMeshAgent>();
+        }
 
-    public void SetDestination(Vector3 destination)
-    {
-        nma.destination = destination;
-    }
+        void Update()
+        {
+            SetAnimationBlend();
+        }
 
-    /// <summary>
-    /// Sets animation forward-movement based on local forward speed.
-    /// </summary>
-    void SetAnimationBlend()
-    {
-        var velocity = nma.velocity;
-        var localVelocity = transform.InverseTransformVector(velocity);
-        GetComponentInChildren<Animator>().SetFloat("forwardSpeed", localVelocity.z);
+        public void SetDestination(Vector3 destination)
+        {
+            nma.destination = destination;
+        }
+
+        /// <summary>
+        /// Sets animation forward-movement based on local forward speed.
+        /// </summary>
+        void SetAnimationBlend()
+        {
+            var velocity = nma.velocity;
+            var localVelocity = transform.InverseTransformVector(velocity);
+            GetComponentInChildren<Animator>().SetFloat("forwardSpeed", localVelocity.z);
+        }
     }
 }
