@@ -20,6 +20,8 @@ public class Mover : MonoBehaviour
         {
             MoveToCursor();
         }
+
+        SetAnimationBlend();
     }
 
     void MoveToCursor()
@@ -32,5 +34,15 @@ public class Mover : MonoBehaviour
         {
             nma.destination = hit.point;
         }
+    }
+
+    /// <summary>
+    /// Sets animation forward-movement based on local forward speed.
+    /// </summary>
+    void SetAnimationBlend()
+    {
+        var velocity = nma.velocity;
+        var localVelocity = transform.InverseTransformVector(velocity);
+        GetComponentInChildren<Animator>().SetFloat("forwardSpeed", localVelocity.z);
     }
 }
