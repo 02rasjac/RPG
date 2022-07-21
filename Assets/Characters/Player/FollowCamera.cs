@@ -6,8 +6,9 @@ public class FollowCamera : MonoBehaviour
 {
     [SerializeField] Transform target;
 
-    void Update()
+    void LateUpdate()
     {
+        // Do this in LateUpdate to prevent potential jittering
         transform.position = target.position;
     }
 }
