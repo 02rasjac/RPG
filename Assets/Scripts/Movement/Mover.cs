@@ -16,24 +16,17 @@ public class Mover : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButton(0))
-        {
-            MoveToCursor();
-        }
+        //if (Input.GetMouseButton(0))
+        //{
+        //    MoveToCursor();
+        //}
 
         SetAnimationBlend();
     }
 
-    void MoveToCursor()
+    public void SetDestination(Vector3 destination)
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        bool hasHit = Physics.Raycast(ray, out hit);
-
-        if (hasHit)
-        {
-            nma.destination = hit.point;
-        }
+        nma.destination = destination;
     }
 
     /// <summary>
