@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+using RPG.Core;
 using RPG.Combat;
 
 namespace RPG.Movement
@@ -11,11 +12,14 @@ namespace RPG.Movement
     {
         [SerializeField] Transform target;
 
+        ActionScheduler actionScheduler;
+
         NavMeshAgent nma;
 
         void Awake()
         {
             nma = GetComponent<NavMeshAgent>();
+            actionScheduler = GetComponent<ActionScheduler>();
         }
 
         void Update()
@@ -25,6 +29,7 @@ namespace RPG.Movement
 
         public void StartMoveAction(Vector3 destination)
         {
+            actionScheduler.StartAction(this);
             GetComponent<Fighter>().Cancel();
             SetDestination(destination);
         }

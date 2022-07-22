@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using RPG.Core;
 using RPG.Movement;
 
 namespace RPG.Combat
@@ -11,12 +12,14 @@ namespace RPG.Combat
         [SerializeField] float weaponRange = 2f;
 
         Mover mover;
+        ActionScheduler actionScheduler;
 
         Transform target;
 
         void Awake()
         {
             mover = GetComponent<Mover>();
+            actionScheduler = GetComponent<ActionScheduler>();
         }
 
         void Update()
@@ -36,6 +39,7 @@ namespace RPG.Combat
         
         public void Attack(CombatTarget target)
         {
+            actionScheduler.StartAction(this);
             this.target = target.transform;
         }
 

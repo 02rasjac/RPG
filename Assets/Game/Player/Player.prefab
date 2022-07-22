@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -6505555989237856793}
   - component: {fileID: 601486963}
   - component: {fileID: 8379799781868498218}
+  - component: {fileID: -7149366545880932017}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -126,22 +127,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85df3113bfe6a61499768a0f3814189d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveTo:
-    m_Name: Move To
+  click:
+    m_Name: Click
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: 05ca88ac-b858-41c3-921c-11a9975a551a
+    m_Id: c2e8aa77-be3a-4989-91b6-aec1c240eae7
     m_Processors: 
     m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: 1a1b7740-e433-41fb-bb97-365dc09f3d0b
-      m_Path: <Mouse>/leftButton
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Move To
-      m_Flags: 0
+    m_SingletonActionBindings: []
     m_Flags: 0
 --- !u!114 &8379799781868498218
 MonoBehaviour:
@@ -153,6 +146,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3bc2814771c956e4eac71fa6f786d667, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponRange: 2
+--- !u!114 &-7149366545880932017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352880481222218281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddb07103c4e1c814795a7b9d05baee13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1352880480917591864
