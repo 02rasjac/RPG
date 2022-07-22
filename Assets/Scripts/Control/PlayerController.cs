@@ -4,32 +4,57 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 using RPG.Movement;
+using RPG.Combat;
 
 namespace RPG.Control
 {
     public class PlayerController : MonoBehaviour
     {
-        [SerializeField] InputAction moveTo;
+        [SerializeField] InputAction click;
+
         Mover mover;
+        Fighter fighter;
 
         void OnEnable()
         {
-            moveTo.Enable();
+            click.Enable();
         }
     
         void OnDisable()
         {
-            moveTo.Disable();
+            click.Disable();
         }
 
         void Awake()
         {
             mover = GetComponent<Mover>();
+            fighter = GetComponent<Fighter>();
         }
 
         void Update()
         {
-            if (moveTo.IsPressed())
+            InteractWithCombat();
+            InteractWithMovement();
+        }
+
+        void InteractWithCombat()
+        {
+            RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
+            foreach (var hit in hits)
+            {
+                CombatTarget target = hit.transform.GetComponent<CombatTarget>();
+                if (target == null) continue;
+
+                if (click.WasPressedThisFrame())
+                {
+                    fighter.Attack(target);
+                }
+            }
+        }
+
+        void InteractWithMovement()
+        {
+            if (click.IsPressed())
             {
                 MoveToCursor();
             }
@@ -38,21 +63,15 @@ namespace RPG.Control
         void MoveToCursor()
         { 
             RaycastHit hit;
-            if (CastRay(out hit))
+            if (Physics.Raycast(GetMouseRay(), out hit))
             {
                 mover.SetDestination(hit.point);
             }
         }
 
-        /// <summary>
-        /// Cast a ray from the camera through the mouseclick and calculate the hitpoint <c>hit</c>.
-        /// </summary>
-        /// <param name="hit">Store hit-information.</param>
-        /// <returns>True if raycast hit something.</returns>
-        bool CastRay(out RaycastHit hit)
+        Ray GetMouseRay()
         {
-            Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-            return Physics.Raycast(ray, out hit);
+            return Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
         }
     }
 }

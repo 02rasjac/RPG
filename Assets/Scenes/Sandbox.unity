@@ -586,40 +586,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 413494, guid: 77f31c36f0d53bb42825298c5949e90e, type: 3}
   m_PrefabInstance: {fileID: 571895648}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &601486959 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1352880481222218281, guid: b5ef3117795f17142b0c5da0486fddb5, type: 3}
-  m_PrefabInstance: {fileID: 1352880480969392771}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &601486963
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 601486959}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85df3113bfe6a61499768a0f3814189d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveTo:
-    m_Name: Move To
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 05ca88ac-b858-41c3-921c-11a9975a551a
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: 1a1b7740-e433-41fb-bb97-365dc09f3d0b
-      m_Path: <Mouse>/leftButton
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Move To
-      m_Flags: 0
-    m_Flags: 0
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1315,9 +1281,29 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -6505555989237856793, guid: b5ef3117795f17142b0c5da0486fddb5, type: 3}
-      propertyPath: target
-      value: 
+    - target: {fileID: 601486963, guid: b5ef3117795f17142b0c5da0486fddb5, type: 3}
+      propertyPath: click.m_Id
+      value: 78d5d609-8d44-45c5-aa14-6739a33d7e0b
+      objectReference: {fileID: 0}
+    - target: {fileID: 601486963, guid: b5ef3117795f17142b0c5da0486fddb5, type: 3}
+      propertyPath: click.m_Name
+      value: Click
+      objectReference: {fileID: 0}
+    - target: {fileID: 601486963, guid: b5ef3117795f17142b0c5da0486fddb5, type: 3}
+      propertyPath: click.m_SingletonActionBindings.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 601486963, guid: b5ef3117795f17142b0c5da0486fddb5, type: 3}
+      propertyPath: click.m_SingletonActionBindings.Array.data[0].m_Id
+      value: daee4f14-213e-4d38-abf9-bcb6f067fbf8
+      objectReference: {fileID: 0}
+    - target: {fileID: 601486963, guid: b5ef3117795f17142b0c5da0486fddb5, type: 3}
+      propertyPath: click.m_SingletonActionBindings.Array.data[0].m_Path
+      value: <Mouse>/leftButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 601486963, guid: b5ef3117795f17142b0c5da0486fddb5, type: 3}
+      propertyPath: click.m_SingletonActionBindings.Array.data[0].m_Action
+      value: Click
       objectReference: {fileID: 0}
     - target: {fileID: 1352880481222218281, guid: b5ef3117795f17142b0c5da0486fddb5, type: 3}
       propertyPath: m_Name
@@ -1366,14 +1352,6 @@ PrefabInstance:
     - target: {fileID: 1352880481222218285, guid: b5ef3117795f17142b0c5da0486fddb5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8374918357390430647, guid: b5ef3117795f17142b0c5da0486fddb5, type: 3}
-      propertyPath: m_Acceleration
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 8374918357390430647, guid: b5ef3117795f17142b0c5da0486fddb5, type: 3}
-      propertyPath: m_AngularSpeed
-      value: 5000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5ef3117795f17142b0c5da0486fddb5, type: 3}
