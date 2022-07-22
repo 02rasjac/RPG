@@ -61,7 +61,7 @@ namespace RPG.Control
             {
                 if (click.IsPressed())
                 {
-                    mover.SetDestination(hit.point);
+                    mover.StartMoveAction(hit.point);
                 }
                 return true;
             }

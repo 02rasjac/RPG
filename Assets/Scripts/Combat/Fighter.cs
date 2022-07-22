@@ -30,13 +30,18 @@ namespace RPG.Combat
                 else
                 {
                     mover.Stop();
-                    target = null;
                 }
             }
         }
+        
         public void Attack(CombatTarget target)
         {
             this.target = target.transform;
+        }
+
+        public void Cancel()
+        {
+            target = null;
         }
     }
 }

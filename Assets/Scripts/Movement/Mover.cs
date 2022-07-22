@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+using RPG.Combat;
+
 namespace RPG.Movement
 {
     public class Mover : MonoBehaviour
@@ -19,6 +21,12 @@ namespace RPG.Movement
         void Update()
         {
             SetAnimationBlend();
+        }
+
+        public void StartMoveAction(Vector3 destination)
+        {
+            GetComponent<Fighter>().Cancel();
+            SetDestination(destination);
         }
 
         public void SetDestination(Vector3 destination)
