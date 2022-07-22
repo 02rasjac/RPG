@@ -24,6 +24,12 @@ namespace RPG.Movement
         public void SetDestination(Vector3 destination)
         {
             nma.destination = destination;
+            nma.isStopped = false;
+        }
+
+        public void Stop()
+        {
+            nma.isStopped = true;
         }
 
         /// <summary>
