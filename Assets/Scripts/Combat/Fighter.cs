@@ -13,6 +13,7 @@ namespace RPG.Combat
 
         Mover mover;
         ActionScheduler actionScheduler;
+        Animator animator;
 
         Transform target;
 
@@ -20,6 +21,7 @@ namespace RPG.Combat
         {
             mover = GetComponent<Mover>();
             actionScheduler = GetComponent<ActionScheduler>();
+            animator = GetComponent<Animator>();
         }
 
         void Update()
@@ -33,10 +35,11 @@ namespace RPG.Combat
                 else
                 {
                     mover.Stop();
+                    AttackBehavior();
                 }
             }
         }
-        
+
         public void Attack(CombatTarget target)
         {
             actionScheduler.StartAction(this);
@@ -46,6 +49,19 @@ namespace RPG.Combat
         public void Cancel()
         {
             target = null;
+        }
+
+        void AttackBehavior()
+        {
+            animator.SetTrigger("attack");
+        }
+
+        /// <summary>
+        /// Attack-animation event.
+        /// </summary>
+        void Hit()
+        {
+
         }
     }
 }
