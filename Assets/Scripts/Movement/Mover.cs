@@ -4,11 +4,10 @@ using UnityEngine;
 using UnityEngine.AI;
 
 using RPG.Core;
-using RPG.Combat;
 
 namespace RPG.Movement
 {
-    public class Mover : MonoBehaviour
+    public class Mover : MonoBehaviour, IAction
     {
         [SerializeField] Transform target;
 
@@ -30,7 +29,6 @@ namespace RPG.Movement
         public void StartMoveAction(Vector3 destination)
         {
             actionScheduler.StartAction(this);
-            GetComponent<Fighter>().Cancel();
             SetDestination(destination);
         }
 
@@ -43,6 +41,11 @@ namespace RPG.Movement
         public void Stop()
         {
             nma.isStopped = true;
+        }
+
+        public void Cancel()
+        {
+            Stop();
         }
 
         /// <summary>
