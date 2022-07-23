@@ -7,6 +7,7 @@ using RPG.Core;
 
 namespace RPG.Movement
 {
+    [RequireComponent(typeof(ActionScheduler))]
     public class Mover : MonoBehaviour, IAction
     {
         ActionScheduler actionScheduler;

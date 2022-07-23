@@ -43,12 +43,12 @@ namespace RPG.Control
             foreach (var hit in hits)
             {
                 CombatTarget target = hit.transform.GetComponent<CombatTarget>();
-                //if (target == null) continue;
-                if (!fighter.CanAttack(target)) continue;
+                if (target == null) continue;
+                if (!fighter.CanAttack(target.gameObject)) continue;
 
                 if (click.WasPressedThisFrame())
                 {
-                    fighter.Attack(target);
+                    fighter.Attack(target.gameObject);
                 }
                 return true;
             }

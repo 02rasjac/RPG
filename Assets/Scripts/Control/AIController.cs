@@ -1,13 +1,22 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+using RPG.Combat;
+
 namespace RPG.Control
 {
     public class AIController : MonoBehaviour
     {
         [SerializeField] float chaseDistance = 5f;
 
+        Fighter fighter;
+
         GameObject player;
+
+        void Awake()
+        {
+            fighter = GetComponent<Fighter>();
+        }
 
         // Use this for initialization
         void Start()
@@ -20,7 +29,14 @@ namespace RPG.Control
         {
             if (Vector3.Distance(transform.position, player.transform.position) <= chaseDistance)
             {
-                print($"{name} should chase {player.name}");
+                if (fighter.CanAttack(player))
+                {
+                    fighter.Attack(player);
+                }
+            }
+            else
+            {
+                fighter.Cancel();
             }
         }
     }
