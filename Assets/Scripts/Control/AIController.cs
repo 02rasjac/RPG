@@ -3,6 +3,7 @@ using UnityEngine;
 
 using RPG.Core;
 using RPG.Combat;
+using RPG.Movement;
 
 namespace RPG.Control
 {
@@ -12,19 +13,24 @@ namespace RPG.Control
 
         Fighter fighter;
         Health health;
+        Mover mover;
 
         GameObject player;
+
+        Vector3 guardLocation;
 
         void Awake()
         {
             fighter = GetComponent<Fighter>();
             health = GetComponent<Health>();
+            mover = GetComponent<Mover>();
         }
 
         // Use this for initialization
         void Start()
         {
             player = GameObject.FindWithTag("Player");
+            guardLocation = transform.position;
         }
 
         // Update is called once per frame
@@ -39,7 +45,7 @@ namespace RPG.Control
                 }
                 else
                 {
-                    fighter.Cancel();
+                    mover.StartMoveAction(guardLocation);
                 }
 
             }
