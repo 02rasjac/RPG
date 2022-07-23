@@ -144,3 +144,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1ef77d4ff4a1ce448d369c73864206e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-1740516425032680274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3219911967799398649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 083e393b3e4c7ed48a17c7e5d4ed1998, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chaseDistance: 5
