@@ -17,7 +17,7 @@ namespace RPG.Combat
         ActionScheduler actionScheduler;
         Animator animator;
 
-        Transform target;
+        Health target;
         float timeSinceLastAttack;
 
         void Awake()
@@ -33,9 +33,9 @@ namespace RPG.Combat
 
             if (target != null)
             {
-                if (weaponRange <= Vector3.Distance(transform.position, target.position))
+                if (weaponRange <= Vector3.Distance(transform.position, target.transform.position))
                 {
-                    mover.SetDestination(target.position);
+                    mover.SetDestination(target.transform.position);
                 }
                 else
                 {
@@ -48,12 +48,13 @@ namespace RPG.Combat
         public void Attack(CombatTarget target)
         {
             actionScheduler.StartAction(this);
-            this.target = target.transform;
+            this.target = target.GetComponent<Health>();
         }
 
         public void Cancel()
         {
             target = null;
+            animator.SetTrigger("stopAttack");
         }
 
         void AttackBehavior()
@@ -62,6 +63,11 @@ namespace RPG.Combat
             {
                 // Hit()-event will be triggered here.
                 timeSinceLastAttack = 0f;
+                if (target.IsDead)
+                {
+                    Cancel();
+                    return;
+                }
                 animator.SetTrigger("attack");
             }
         }
@@ -71,7 +77,7 @@ namespace RPG.Combat
         /// </summary>
         void Hit()
         {
-            target.GetComponent<Health>().TakeDamage(damagePoints);
+            target.TakeDamage(damagePoints);
         }
     }
 }
