@@ -25,6 +25,7 @@ namespace RPG.Combat
             mover = GetComponent<Mover>();
             actionScheduler = GetComponent<ActionScheduler>();
             animator = GetComponent<Animator>();
+            timeSinceLastAttack = timeBetweenAttacks;
         }
 
         void Update()
@@ -47,6 +48,7 @@ namespace RPG.Combat
 
         public void Attack(CombatTarget target)
         {
+            animator.ResetTrigger("stopAttack");
             actionScheduler.StartAction(this);
             this.target = target.GetComponent<Health>();
         }
@@ -64,6 +66,7 @@ namespace RPG.Combat
         public void Cancel()
         {
             target = null;
+            animator.ResetTrigger("attack");
             animator.SetTrigger("stopAttack");
         }
 
@@ -89,6 +92,7 @@ namespace RPG.Combat
         /// </summary>
         void Hit()
         {
+            if (target == null) return;
             target.TakeDamage(damagePoints);
         }
     }
