@@ -11,6 +11,7 @@ namespace RPG.Combat
     {
         [SerializeField] float weaponRange = 2f;
         [SerializeField] float timeBetweenAttacks = 1f;
+        [SerializeField] float damagePoints = 5f;
 
         Mover mover;
         ActionScheduler actionScheduler;
@@ -59,6 +60,7 @@ namespace RPG.Combat
         {
             if (timeSinceLastAttack > timeBetweenAttacks)
             {
+                // Hit()-event will be triggered here.
                 timeSinceLastAttack = 0f;
                 animator.SetTrigger("attack");
             }
@@ -69,7 +71,7 @@ namespace RPG.Combat
         /// </summary>
         void Hit()
         {
-
+            target.GetComponent<Health>().TakeDamage(damagePoints);
         }
     }
 }
