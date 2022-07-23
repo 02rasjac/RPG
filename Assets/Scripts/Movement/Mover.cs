@@ -11,17 +11,19 @@ namespace RPG.Movement
     public class Mover : MonoBehaviour, IAction
     {
         ActionScheduler actionScheduler;
-
         NavMeshAgent nma;
+        Health health;
 
         void Awake()
         {
             nma = GetComponent<NavMeshAgent>();
             actionScheduler = GetComponent<ActionScheduler>();
+            health = GetComponent<Health>();
         }
 
         void Update()
         {
+            nma.enabled = !health.IsDead;
             SetAnimationBlend();
         }
 
