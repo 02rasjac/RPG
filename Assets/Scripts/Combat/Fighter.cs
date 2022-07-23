@@ -51,6 +51,16 @@ namespace RPG.Combat
             this.target = target.GetComponent<Health>();
         }
 
+        /// <summary>
+        /// Test if <paramref name="testTarget"/> is attackable.
+        /// </summary>
+        /// <param name="testTarget">Target to test.</param>
+        /// <returns><c>true</c> if <paramref name="testTarget"/> is not null and is alive.</returns>
+        public bool CanAttack(CombatTarget testTarget)
+        {
+            return testTarget != null && !testTarget.GetComponent<Health>().IsDead;
+        }
+
         public void Cancel()
         {
             target = null;
