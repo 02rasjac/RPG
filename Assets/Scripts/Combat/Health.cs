@@ -2,14 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Health : MonoBehaviour
+namespace RPG.Combat
 {
-    [SerializeField] float health = 100f;
-
-    public void TakeDamage(float ammount)
+    public class Health : MonoBehaviour
     {
-        health -= ammount;
-        if (health < 0) health = 0;
-        print(health);
+        [SerializeField] float health = 100f;
+
+        bool isDead = false;
+
+        public void TakeDamage(float ammount)
+        {
+            health -= ammount;
+            if (health <= 0)
+            {
+                health = 0;
+                Die();
+            }
+
+            print(health);
+        }
+
+        void Die()
+        {
+            if (!isDead)
+            {
+                GetComponent<Animator>().SetTrigger("die");
+                isDead = true;
+            }
+        }
     }
 }
