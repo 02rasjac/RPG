@@ -11,7 +11,7 @@ namespace RPG.Control
     {
         [Header("Gameplay mechanics")]
         [SerializeField] float patrolSpeed = 1.558401f;
-        [SerializeField] float fightSpeed = 2.831159f;
+        [SerializeField] float fightSpeed = 3.5f;
         [SerializeField] float chaseDistance = 5f;
         [SerializeField] float suspicionTime = 2f;
 
