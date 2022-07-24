@@ -111,7 +111,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6639920190588900738, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
       propertyPath: health
-      value: 20
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 7909115739364297349, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
       propertyPath: m_Name
@@ -150,7 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponRange: 2
   timeBetweenAttacks: 1
-  damagePoints: 5
+  damagePoints: 10
 --- !u!114 &-1740516425032680274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,6 +167,7 @@ MonoBehaviour:
   suspicionTime: 4
   patrolPath: {fileID: 0}
   waypointTolerance: 1
+  waitTime: 1
 --- !u!114 &2040129335999746029
 MonoBehaviour:
   m_ObjectHideFlags: 0
