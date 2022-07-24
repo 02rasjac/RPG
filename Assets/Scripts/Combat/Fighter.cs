@@ -7,6 +7,7 @@ using RPG.Movement;
 
 namespace RPG.Combat
 {
+    [RequireComponent(typeof(ActionScheduler))]
     public class Fighter : MonoBehaviour, IAction
     {
         [SerializeField] float weaponRange = 2f;
@@ -46,7 +47,7 @@ namespace RPG.Combat
             }
         }
 
-        public void Attack(CombatTarget target)
+        public void Attack(GameObject target)
         {
             animator.ResetTrigger("stopAttack");
             actionScheduler.StartAction(this);
@@ -58,9 +59,10 @@ namespace RPG.Combat
         /// </summary>
         /// <param name="testTarget">Target to test.</param>
         /// <returns><c>true</c> if <paramref name="testTarget"/> is not null and is alive.</returns>
-        public bool CanAttack(CombatTarget testTarget)
+        public bool CanAttack(GameObject testTarget)
         {
-            return testTarget != null && !testTarget.GetComponent<Health>().IsDead;
+            //return testTarget != null && !testTarget.GetComponent<Health>().IsDead;
+            return !testTarget.GetComponent<Health>().IsDead;
         }
 
         public void Cancel()

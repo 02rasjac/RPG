@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+using RPG.Core;
 using RPG.Movement;
 using RPG.Combat;
 
@@ -14,6 +15,7 @@ namespace RPG.Control
 
         Mover mover;
         Fighter fighter;
+        Health health;
 
         void OnEnable()
         {
@@ -29,12 +31,16 @@ namespace RPG.Control
         {
             mover = GetComponent<Mover>();
             fighter = GetComponent<Fighter>();
+            health = GetComponent<Health>();
         }
 
         void Update()
         {
-            if (InteractWithCombat()) return;
-            if (InteractWithMovement()) return;
+            if (!health.IsDead)
+            {
+                if (InteractWithCombat()) return;
+                if (InteractWithMovement()) return;
+            }
         }
 
         bool InteractWithCombat()
@@ -43,12 +49,12 @@ namespace RPG.Control
             foreach (var hit in hits)
             {
                 CombatTarget target = hit.transform.GetComponent<CombatTarget>();
-                //if (target == null) continue;
-                if (!fighter.CanAttack(target)) continue;
+                if (target == null) continue;
+                if (!fighter.CanAttack(target.gameObject)) continue;
 
-                if (click.WasPressedThisFrame())
+                if (click.IsPressed())
                 {
-                    fighter.Attack(target);
+                    fighter.Attack(target.gameObject);
                 }
                 return true;
             }
