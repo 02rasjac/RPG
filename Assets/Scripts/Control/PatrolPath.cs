@@ -11,10 +11,20 @@ namespace RPG.Control
         {
             for (int i = 0; i < transform.childCount; i++)
             {
-                Transform child = transform.GetChild(i);
-                Gizmos.color = Color.white;
-                Gizmos.DrawSphere(child.position, visualiseRadius);
+                Gizmos.color = i == 0 ? Color.green : Color.white;
+                Gizmos.DrawSphere(GetChildPosition(i), visualiseRadius);
+                Gizmos.DrawLine(GetChildPosition(i), GetChildPosition(GetNextIndex(i)));
             }
+        }
+
+        Vector3 GetChildPosition(int index)
+        {
+            return transform.GetChild(index).position;
+        }
+
+        int GetNextIndex(int i)
+        {
+            return (i == transform.childCount - 1) ? 0 : (i + 1);
         }
     }
 }
