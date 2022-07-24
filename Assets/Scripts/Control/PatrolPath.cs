@@ -17,12 +17,12 @@ namespace RPG.Control
             }
         }
 
-        Vector3 GetChildPosition(int index)
+        public Vector3 GetChildPosition(int index)
         {
             return transform.GetChild(index).position;
         }
 
-        int GetNextIndex(int i)
+        public int GetNextIndex(int i)
         {
             return (i == transform.childCount - 1) ? 0 : (i + 1);
         }
