@@ -4,7 +4,6 @@ using UnityEngine;
 using RPG.Core;
 using RPG.Combat;
 using RPG.Movement;
-using System;
 
 namespace RPG.Control
 {
@@ -18,6 +17,8 @@ namespace RPG.Control
         [SerializeField] PatrolPath patrolPath;
         [Tooltip("Maximum distance to waypoint befor going to next.")]
         [SerializeField] float waypointTolerance = 1f;
+        [Tooltip("Time to wait at each checkpoint.")]
+        [SerializeField] float waitTime = 1f;
 
         Fighter fighter;
         Health health;
@@ -30,6 +31,7 @@ namespace RPG.Control
         Vector3 guardLocation;
         int currentWaypointIndex = 0;
         float timeSinceLastSawPlayer = Mathf.Infinity;
+        float timeSinceLastMove = 0f;
 
         void Awake()
         {
@@ -83,8 +85,9 @@ namespace RPG.Control
                 return;
             }
 
-            if (AtWaypoint())
+            if (AtWaypoint() && (timeSinceLastMove += Time.deltaTime) > waitTime)
             {
+                timeSinceLastMove = 0;
                 CycleWaypoint();
             }
 
