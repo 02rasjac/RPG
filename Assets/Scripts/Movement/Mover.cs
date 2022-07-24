@@ -39,6 +39,11 @@ namespace RPG.Movement
             nma.isStopped = false;
         }
 
+        public void SetSpeed(float speed)
+        {
+            nma.speed = Mathf.Abs(speed);
+        }
+
         public void Stop()
         {
             nma.isStopped = true;

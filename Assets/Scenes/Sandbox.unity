@@ -1410,6 +1410,10 @@ PrefabInstance:
       value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: -1740516425032680274, guid: c7873f01f09962843a98fd1c30b67f49, type: 3}
+      propertyPath: fightSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -1740516425032680274, guid: c7873f01f09962843a98fd1c30b67f49, type: 3}
       propertyPath: patrolPath
       value: 
       objectReference: {fileID: 5422366097995436616}
@@ -1467,7 +1471,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4547500065168105480, guid: c7873f01f09962843a98fd1c30b67f49, type: 3}
       propertyPath: m_Speed
-      value: 5.662317
+      value: 1.558401
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7873f01f09962843a98fd1c30b67f49, type: 3}
