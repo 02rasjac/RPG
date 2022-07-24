@@ -52,7 +52,7 @@ namespace RPG.Control
                 if (target == null) continue;
                 if (!fighter.CanAttack(target.gameObject)) continue;
 
-                if (click.WasPressedThisFrame())
+                if (click.IsPressed())
                 {
                     fighter.Attack(target.gameObject);
                 }
