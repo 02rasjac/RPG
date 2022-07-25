@@ -2,6 +2,9 @@
 using UnityEngine;
 using UnityEngine.Playables;
 
+using RPG.Core;
+using RPG.Control;
+
 namespace RPG.Cinematics
 {
     public class CinematicControlRemover : MonoBehaviour
@@ -16,12 +19,15 @@ namespace RPG.Cinematics
 
         void DisableControls(PlayableDirector pd)
         {
-            print("Disable controls");
+            var player = GameObject.FindWithTag("Player");
+            player.GetComponent<ActionScheduler>().CancelCurrentAction();
+            player.GetComponent<PlayerController>().enabled = false;
         }
         
         void EnableControls(PlayableDirector pd)
         {
-            print("Enable controls");
+            var player = GameObject.FindWithTag("Player");
+            player.GetComponent<PlayerController>().enabled = true;
         }
     }
 }

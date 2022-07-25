@@ -67,6 +67,7 @@ namespace RPG.Combat
 
         public void Cancel()
         {
+            mover.Stop();
             target = null;
             animator.ResetTrigger("attack");
             animator.SetTrigger("stopAttack");
