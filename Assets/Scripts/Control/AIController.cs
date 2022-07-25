@@ -10,6 +10,8 @@ namespace RPG.Control
     public class AIController : MonoBehaviour
     {
         [Header("Gameplay mechanics")]
+        [SerializeField] float patrolSpeed = 1.558401f;
+        [SerializeField] float fightSpeed = 3.5f;
         [SerializeField] float chaseDistance = 5f;
         [SerializeField] float suspicionTime = 2f;
 
@@ -91,6 +93,7 @@ namespace RPG.Control
                 CycleWaypoint();
             }
 
+            mover.SetSpeed(patrolSpeed);
             mover.StartMoveAction(GetWaypoint());
         }
 
@@ -117,6 +120,7 @@ namespace RPG.Control
 
         void AttackBehaviour()
         {
+            mover.SetSpeed(fightSpeed);
             fighter.Attack(player);
         }
 
