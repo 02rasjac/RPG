@@ -13,8 +13,8 @@ namespace RPG.Core
         {
             if (hasSpawned) return;
 
-            SpawnObject();
             hasSpawned = true;
+            SpawnObject();
         }
 
         void SpawnObject()
