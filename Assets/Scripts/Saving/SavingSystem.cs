@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using UnityEngine;
 
 namespace RPG.Saving
@@ -9,17 +10,22 @@ namespace RPG.Saving
     {
         const string fileExtension = ".sav";
 
-        public void Save(string fileName)
+        public void Save(string saveName)
         {
-            print("Save to " + fileName);
+            string path = GetPathFromSaveFile(saveName);
+            print("Save to " + path);
+            FileStream fs = File.Open(path, FileMode.Create);
+            byte[] text = Encoding.UTF8.GetBytes("¡Hola Mundo!");
+            fs.Write(text, 0, text.Length);
+            fs.Close();
         }
     
-        public void Load(string fileName)
+        public void Load(string saveName)
         {
-            print("Load from " + fileName);
+            print("Load from " + saveName);
         }
 
-        public string GetPathFromSaveFile(string saveFile)
+        string GetPathFromSaveFile(string saveFile)
         {
             return Path.Combine(Application.persistentDataPath, saveFile + fileExtension);
         }
