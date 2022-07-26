@@ -16,6 +16,13 @@ namespace RPG.SceneManagement
         [SerializeField] int sceneIndex = -1;
         [SerializeField] Transform spawnPoint;
 
+        Fader fader;
+
+        void Start()
+        {
+            fader = FindObjectOfType<Fader>();
+        }
+
         void OnTriggerEnter(Collider other)
         {
             if (!other.CompareTag("Player")) return;
@@ -32,10 +39,15 @@ namespace RPG.SceneManagement
             }
 
             DontDestroyOnLoad(this);
+
+            yield return StartCoroutine(fader.FadeOut());
             yield return SceneManager.LoadSceneAsync(sceneIndex);
 
             Portal otherPortal = GetOtherPortal();
             UpdatePlayer(otherPortal);
+
+            yield return new WaitForSeconds(fader.WaitTime);
+            yield return StartCoroutine(fader.FadeIn());
 
             Destroy(gameObject);
         }
@@ -46,7 +58,6 @@ namespace RPG.SceneManagement
                 if (portal.destinationIdentifier == destinationIdentifier && portal != this)
                     return portal;
             }
-            print(SceneManager.GetActiveScene().buildIndex);
             return null;
         }
 
@@ -56,7 +67,6 @@ namespace RPG.SceneManagement
             var nma = player.GetComponent<NavMeshAgent>();
             nma.enabled = false;
             player.transform.position = otherPortal.spawnPoint.position;
-            print(player.transform.position);
             // Make sure character faces correct direcition. (Thanks Corey)
             Vector3 directionVector = (otherPortal.spawnPoint.position - otherPortal.transform.position).normalized;
             player.transform.rotation = Quaternion.LookRotation(directionVector);
