@@ -24,11 +24,11 @@ namespace RPG.Saving
         {
             if (save.WasPressedThisFrame())
             {
-                savingSystem.Save(defaultFileName);
+                savingSystem.Save(savingSystem.GetPathFromSaveFile(defaultFileName));
             }
             else if (load.WasPressedThisFrame())
             {
-                savingSystem.Load(defaultFileName);
+                savingSystem.Load(savingSystem.GetPathFromSaveFile(defaultFileName));
             }
         }
 
