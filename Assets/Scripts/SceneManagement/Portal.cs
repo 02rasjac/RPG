@@ -7,6 +7,12 @@ namespace RPG.SceneManagement
 {
     public class Portal : MonoBehaviour
     {
+        enum DestinationIdentifier
+        {
+            A, B,C,D,E,F,G
+        }
+
+        [SerializeField] DestinationIdentifier destinationIdentifier;
         [SerializeField] int sceneIndex = -1;
         [SerializeField] Transform spawnPoint;
 
@@ -19,31 +25,42 @@ namespace RPG.SceneManagement
 
         IEnumerator Transition()
         {
-            int oldSceneIndex = SceneManager.GetActiveScene().buildIndex;
+            if (sceneIndex < 0)
+            {
+                Debug.LogError("No sceneIndex set (sceneIndex < 0)");
+                yield break;
+            }
+
             DontDestroyOnLoad(this);
             yield return SceneManager.LoadSceneAsync(sceneIndex);
 
-            Portal otherPortal = GetOtherPortal(oldSceneIndex);
+            Portal otherPortal = GetOtherPortal();
             UpdatePlayer(otherPortal);
 
             Destroy(gameObject);
         }
 
-        Portal GetOtherPortal(int oldIndex)
+        Portal GetOtherPortal()
         {
             foreach (Portal portal in FindObjectsOfType<Portal>()) {
-                if (portal.sceneIndex == oldIndex) return portal;
+                if (portal.destinationIdentifier == destinationIdentifier && portal != this)
+                    return portal;
             }
+            print(SceneManager.GetActiveScene().buildIndex);
             return null;
         }
 
         void UpdatePlayer(Portal otherPortal)
         {
             GameObject player = GameObject.FindWithTag("Player");
-            player.GetComponent<NavMeshAgent>().Warp(otherPortal.spawnPoint.position);
+            var nma = player.GetComponent<NavMeshAgent>();
+            nma.enabled = false;
+            player.transform.position = otherPortal.spawnPoint.position;
+            print(player.transform.position);
             // Make sure character faces correct direcition. (Thanks Corey)
             Vector3 directionVector = (otherPortal.spawnPoint.position - otherPortal.transform.position).normalized;
             player.transform.rotation = Quaternion.LookRotation(directionVector);
+            nma.enabled = true;
         }
     }
 }
