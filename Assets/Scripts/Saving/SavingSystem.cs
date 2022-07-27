@@ -14,15 +14,23 @@ namespace RPG.Saving
         {
             string path = GetPathFromSaveFile(saveName);
             print("Save to " + path);
-            FileStream fs = File.Open(path, FileMode.Create);
-            byte[] text = Encoding.UTF8.GetBytes("¡Hola Mundo!");
-            fs.Write(text, 0, text.Length);
-            fs.Close();
+            using (FileStream fs = File.Open(path, FileMode.Create))
+            {
+                byte[] buffer = Encoding.UTF8.GetBytes("¡Hola Mundo!");
+                fs.Write(buffer, 0, buffer.Length);
+            }
         }
     
         public void Load(string saveName)
         {
-            print("Load from " + saveName);
+            string path = GetPathFromSaveFile(saveName);
+            print("Load from " + path);
+            using (FileStream fs = File.Open(path, FileMode.Open))
+            {
+                byte[] buffer = new byte[fs.Length];
+                fs.Read(buffer, 0, buffer.Length);
+                print(Encoding.UTF8.GetString(buffer));
+            }
         }
 
         string GetPathFromSaveFile(string saveFile)
