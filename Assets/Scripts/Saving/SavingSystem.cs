@@ -16,27 +16,37 @@ namespace RPG.Saving
 
         public void Save(string saveName)
         {
-            string path = GetPathFromSaveFile(saveName);
+            SaveFile(saveName, CaptureState());
+        }
+    
+        public void Load(string saveName)
+        {
+            LoadState(LoadFile(saveName));
+        }
+
+        void SaveFile(string fileName, object state)
+        {
+            string path = GetPathFromSaveFile(fileName);
             print("Save to " + path);
             using (FileStream fs = File.Open(path, FileMode.Create))
             {
                 BinaryFormatter formatter = new BinaryFormatter();
-                formatter.Serialize(fs, CaptureState());
+                formatter.Serialize(fs, state);
             }
         }
-    
-        public void Load(string saveName)
+
+        Dictionary<string, object> LoadFile(string saveName)
         {
             string path = GetPathFromSaveFile(saveName);
             print("Load from " + path);
             using (FileStream fs = File.Open(path, FileMode.Open))
             {
                 BinaryFormatter formatter = new BinaryFormatter();
-                LoadState(formatter.Deserialize(fs));
+                return (Dictionary<string, object>)formatter.Deserialize(fs);
             }
         }
 
-        object CaptureState()
+        Dictionary<string, object> CaptureState()
         {
             Dictionary<string, object> states = new Dictionary<string, object>();
             foreach (SaveableEntity saveable in FindObjectsOfType<SaveableEntity>())
@@ -46,9 +56,8 @@ namespace RPG.Saving
             return states;
         }
 
-        void LoadState(object state)
+        void LoadState(Dictionary<string, object> states)
         {
-            Dictionary<string, object> states = (Dictionary<string, object>)state;
             foreach (SaveableEntity saveable in FindObjectsOfType<SaveableEntity>())
             {
                 saveable.LoadState(states[saveable.GetUUID()]);
