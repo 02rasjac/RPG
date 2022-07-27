@@ -18,8 +18,7 @@ namespace RPG.Saving
             using (FileStream fs = File.Open(path, FileMode.Create))
             {
                 BinaryFormatter formatter = new BinaryFormatter();
-                SerializableVector3 sv3 = new SerializableVector3(GetPlayerTransform().position);
-                formatter.Serialize(fs, sv3);
+                formatter.Serialize(fs, CaptureState());
             }
         }
     
@@ -30,14 +29,27 @@ namespace RPG.Saving
             using (FileStream fs = File.Open(path, FileMode.Open))
             {
                 BinaryFormatter formatter = new BinaryFormatter();
-                SerializableVector3 sv3 = (SerializableVector3)formatter.Deserialize(fs);
-                GetPlayerTransform().position = sv3.ToVector3();
+                LoadState(formatter.Deserialize(fs));
             }
         }
 
-        Transform GetPlayerTransform()
+        object CaptureState()
         {
-            return GameObject.FindWithTag("Player").transform;
+            Dictionary<string, object> states = new Dictionary<string, object>();
+            foreach (SaveableEntity saveable in FindObjectsOfType<SaveableEntity>())
+            {
+                states[saveable.GetUniqueID()] = saveable.CaptureState();
+            }
+            return states;
+        }
+
+        void LoadState(object state)
+        {
+            Dictionary<string, object> states = (Dictionary<string, object>)state;
+            foreach (SaveableEntity saveable in FindObjectsOfType<SaveableEntity>())
+            {
+                saveable.LoadState(states[saveable.GetUniqueID()]);
+            }
         }
 
         string GetPathFromSaveFile(string saveFile)
