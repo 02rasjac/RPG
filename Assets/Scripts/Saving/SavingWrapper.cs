@@ -14,9 +14,24 @@ namespace RPG.Saving
 
         SavingSystem savingSystem;
 
+        public void Save()
+        {
+            savingSystem.Save(defaultFileName);
+        }
+        
+        public void Load()
+        {
+            savingSystem.Load(defaultFileName);
+        }
+
         void Awake()
         {
             savingSystem = GetComponent<SavingSystem>();
+        }
+
+        void Start()
+        {
+            savingSystem.Load(defaultFileName);
         }
 
         // Update is called once per frame
@@ -24,11 +39,11 @@ namespace RPG.Saving
         {
             if (save.WasPressedThisFrame())
             {
-                savingSystem.Save(defaultFileName);
+                Save();
             }
             else if (load.WasPressedThisFrame())
             {
-                savingSystem.Load(defaultFileName);
+                Load();
             }
         }
 
