@@ -2,6 +2,9 @@
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.AI;
+
+using RPG.Core;
 
 namespace RPG.Saving
 {
@@ -17,13 +20,22 @@ namespace RPG.Saving
 
         public object CaptureState()
         {
-            print("Capturing state for " + GetUUID());
-            return null;
+            return new SerializableVector3(transform.position);
         }
 
         public void LoadState(object state)
         {
-            print("Loading state for " + GetUUID());
+            NavMeshAgent nma = GetComponent<NavMeshAgent>();
+            ActionScheduler actionScheduler = GetComponent<ActionScheduler>();
+
+            if (nma != null)
+            {
+                nma.Warp(((SerializableVector3)state).ToVector3());
+            }
+            if (actionScheduler != null)
+            {
+                actionScheduler.CancelCurrentAction();
+            }
         }
 
 #if UNITY_EDITOR
