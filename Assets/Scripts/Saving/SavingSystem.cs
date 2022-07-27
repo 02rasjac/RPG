@@ -41,7 +41,7 @@ namespace RPG.Saving
             Dictionary<string, object> states = new Dictionary<string, object>();
             foreach (SaveableEntity saveable in FindObjectsOfType<SaveableEntity>())
             {
-                states[saveable.GetUniqueID()] = saveable.CaptureState();
+                states[saveable.GetUUID()] = saveable.CaptureState();
             }
             return states;
         }
@@ -51,7 +51,7 @@ namespace RPG.Saving
             Dictionary<string, object> states = (Dictionary<string, object>)state;
             foreach (SaveableEntity saveable in FindObjectsOfType<SaveableEntity>())
             {
-                saveable.LoadState(states[saveable.GetUniqueID()]);
+                saveable.LoadState(states[saveable.GetUUID()]);
             }
         }
 
