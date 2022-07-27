@@ -9,6 +9,9 @@ namespace RPG.Saving
 {
     public class SavingSystem : MonoBehaviour
     {
+        //TODO: CONVERT FROM BinaryFormatter.Serialize TO USING JSON. CURRENT SAVINGSYSTEM IS **NOT SAFE**!!!
+        //TODO: https://gitlab.com/Mnemoth42/RPG/-/wikis/Json%201%20Introduction%20and%20Installation
+
         const string fileExtension = ".sav";
 
         public void Save(string saveName)
