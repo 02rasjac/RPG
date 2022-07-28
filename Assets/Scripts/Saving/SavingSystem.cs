@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace RPG.Saving
 {
@@ -13,6 +14,18 @@ namespace RPG.Saving
         //TODO: https://gitlab.com/Mnemoth42/RPG/-/wikis/Json%201%20Introduction%20and%20Installation
 
         const string fileExtension = ".sav";
+
+        public IEnumerator LoadLastScene(string saveName)
+        {
+            Dictionary<string, object> state = LoadFile(saveName);
+            if (state.ContainsKey("lastSceneBuildIndex"))
+            {
+                int buildIndex = (int)state["lastSceneBuildIndex"];
+                if (buildIndex != SceneManager.GetActiveScene().buildIndex)
+                    yield return SceneManager.LoadSceneAsync(buildIndex);
+            }
+            LoadState(state);
+        }
 
         public void Save(string saveName)
         {
@@ -55,6 +68,7 @@ namespace RPG.Saving
             {
                 state[saveable.GetUUID()] = saveable.CaptureState();
             }
+            state["lastSceneBuildIndex"] = SceneManager.GetActiveScene().buildIndex;
             return state;
         }
 

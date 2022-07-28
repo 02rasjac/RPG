@@ -31,7 +31,7 @@ namespace RPG.Saving
 
         void Start()
         {
-            savingSystem.Load(defaultFileName);
+            StartCoroutine(savingSystem.LoadLastScene(defaultFileName));
         }
 
         // Update is called once per frame
