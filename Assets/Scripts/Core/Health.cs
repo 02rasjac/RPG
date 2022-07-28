@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using RPG.Saving;
+
 namespace RPG.Core
 {
-    public class Health : MonoBehaviour
+    public class Health : MonoBehaviour, ISaveable
     {
         [SerializeField] float health = 100f;
 
@@ -21,14 +23,34 @@ namespace RPG.Core
             }
         }
 
-        void Die()
+        public object CaptureState()
         {
-            if (!isDead)
+            return health;
+        }
+
+        public void LoadState(object state)
+        {
+            health = (float)state;
+            if (health <= 0)
+                Die(true);
+            else
+                isDead = false;
+        }
+
+        void Die(bool instantDeath = false)
+        {
+            if (isDead) return;
+            if (instantDeath) // Don't run deathanimation if dead on load.
+            {
+                GetComponent<Animator>().Play("Death", 0, 1);
+            }
+            else
             {
                 GetComponent<Animator>().SetTrigger("die");
                 GetComponent<ActionScheduler>().CancelCurrentAction();
-                isDead = true;
             }
+
+            isDead = true;
         }
     }
 }
