@@ -73,6 +73,6 @@ namespace RPG.Saving
 
             globalLookup[UUID] = this;
         }
-    }
 #endif
+    }
 }

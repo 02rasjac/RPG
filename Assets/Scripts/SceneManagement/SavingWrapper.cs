@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace RPG.Saving
+using RPG.Saving;
+
+namespace RPG.SceneManagement
 {
     public class SavingWrapper : MonoBehaviour
     {
@@ -29,9 +31,12 @@ namespace RPG.Saving
             savingSystem = GetComponent<SavingSystem>();
         }
 
-        void Start()
+        IEnumerator Start()
         {
-            StartCoroutine(savingSystem.LoadLastScene(defaultFileName));
+            var fader = FindObjectOfType<Fader>();
+            fader.FadeOutInstant();
+            yield return StartCoroutine(savingSystem.LoadLastScene(defaultFileName));
+            yield return fader.FadeIn();
         }
 
         // Update is called once per frame

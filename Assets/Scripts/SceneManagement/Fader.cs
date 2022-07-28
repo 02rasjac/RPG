@@ -11,9 +11,14 @@ namespace RPG.SceneManagement
         public float WaitTime { get { return waitTime; } }
 
         CanvasGroup canvasGroup;
-        void Start()
+        void Awake()
         {
             canvasGroup = GetComponent<CanvasGroup>();
+        }
+
+        public void FadeOutInstant()
+        {
+            canvasGroup.alpha = 1f;
         }
 
         public IEnumerator FadeOut()
