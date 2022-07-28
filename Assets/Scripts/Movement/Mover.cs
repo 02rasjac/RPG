@@ -4,11 +4,13 @@ using UnityEngine;
 using UnityEngine.AI;
 
 using RPG.Core;
+using RPG.Saving;
 
 namespace RPG.Movement
 {
     [RequireComponent(typeof(ActionScheduler))]
-    public class Mover : MonoBehaviour, IAction
+    [RequireComponent(typeof(NavMeshAgent))]
+    public class Mover : MonoBehaviour, IAction, ISaveable
     {
         ActionScheduler actionScheduler;
         NavMeshAgent nma;
@@ -52,6 +54,17 @@ namespace RPG.Movement
         public void Cancel()
         {
             Stop();
+        }
+
+        public object CaptureState()
+        {
+            return new SerializableVector3(transform.position);
+        }
+
+        public void LoadState(object state)
+        {
+            nma.Warp(((SerializableVector3)state).ToVector3());
+            actionScheduler.CancelCurrentAction();
         }
 
         /// <summary>

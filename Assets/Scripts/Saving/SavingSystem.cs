@@ -65,7 +65,7 @@ namespace RPG.Saving
                 var id = saveable.GetUUID();
                 if (states.ContainsKey(id))
                 {
-                    saveable.LoadState(states[saveable.GetUUID()]);
+                    saveable.LoadState(states[id]);
                 }
             }
         }

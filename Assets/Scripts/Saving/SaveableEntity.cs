@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.AI;
 
 using RPG.Core;
+using System.Collections.Generic;
 
 namespace RPG.Saving
 {
@@ -20,21 +21,24 @@ namespace RPG.Saving
 
         public object CaptureState()
         {
-            return new SerializableVector3(transform.position);
+            Dictionary<string, object> state = new Dictionary<string, object>();
+            foreach (var saveable in GetComponents<ISaveable>())
+            {
+                state[saveable.GetType().ToString()] = saveable.CaptureState();
+            }
+            return state;
         }
 
         public void LoadState(object state)
         {
-            NavMeshAgent nma = GetComponent<NavMeshAgent>();
-            ActionScheduler actionScheduler = GetComponent<ActionScheduler>();
-
-            if (nma != null)
+            Dictionary<string, object> stateDict = (Dictionary<string, object>)state;
+            foreach (var saveable in GetComponents<ISaveable>())
             {
-                nma.Warp(((SerializableVector3)state).ToVector3());
-            }
-            if (actionScheduler != null)
-            {
-                actionScheduler.CancelCurrentAction();
+                string key = saveable.GetType().ToString();
+                if (stateDict.ContainsKey(key))
+                {
+                    saveable.LoadState(stateDict[key]);
+                }
             }
         }
 
