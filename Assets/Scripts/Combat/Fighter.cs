@@ -10,10 +10,6 @@ namespace RPG.Combat
     [RequireComponent(typeof(ActionScheduler))]
     public class Fighter : MonoBehaviour, IAction
     {
-        [Header("Weapon stats")]
-        [SerializeField] float weaponRange = 2f;
-        [SerializeField] float timeBetweenAttacks = 1f;
-        [SerializeField] float damagePoints = 5f;
         [Tooltip("Where the weapon is position, i.e under right hand.")]
         [SerializeField] Transform handTransform = null;
         [SerializeField] Weapon weapon = null;
@@ -23,14 +19,13 @@ namespace RPG.Combat
         Animator animator;
 
         Health target;
-        float timeSinceLastAttack;
+        float timeSinceLastAttack = Mathf.Infinity;
 
         void Awake()
         {
             mover = GetComponent<Mover>();
             actionScheduler = GetComponent<ActionScheduler>();
             animator = GetComponent<Animator>();
-            timeSinceLastAttack = timeBetweenAttacks;
             SpawnWeapon();
         }
 
@@ -40,7 +35,7 @@ namespace RPG.Combat
 
             if (target != null)
             {
-                if (weaponRange <= Vector3.Distance(transform.position, target.transform.position))
+                if (weapon.Range <= Vector3.Distance(transform.position, target.transform.position))
                 {
                     mover.SetDestination(target.transform.position);
                 }
@@ -82,7 +77,7 @@ namespace RPG.Combat
         {
             transform.LookAt(target.transform);
 
-            if (timeSinceLastAttack > timeBetweenAttacks)
+            if (timeSinceLastAttack > weapon.TimeBetweenAttacks)
             {
                 // Hit()-event will be triggered here.
                 timeSinceLastAttack = 0f;
@@ -108,7 +103,7 @@ namespace RPG.Combat
         void Hit()
         {
             if (target == null) return;
-            target.TakeDamage(damagePoints);
+            target.TakeDamage(weapon.Damage);
         }
     }
 }

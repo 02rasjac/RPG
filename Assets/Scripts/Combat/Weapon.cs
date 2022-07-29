@@ -7,18 +7,30 @@ using UnityEngine;
 
 namespace RPG.Combat
 {
-    [CreateAssetMenu(fileName = "Weapon", menuName = "Weapons/weapon", order = 0)]
+    [CreateAssetMenu(fileName = "Weapon", menuName = "Weapons/Weapon", order = 0)]
     internal class Weapon : ScriptableObject
     {
-        [SerializeField] GameObject weaponPrefab = null;
+        [Header("Weapon stats")]
+        [SerializeField] float range = 2f;
+        public float Range => range;
+
+        [SerializeField] float damage = 5f;
+        public float Damage => damage;
+
+        [SerializeField] float timeBetweenAttacks = 1f;
+        public float TimeBetweenAttacks => timeBetweenAttacks;
+
+        [Header("Weapon references")]
+        [SerializeField] GameObject equippedPrefab = null;
         [Tooltip("Override controller for weapn.")]
         [SerializeField] AnimatorOverrideController weaponOverride = null;
 
         public void Spawn(Transform handTrans, Animator animator)
         {
-            Instantiate(weaponPrefab, handTrans);
-            animator.runtimeAnimatorController = weaponOverride;
-
+            if (equippedPrefab != null)
+                Instantiate(equippedPrefab, handTrans);
+            if (weaponOverride != null)
+                animator.runtimeAnimatorController = weaponOverride;
         }
     }
 }
