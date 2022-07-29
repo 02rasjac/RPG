@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using RPG.Saving;
+using Newtonsoft.Json.Linq;
 
 namespace RPG.Core
 {
@@ -23,14 +24,14 @@ namespace RPG.Core
             }
         }
 
-        public object CaptureState()
+        public JToken CaptureAsJToken()
         {
-            return health;
+            return JToken.FromObject(health);
         }
 
-        public void LoadState(object state)
+        public void RestoreFromJToken(JToken state)
         {
-            health = (float)state;
+            health = state.ToObject<float>();
             if (health <= 0)
                 Die(true);
             else

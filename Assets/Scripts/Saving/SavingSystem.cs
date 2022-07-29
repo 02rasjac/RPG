@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -10,83 +12,103 @@ namespace RPG.Saving
 {
     public class SavingSystem : MonoBehaviour
     {
-        //TODO: CONVERT FROM BinaryFormatter.Serialize TO USING JSON. CURRENT SAVINGSYSTEM IS **NOT SAFE**!!!
-        //TODO: https://gitlab.com/Mnemoth42/RPG/-/wikis/Json%201%20Introduction%20and%20Installation
+        [SerializeField] SavingStrategy strategy;
 
-        const string fileExtension = ".sav";
 
-        public IEnumerator LoadLastScene(string saveName)
+        /// <summary>
+        /// Will load the last scene that was saved and restore the state. This
+        /// must be run as a coroutine.
+        /// </summary>
+        /// <param name="saveFile">The save file to consult for loading.</param>
+        public IEnumerator LoadLastScene(string saveFile)
         {
-            Dictionary<string, object> state = LoadFile(saveName);
-            if (state.ContainsKey("lastSceneBuildIndex"))
+            JObject state = LoadJsonFromFile(saveFile);
+            IDictionary<string, JToken> stateDict = state;
+            int buildIndex = SceneManager.GetActiveScene().buildIndex;
+            if (stateDict.ContainsKey("lastSceneBuildIndex"))
             {
-                int buildIndex = (int)state["lastSceneBuildIndex"];
-                if (buildIndex != SceneManager.GetActiveScene().buildIndex)
-                    yield return SceneManager.LoadSceneAsync(buildIndex);
+                buildIndex = (int)stateDict["lastSceneBuildIndex"];
             }
-            LoadState(state);
+            yield return SceneManager.LoadSceneAsync(buildIndex);
+            RestoreFromToken(state);
         }
 
-        public void Save(string saveName)
+        /// <summary>
+        /// Save the current scene to the provided save file.
+        /// </summary>
+        public void Save(string saveFile)
         {
-            Dictionary<string, object> state = LoadFile(saveName);
-            CaptureState(state);
-            SaveFile(saveName, CaptureState(state));
-        }
-    
-        public void Load(string saveName)
-        {
-            LoadState(LoadFile(saveName));
+            JObject state = LoadJsonFromFile(saveFile);
+            CaptureAsToken(state);
+            SaveFileAsJSon(saveFile, state);
         }
 
-        void SaveFile(string fileName, object state)
+        /// <summary>
+        /// Delete the state in the given save file.
+        /// </summary>
+        public void Delete(string saveFile)
         {
-            string path = GetPathFromSaveFile(fileName);
-            print("Save to " + path);
-            using (FileStream fs = File.Open(path, FileMode.Create))
+            File.Delete(GetPathFromSaveFile(saveFile));
+        }
+
+        public void Load(string saveFile)
+        {
+            RestoreFromToken(LoadJsonFromFile(saveFile));
+        }
+
+        public IEnumerable<string> ListSaves()
+        {
+            foreach (string path in Directory.EnumerateFiles(Application.persistentDataPath))
             {
-                BinaryFormatter formatter = new BinaryFormatter();
-                formatter.Serialize(fs, state);
-            }
-        }
-
-        Dictionary<string, object> LoadFile(string saveName)
-        {
-            string path = GetPathFromSaveFile(saveName);
-            print("Load from " + path);
-            if (!File.Exists(path)) return new Dictionary<string, object>();
-            using (FileStream fs = File.Open(path, FileMode.Open))
-            {
-                BinaryFormatter formatter = new BinaryFormatter();
-                return (Dictionary<string, object>)formatter.Deserialize(fs);
-            }
-        }
-
-        Dictionary<string, object> CaptureState(Dictionary<string, object> state)
-        {
-            foreach (SaveableEntity saveable in FindObjectsOfType<SaveableEntity>())
-            {
-                state[saveable.GetUUID()] = saveable.CaptureState();
-            }
-            state["lastSceneBuildIndex"] = SceneManager.GetActiveScene().buildIndex;
-            return state;
-        }
-
-        void LoadState(Dictionary<string, object> states)
-        {
-            foreach (SaveableEntity saveable in FindObjectsOfType<SaveableEntity>())
-            {
-                var id = saveable.GetUUID();
-                if (states.ContainsKey(id))
+                if (Path.GetExtension(path) == strategy.GetExtension())
                 {
-                    saveable.LoadState(states[id]);
+                    yield return Path.GetFileNameWithoutExtension(path);
                 }
             }
         }
 
+        JObject LoadJsonFromFile(string saveFile)
+        {
+            return strategy.LoadFromFile(saveFile);
+        }
+
+        void SaveFileAsJSon(string saveFile, JObject state)
+        {
+            strategy.SaveToFile(saveFile, state);
+        }
+
+
+        void CaptureAsToken(JObject state)
+        {
+            IDictionary<string, JToken> stateDict = state;
+            foreach (SaveableEntity saveable in FindObjectsOfType<SaveableEntity>())
+            {
+                stateDict[saveable.GetUniqueIdentifier()] = saveable.CaptureAsJtoken();
+            }
+
+            stateDict["lastSceneBuildIndex"] = SceneManager.GetActiveScene().buildIndex;
+        }
+
+
+        void RestoreFromToken(JObject state)
+        {
+            IDictionary<string, JToken> stateDict = state;
+            foreach (SaveableEntity saveable in FindObjectsOfType<SaveableEntity>())
+            {
+                string id = saveable.GetUniqueIdentifier();
+                if (stateDict.ContainsKey(id))
+                {
+                    saveable.RestoreFromJToken(stateDict[id]);
+                }
+            }
+        }
+
+
         string GetPathFromSaveFile(string saveFile)
         {
-            return Path.Combine(Application.persistentDataPath, saveFile + fileExtension);
+            return strategy.GetPathFromSaveFile(saveFile);
         }
+
+
     }
 }
