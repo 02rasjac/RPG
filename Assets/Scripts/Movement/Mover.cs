@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 using RPG.Core;
 using RPG.Saving;
+using Newtonsoft.Json.Linq;
 
 namespace RPG.Movement
 {
@@ -56,14 +57,14 @@ namespace RPG.Movement
             Stop();
         }
 
-        public object CaptureState()
+        public JToken CaptureAsJToken()
         {
-            return new SerializableVector3(transform.position);
+            return transform.position.ToToken();
         }
 
-        public void LoadState(object state)
+        public void RestoreFromJToken(JToken state)
         {
-            nma.Warp(((SerializableVector3)state).ToVector3());
+            nma.Warp(state.ToVector3());
             actionScheduler.CancelCurrentAction();
         }
 
