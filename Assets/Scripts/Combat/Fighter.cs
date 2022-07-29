@@ -10,9 +10,14 @@ namespace RPG.Combat
     [RequireComponent(typeof(ActionScheduler))]
     public class Fighter : MonoBehaviour, IAction
     {
+        [Header("Weapon stats")]
         [SerializeField] float weaponRange = 2f;
         [SerializeField] float timeBetweenAttacks = 1f;
         [SerializeField] float damagePoints = 5f;
+        [Header("Weapon object")]
+        [SerializeField] GameObject weaponPrefab = null;
+        [Tooltip("Where the weapon is position, i.e under right hand.")]
+        [SerializeField] Transform handTransform = null;
 
         Mover mover;
         ActionScheduler actionScheduler;
@@ -27,6 +32,7 @@ namespace RPG.Combat
             actionScheduler = GetComponent<ActionScheduler>();
             animator = GetComponent<Animator>();
             timeSinceLastAttack = timeBetweenAttacks;
+            SpawnWeapon();
         }
 
         void Update()
@@ -88,6 +94,11 @@ namespace RPG.Combat
                 }
                 animator.SetTrigger("attack");
             }
+        }
+
+        void SpawnWeapon()
+        {
+            Instantiate(weaponPrefab, handTransform);
         }
 
         /// <summary>
