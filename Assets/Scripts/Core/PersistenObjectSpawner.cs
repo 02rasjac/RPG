@@ -5,7 +5,7 @@ namespace RPG.Core
 {
     public class PersistenObjectSpawner : MonoBehaviour
     {
-        [SerializeField] GameObject persistentObjectPrefab;
+        [SerializeField] GameObject[] persistentObjectPrefabs;
 
         static bool hasSpawned = false;
 
@@ -13,14 +13,17 @@ namespace RPG.Core
         {
             if (hasSpawned) return;
 
-            SpawnObject();
             hasSpawned = true;
+            SpawnObjects();
         }
 
-        void SpawnObject()
+        void SpawnObjects()
         {
-            GameObject obj = Instantiate(persistentObjectPrefab);
-            DontDestroyOnLoad(obj);
+            foreach (var prefab in persistentObjectPrefabs)
+            {
+                GameObject obj = Instantiate(prefab);
+                DontDestroyOnLoad(obj);
+            }
         }
     }
 }

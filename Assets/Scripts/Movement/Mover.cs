@@ -4,11 +4,14 @@ using UnityEngine;
 using UnityEngine.AI;
 
 using RPG.Core;
+using RPG.Saving;
+using Newtonsoft.Json.Linq;
 
 namespace RPG.Movement
 {
     [RequireComponent(typeof(ActionScheduler))]
-    public class Mover : MonoBehaviour, IAction
+    [RequireComponent(typeof(NavMeshAgent))]
+    public class Mover : MonoBehaviour, IAction, ISaveable
     {
         ActionScheduler actionScheduler;
         NavMeshAgent nma;
@@ -52,6 +55,17 @@ namespace RPG.Movement
         public void Cancel()
         {
             Stop();
+        }
+
+        public JToken CaptureAsJToken()
+        {
+            return transform.position.ToToken();
+        }
+
+        public void RestoreFromJToken(JToken state)
+        {
+            nma.Warp(state.ToVector3());
+            actionScheduler.CancelCurrentAction();
         }
 
         /// <summary>

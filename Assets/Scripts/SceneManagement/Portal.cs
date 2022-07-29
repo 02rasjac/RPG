@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
+using RPG.Saving;
+
 namespace RPG.SceneManagement
 {
     public class Portal : MonoBehaviour
@@ -17,10 +19,12 @@ namespace RPG.SceneManagement
         [SerializeField] Transform spawnPoint;
 
         Fader fader;
+        SavingWrapper saver;
 
         void Start()
         {
             fader = FindObjectOfType<Fader>();
+            saver = GameObject.FindWithTag("Saving").GetComponent<SavingWrapper>();
         }
 
         void OnTriggerEnter(Collider other)
@@ -41,10 +45,13 @@ namespace RPG.SceneManagement
             DontDestroyOnLoad(this);
 
             yield return StartCoroutine(fader.FadeOut());
+            saver.Save();
             yield return SceneManager.LoadSceneAsync(sceneIndex);
-
+            saver.Load();
             Portal otherPortal = GetOtherPortal();
             UpdatePlayer(otherPortal);
+
+            saver.Save();
 
             yield return new WaitForSeconds(fader.WaitTime);
             yield return StartCoroutine(fader.FadeIn());
