@@ -8,7 +8,7 @@ using UnityEngine;
 namespace RPG.Combat
 {
     [CreateAssetMenu(fileName = "Weapon", menuName = "Weapons/Weapon", order = 0)]
-    internal class Weapon : ScriptableObject
+    public class Weapon : ScriptableObject
     {
         [Header("Weapon stats")]
         [SerializeField] float range = 2f;

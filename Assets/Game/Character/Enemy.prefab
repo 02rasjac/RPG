@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handTransform: {fileID: 2304776282702399127}
-  weapon: {fileID: 11400000, guid: 4ddddd1444fd649488a9e56bb0690f53, type: 2}
+  defaultWeapon: {fileID: 11400000, guid: 4ddddd1444fd649488a9e56bb0690f53, type: 2}
 --- !u!114 &-1740516425032680274
 MonoBehaviour:
   m_ObjectHideFlags: 0

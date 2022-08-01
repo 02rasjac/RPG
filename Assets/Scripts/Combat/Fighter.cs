@@ -12,13 +12,14 @@ namespace RPG.Combat
     {
         [Tooltip("Where the weapon is position, i.e under right hand.")]
         [SerializeField] Transform handTransform = null;
-        [SerializeField] Weapon weapon = null;
+        [SerializeField] Weapon defaultWeapon = null;
 
         Mover mover;
         ActionScheduler actionScheduler;
         Animator animator;
 
         Health target;
+        Weapon currentWeapon;
         float timeSinceLastAttack = Mathf.Infinity;
 
         void Awake()
@@ -26,7 +27,7 @@ namespace RPG.Combat
             mover = GetComponent<Mover>();
             actionScheduler = GetComponent<ActionScheduler>();
             animator = GetComponent<Animator>();
-            SpawnWeapon();
+            EquipWeapon(defaultWeapon);
         }
 
         void Update()
@@ -35,7 +36,7 @@ namespace RPG.Combat
 
             if (target != null)
             {
-                if (weapon.Range <= Vector3.Distance(transform.position, target.transform.position))
+                if (currentWeapon.Range <= Vector3.Distance(transform.position, target.transform.position))
                 {
                     mover.SetDestination(target.transform.position);
                 }
@@ -73,11 +74,22 @@ namespace RPG.Combat
             animator.SetTrigger("stopAttack");
         }
 
+        /// <summary>
+        /// Equip <paramref name="weapon"/> as the current weapon.
+        /// </summary>
+        /// <param name="weapon">The weapon to equip.</param>
+        public void EquipWeapon(Weapon weapon)
+        {
+            currentWeapon = weapon;
+            if (handTransform == null) return;
+            currentWeapon.Spawn(handTransform, animator);
+        }
+
         void AttackBehavior()
         {
             transform.LookAt(target.transform);
 
-            if (timeSinceLastAttack > weapon.TimeBetweenAttacks)
+            if (timeSinceLastAttack > currentWeapon.TimeBetweenAttacks)
             {
                 // Hit()-event will be triggered here.
                 timeSinceLastAttack = 0f;
@@ -90,20 +102,13 @@ namespace RPG.Combat
             }
         }
 
-        void SpawnWeapon()
-        {
-            if (weapon == null) return;
-            
-            weapon.Spawn(handTransform, animator);
-        }
-
         /// <summary>
         /// Attack-animation event.
         /// </summary>
         void Hit()
         {
             if (target == null) return;
-            target.TakeDamage(weapon.Damage);
+            target.TakeDamage(currentWeapon.Damage);
         }
     }
 }
