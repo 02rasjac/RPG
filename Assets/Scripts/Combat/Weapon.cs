@@ -20,15 +20,17 @@ namespace RPG.Combat
         [SerializeField] float timeBetweenAttacks = 1f;
         public float TimeBetweenAttacks => timeBetweenAttacks;
 
+        [SerializeField] bool isRightHand = true;
+
         [Header("Weapon references")]
         [SerializeField] GameObject equippedPrefab = null;
         [Tooltip("Override controller for weapn.")]
         [SerializeField] AnimatorOverrideController weaponOverride = null;
 
-        public void Spawn(Transform handTrans, Animator animator)
+        public void Spawn(Transform rightHand, Transform leftHand, Animator animator)
         {
             if (equippedPrefab != null)
-                Instantiate(equippedPrefab, handTrans);
+                Instantiate(equippedPrefab, (isRightHand ? rightHand : leftHand));
             if (weaponOverride != null)
                 animator.runtimeAnimatorController = weaponOverride;
         }

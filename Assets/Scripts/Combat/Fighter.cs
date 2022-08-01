@@ -11,7 +11,8 @@ namespace RPG.Combat
     public class Fighter : MonoBehaviour, IAction
     {
         [Tooltip("Where the weapon is position, i.e under right hand.")]
-        [SerializeField] Transform handTransform = null;
+        [SerializeField] Transform rightHandTransform = null;
+        [SerializeField] Transform leftHandTransform = null;
         [SerializeField] Weapon defaultWeapon = null;
 
         Mover mover;
@@ -81,8 +82,7 @@ namespace RPG.Combat
         public void EquipWeapon(Weapon weapon)
         {
             currentWeapon = weapon;
-            if (handTransform == null) return;
-            currentWeapon.Spawn(handTransform, animator);
+            currentWeapon.Spawn(rightHandTransform, leftHandTransform, animator);
         }
 
         void AttackBehavior()

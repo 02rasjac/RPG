@@ -66,6 +66,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 461188, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
   m_PrefabInstance: {fileID: 931247759271093157}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &931247759271217737 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 403948, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
+  m_PrefabInstance: {fileID: 931247759271093157}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8017164609595962823
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -155,6 +160,14 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 4ddddd1444fd649488a9e56bb0690f53, type: 2}
     - target: {fileID: 9216354343463921889, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
       propertyPath: handTransform
+      value: 
+      objectReference: {fileID: 931247759271160353}
+    - target: {fileID: 9216354343463921889, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
+      propertyPath: leftHandTransform
+      value: 
+      objectReference: {fileID: 931247759271217737}
+    - target: {fileID: 9216354343463921889, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
+      propertyPath: rightHandTransform
       value: 
       objectReference: {fileID: 931247759271160353}
     m_RemovedComponents: []
