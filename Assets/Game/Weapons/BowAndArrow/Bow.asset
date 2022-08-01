@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc57347e21e6aea488dc0ea0e6dae925, type: 3}
   m_Name: Bow
   m_EditorClassIdentifier: 
-  range: 2
+  range: 10
   damage: 5
   timeBetweenAttacks: 1
   isRightHand: 0

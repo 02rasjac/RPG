@@ -32,7 +32,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7909115739364297349}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.7955375, y: 1.9079819, z: -0.12547886}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -72,7 +72,7 @@ CapsuleCollider:
   m_Radius: 0.5
   m_Height: 1.8577237
   m_Direction: 1
-  m_Center: {x: 0, y: 0.9282546, z: 0}
+  m_Center: {x: 0, y: 0.94, z: 0}
 --- !u!195 &9112551386345503348
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -107,7 +107,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bc2814771c956e4eac71fa6f786d667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  handTransform: {fileID: 0}
+  rightHandTransform: {fileID: 0}
+  leftHandTransform: {fileID: 0}
   defaultWeapon: {fileID: 11400000, guid: 4ddddd1444fd649488a9e56bb0690f53, type: 2}
 --- !u!114 &3405792107571759897
 MonoBehaviour:
