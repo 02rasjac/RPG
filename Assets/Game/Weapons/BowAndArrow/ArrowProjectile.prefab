@@ -50,6 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   speedLossFactor: 1
+  isHoming: 0
 --- !u!136 &5497389480101007651
 CapsuleCollider:
   m_ObjectHideFlags: 0

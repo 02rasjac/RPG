@@ -11,14 +11,16 @@ namespace RPG.Combat
         [SerializeField] float speed = 5f;
         [Tooltip("Ammount of speed the projectile loses per second.")]
         [SerializeField] float speedLossFactor = 1f;
+        [SerializeField] bool isHoming = false;
 
         float damage;
 
         Health target;
+        Collider targetCollider;
 
         void Update()
         {
-            transform.Translate(Vector3.forward * speed * Time.deltaTime);
+            MoveProjectile();
             speed -= speedLossFactor * Time.deltaTime;
             if (speed < 0f) Destroy(this.gameObject);
         }
@@ -27,7 +29,7 @@ namespace RPG.Combat
         {
             // Other should take damage nomatter if it's the target or not, as long as it has health.
             Health health = other.GetComponent<Health>();
-            if (health == null || target.IsDead) return;
+            if (target.IsDead || health == null) return;
             health.TakeDamage(damage);
             Destroy(this.gameObject);
         }
@@ -36,8 +38,15 @@ namespace RPG.Combat
         {
             this.target = target;
             this.damage = damage;
-            Collider collider = target.GetComponent<Collider>();
-            if (collider != null) transform.LookAt(collider.bounds.center);
+            targetCollider = target.GetComponent<Collider>();
+            if (targetCollider != null) transform.LookAt(targetCollider.bounds.center);
+        }
+
+        void MoveProjectile()
+        {
+            if (isHoming && !target.IsDead && targetCollider != null)
+                transform.LookAt(targetCollider.bounds.center);
+            transform.Translate(Vector3.forward * speed * Time.deltaTime);
         }
     }
 }
