@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bow
   m_EditorClassIdentifier: 
   range: 10
-  damage: 5
+  damage: 8
   timeBetweenAttacks: 1
   isRightHand: 0
   equippedPrefab: {fileID: 9024339226242305201, guid: ee1b1ad8c5e8a6f498288d122e8464b1, type: 3}

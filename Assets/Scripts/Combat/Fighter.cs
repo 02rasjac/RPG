@@ -21,6 +21,7 @@ namespace RPG.Combat
 
         Health target;
         Weapon currentWeapon;
+        public Weapon CurrentWeapon { get { return currentWeapon; } }
         float timeSinceLastAttack = Mathf.Infinity;
 
         void Awake()
@@ -125,6 +126,16 @@ namespace RPG.Combat
         void Shoot()
         {
             Hit();
+        }
+
+        void OnDrawGizmosSelected()
+        {
+            // Render attack-range
+            if (defaultWeapon != null)
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawWireSphere(transform.position, defaultWeapon.Range);
+            }
         }
     }
 }
