@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+using RPG.Core;
+
 namespace RPG.Combat
 {
     [CreateAssetMenu(fileName = "Weapon", menuName = "Weapons/Weapon", order = 0)]
@@ -24,15 +26,32 @@ namespace RPG.Combat
 
         [Header("Weapon references")]
         [SerializeField] GameObject equippedPrefab = null;
+        [SerializeField] GameObject projectile = null;
         [Tooltip("Override controller for weapn.")]
         [SerializeField] AnimatorOverrideController weaponOverride = null;
 
         public void Spawn(Transform rightHand, Transform leftHand, Animator animator)
         {
             if (equippedPrefab != null)
-                Instantiate(equippedPrefab, (isRightHand ? rightHand : leftHand));
+                Instantiate(equippedPrefab, GetHandTrans(rightHand, leftHand));
             if (weaponOverride != null)
                 animator.runtimeAnimatorController = weaponOverride;
+        }
+
+        public bool HasProjectile()
+        {
+            return projectile != null;
+        }
+
+        public void LaunchProjectile(Transform rightHand, Transform leftHand, Health target)
+        {
+            GameObject proj = Instantiate(projectile, GetHandTrans(rightHand, leftHand).position, Quaternion.identity);
+            proj.GetComponent<Projectile>().SetTarget(target);
+        }
+
+        Transform GetHandTrans(Transform rightHand, Transform leftHand)
+        {
+            return isRightHand ? rightHand : leftHand;
         }
     }
 }
