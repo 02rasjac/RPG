@@ -30,10 +30,16 @@ namespace RPG.Combat
         [Tooltip("Override controller for weapn.")]
         [SerializeField] AnimatorOverrideController weaponOverride = null;
 
+        const string weaponName = "Weapon";
+
         public void Spawn(Transform rightHand, Transform leftHand, Animator animator)
         {
             if (equippedPrefab != null)
-                Instantiate(equippedPrefab, GetHandTrans(rightHand, leftHand));
+            {
+                DestroyOldWeapon(rightHand, leftHand);
+                GameObject weapon = Instantiate(equippedPrefab, GetHandTrans(rightHand, leftHand));
+                weapon.name = weaponName;
+            }
             if (weaponOverride != null)
                 animator.runtimeAnimatorController = weaponOverride;
         }
@@ -47,6 +53,16 @@ namespace RPG.Combat
         {
             GameObject proj = Instantiate(projectile, GetHandTrans(rightHand, leftHand).position, Quaternion.identity);
             proj.GetComponent<Projectile>().SetTarget(target, damage);
+        }
+
+        void DestroyOldWeapon(Transform rightHand, Transform leftHand)
+        {
+            Transform oldWeapon = rightHand.Find(weaponName);
+            if (oldWeapon == null) oldWeapon = leftHand.Find(weaponName);
+            if (oldWeapon == null) return;
+
+            oldWeapon.name = "DESTROYING";
+            Destroy(oldWeapon.gameObject);
         }
 
         Transform GetHandTrans(Transform rightHand, Transform leftHand)
