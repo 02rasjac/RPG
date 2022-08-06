@@ -15,28 +15,39 @@ namespace RPG.Combat
         [SerializeField] GameObject hitVFX;
 
         float damage;
+        GameObject hitInstance;
+        bool hitPlayed = false;
 
         Health target;
         Collider targetCollider;
 
         void Update()
         {
-            MoveProjectile();
-            speed -= speedLossFactor * Time.deltaTime;
-            if (speed < 0f) Destroy(this.gameObject);
+            if (hitInstance == null || !hitInstance.GetComponent<ParticleSystem>().isPlaying)
+            {
+                MoveProjectile();
+                speed -= speedLossFactor * Time.deltaTime;
+                if (hitPlayed) Destroy(hitInstance);
+                if (speed < 0f) Destroy(this.gameObject);
+            }
+            else
+            {
+                hitPlayed = true;
+            }
         }
 
         void OnTriggerEnter(Collider other)
         {
             // Other should take damage nomatter if it's the target or not, as long as it has health.
             Health health = other.GetComponent<Health>();
-            if (target.IsDead || health == null) return;
+            if (health == null || health.IsDead) return;
             if (hitVFX != null)
             {
-                Instantiate(hitVFX, other.bounds.center, transform.rotation);
+                hitInstance = Instantiate(hitVFX, other.bounds.center, transform.rotation);
             }
             health.TakeDamage(damage);
-            Destroy(this.gameObject);
+            this.transform.parent = other.transform;
+            speed = 0f;
         }
 
         public void SetTarget(Health target, float damage)
