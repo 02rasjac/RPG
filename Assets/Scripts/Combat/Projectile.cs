@@ -33,7 +33,7 @@ namespace RPG.Combat
             if (target.IsDead || health == null) return;
             if (hitVFX != null)
             {
-                Instantiate(hitVFX, transform.position, transform.rotation);
+                Instantiate(hitVFX, other.bounds.center, transform.rotation);
             }
             health.TakeDamage(damage);
             Destroy(this.gameObject);
