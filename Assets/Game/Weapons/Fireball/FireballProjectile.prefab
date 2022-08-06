@@ -4921,6 +4921,7 @@ MonoBehaviour:
   speed: 10
   speedLossFactor: 1
   isHoming: 1
+  hitVFX: {fileID: 2302457091093092515, guid: 69d1b1037536b504884c93bb73d662db, type: 3}
 --- !u!54 &7627939108026771212
 Rigidbody:
   m_ObjectHideFlags: 0

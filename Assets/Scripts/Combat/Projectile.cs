@@ -12,6 +12,7 @@ namespace RPG.Combat
         [Tooltip("Ammount of speed the projectile loses per second.")]
         [SerializeField] float speedLossFactor = 1f;
         [SerializeField] bool isHoming = false;
+        [SerializeField] GameObject hitVFX;
 
         float damage;
 
@@ -30,6 +31,10 @@ namespace RPG.Combat
             // Other should take damage nomatter if it's the target or not, as long as it has health.
             Health health = other.GetComponent<Health>();
             if (target.IsDead || health == null) return;
+            if (hitVFX != null)
+            {
+                Instantiate(hitVFX, transform.position, transform.rotation);
+            }
             health.TakeDamage(damage);
             Destroy(this.gameObject);
         }
