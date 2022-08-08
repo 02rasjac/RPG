@@ -42,6 +42,8 @@ namespace RPG.Combat
             }
             if (weaponOverride != null)
                 animator.runtimeAnimatorController = weaponOverride;
+            else
+                Debug.LogWarning("No weapon override controller assigned to " + this.name + ".");
         }
 
         public bool HasProjectile()
