@@ -14,6 +14,8 @@ namespace RPG.Combat
         [SerializeField] Transform rightHandTransform = null;
         [SerializeField] Transform leftHandTransform = null;
         [SerializeField] Weapon defaultWeapon = null;
+        [Tooltip("The name of the weapon scriptable object.")]
+        [SerializeField] string defaultWeaponName = "Unarmed";
 
         Mover mover;
         ActionScheduler actionScheduler;
@@ -29,6 +31,9 @@ namespace RPG.Combat
             mover = GetComponent<Mover>();
             actionScheduler = GetComponent<ActionScheduler>();
             animator = GetComponent<Animator>();
+
+            //! USING RESOURCES IS BAD
+            defaultWeapon = Resources.Load<Weapon>(defaultWeaponName);
             EquipWeapon(defaultWeapon);
         }
 
