@@ -13050,8 +13050,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: Core
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1225074610090797141, guid: 6b829bba887b2fb44addd17a0cb4acf2, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b829bba887b2fb44addd17a0cb4acf2, type: 3}
 --- !u!1001 &2662109934781210525
 PrefabInstance:
