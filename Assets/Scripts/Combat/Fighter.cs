@@ -4,11 +4,13 @@ using UnityEngine;
 
 using RPG.Core;
 using RPG.Movement;
+using RPG.Saving;
+using Newtonsoft.Json.Linq;
 
 namespace RPG.Combat
 {
     [RequireComponent(typeof(ActionScheduler))]
-    public class Fighter : MonoBehaviour, IAction
+    public class Fighter : MonoBehaviour, IAction, ISaveable
     {
         [Tooltip("Where the weapon is position, i.e under right hand.")]
         [SerializeField] Transform rightHandTransform = null;
@@ -32,9 +34,7 @@ namespace RPG.Combat
             actionScheduler = GetComponent<ActionScheduler>();
             animator = GetComponent<Animator>();
 
-            //! USING RESOURCES IS BAD
-            defaultWeapon = Resources.Load<Weapon>(defaultWeaponName);
-            EquipWeapon(defaultWeapon);
+            EquipWeaponFromName(defaultWeaponName);
         }
 
         void Update()
@@ -91,6 +91,14 @@ namespace RPG.Combat
             currentWeapon.Spawn(rightHandTransform, leftHandTransform, animator);
         }
 
+        void EquipWeaponFromName(string name)
+        {
+            //! USING RESOURCES IS BAD
+            Weapon weapon = Resources.Load<Weapon>(name);
+            if (weapon == null) weapon = defaultWeapon;
+            EquipWeapon(weapon);
+        }
+
         void AttackBehavior()
         {
             transform.LookAt(target.transform);
@@ -141,6 +149,16 @@ namespace RPG.Combat
                 Gizmos.color = Color.red;
                 Gizmos.DrawWireSphere(transform.position, defaultWeapon.Range);
             }
+        }
+
+        public JToken CaptureAsJToken()
+        {
+            return JToken.FromObject(currentWeapon.name);
+        }
+
+        public void RestoreFromJToken(JToken state)
+        {
+            EquipWeaponFromName(state.ToObject<string>());
         }
     }
 }
