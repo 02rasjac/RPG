@@ -5,6 +5,7 @@ using UnityEngine;
 using RPG.Core;
 using RPG.Saving;
 using Newtonsoft.Json.Linq;
+using RPG.Stats;
 
 namespace RPG.Attributes
 {
@@ -14,6 +15,11 @@ namespace RPG.Attributes
 
         bool isDead = false;
         public bool IsDead { get { return isDead; } }
+
+        void Awake()
+        {
+            health = GetComponent<BaseStats>().GetHealth();
+        }
 
         public void TakeDamage(float ammount)
         {
