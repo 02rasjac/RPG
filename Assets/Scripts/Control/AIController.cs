@@ -60,7 +60,7 @@ namespace RPG.Control
             if (!health.IsDead)
             {
                 float dist = Vector3.Distance(transform.position, player.transform.position);
-                if (dist <= chaseDistance && fighter.CanAttack(player))
+                if ((dist <= chaseDistance || dist < fighter.CurrentWeapon.Range) && fighter.CanAttack(player))
                 {
                     timeSinceLastSawPlayer = 0f;
                     AttackBehaviour();

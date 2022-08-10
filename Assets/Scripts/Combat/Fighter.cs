@@ -4,29 +4,37 @@ using UnityEngine;
 
 using RPG.Core;
 using RPG.Movement;
+using RPG.Saving;
+using Newtonsoft.Json.Linq;
 
 namespace RPG.Combat
 {
     [RequireComponent(typeof(ActionScheduler))]
-    public class Fighter : MonoBehaviour, IAction
+    public class Fighter : MonoBehaviour, IAction, ISaveable
     {
-        [SerializeField] float weaponRange = 2f;
-        [SerializeField] float timeBetweenAttacks = 1f;
-        [SerializeField] float damagePoints = 5f;
+        [Tooltip("Where the weapon is position, i.e under right hand.")]
+        [SerializeField] Transform rightHandTransform = null;
+        [SerializeField] Transform leftHandTransform = null;
+        [SerializeField] Weapon defaultWeapon = null;
+        [Tooltip("The name of the weapon scriptable object.")]
+        [SerializeField] string defaultWeaponName = "Unarmed";
 
         Mover mover;
         ActionScheduler actionScheduler;
         Animator animator;
 
         Health target;
-        float timeSinceLastAttack;
+        Weapon currentWeapon;
+        public Weapon CurrentWeapon { get { return currentWeapon; } }
+        float timeSinceLastAttack = Mathf.Infinity;
 
         void Awake()
         {
             mover = GetComponent<Mover>();
             actionScheduler = GetComponent<ActionScheduler>();
             animator = GetComponent<Animator>();
-            timeSinceLastAttack = timeBetweenAttacks;
+
+            EquipWeaponFromName(defaultWeaponName);
         }
 
         void Update()
@@ -35,7 +43,7 @@ namespace RPG.Combat
 
             if (target != null)
             {
-                if (weaponRange <= Vector3.Distance(transform.position, target.transform.position))
+                if (currentWeapon.Range <= Vector3.Distance(transform.position, target.transform.position))
                 {
                     mover.SetDestination(target.transform.position);
                 }
@@ -73,11 +81,29 @@ namespace RPG.Combat
             animator.SetTrigger("stopAttack");
         }
 
+        /// <summary>
+        /// Equip <paramref name="weapon"/> as the current weapon.
+        /// </summary>
+        /// <param name="weapon">The weapon to equip.</param>
+        public void EquipWeapon(Weapon weapon)
+        {
+            currentWeapon = weapon;
+            currentWeapon.Spawn(rightHandTransform, leftHandTransform, animator);
+        }
+
+        void EquipWeaponFromName(string name)
+        {
+            //! USING RESOURCES IS BAD
+            Weapon weapon = Resources.Load<Weapon>(name);
+            if (weapon == null) weapon = defaultWeapon;
+            EquipWeapon(weapon);
+        }
+
         void AttackBehavior()
         {
             transform.LookAt(target.transform);
 
-            if (timeSinceLastAttack > timeBetweenAttacks)
+            if (timeSinceLastAttack > currentWeapon.TimeBetweenAttacks)
             {
                 // Hit()-event will be triggered here.
                 timeSinceLastAttack = 0f;
@@ -96,7 +122,43 @@ namespace RPG.Combat
         void Hit()
         {
             if (target == null) return;
-            target.TakeDamage(damagePoints);
+
+            if (currentWeapon.HasProjectile())
+            {
+                currentWeapon.LaunchProjectile(rightHandTransform, leftHandTransform, target);
+            }
+            else
+            {
+                target.TakeDamage(currentWeapon.Damage);
+            }
+        }
+
+        /// <summary>
+        /// Shoot-animation event.
+        /// </summary>
+        void Shoot()
+        {
+            Hit();
+        }
+
+        void OnDrawGizmosSelected()
+        {
+            // Render attack-range
+            if (defaultWeapon != null)
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawWireSphere(transform.position, defaultWeapon.Range);
+            }
+        }
+
+        public JToken CaptureAsJToken()
+        {
+            return JToken.FromObject(currentWeapon.name);
+        }
+
+        public void RestoreFromJToken(JToken state)
+        {
+            EquipWeaponFromName(state.ToObject<string>());
         }
     }
 }

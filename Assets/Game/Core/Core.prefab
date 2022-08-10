@@ -206,6 +206,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -6.4217176
       objectReference: {fileID: 0}
+    - target: {fileID: 1732616599965377048, guid: 967d6006cafeaa04db9a05a0b738cc60, type: 3}
+      propertyPath: weaponTransform
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 967d6006cafeaa04db9a05a0b738cc60, type: 3}
 --- !u!4 &2156135957501112550 stripped
