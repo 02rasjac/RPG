@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using RPG.Attributes;
 using RPG.Core;
 using RPG.Movement;
 using RPG.Saving;
