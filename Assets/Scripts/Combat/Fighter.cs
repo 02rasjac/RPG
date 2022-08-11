@@ -25,6 +25,7 @@ namespace RPG.Combat
         Animator animator;
 
         Health target;
+        public Health Target { get { return target; } }
         Weapon currentWeapon;
         public Weapon CurrentWeapon { get { return currentWeapon; } }
         float timeSinceLastAttack = Mathf.Infinity;
