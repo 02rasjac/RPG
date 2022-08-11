@@ -11070,7 +11070,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1670840440696614259, guid: c7873f01f09962843a98fd1c30b67f49, type: 3}
       propertyPath: startLevel
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2304776282714198725, guid: c7873f01f09962843a98fd1c30b67f49, type: 3}
       propertyPath: m_Materials.Array.data[0]
