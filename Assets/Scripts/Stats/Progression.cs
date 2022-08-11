@@ -16,19 +16,20 @@ namespace RPG.Stats
         /// <returns>The health specified for this <paramref name="characterClass"/> and <paramref name="level"/>.</returns>
         public float GetHealth(CharacterClasses characterClass, int level)
         {
-            var pcc = FindProgressionCharacterClass(characterClass);
-            if ((level - 1) < 0)
-            {
-                level = 1;
-                Debug.LogError("Level < 1 => index out of range => sets healht for level = 1");
-            }
-            else if (level > pcc.health.Length)
-            {
-                level = pcc.health.Length;
-                Debug.LogError("No defined health for this level => index out of range => sets health for level = " + level);
-            }
+            //var pcc = FindProgressionCharacterClass(characterClass);
+            //if ((level - 1) < 0)
+            //{
+            //    level = 1;
+            //    Debug.LogError("Level < 1 => index out of range => sets healht for level = 1");
+            //}
+            //else if (level > pcc.health.Length)
+            //{
+            //    level = pcc.health.Length;
+            //    Debug.LogError("No defined health for this level => index out of range => sets health for level = " + level);
+            //}
 
-            return pcc.health[level - 1];
+            //return pcc.health[level - 1];
+            return 10f;
         }
 
         public float GetExperienceReward(CharacterClasses characterClass, int level)
@@ -49,7 +50,14 @@ namespace RPG.Stats
         class ProgressionCharacterClass
         {
             public CharacterClasses characterClass;
-            public float[] health;
+            public ProgressionStats[] stats;
+        }
+
+        [System.Serializable]
+        class ProgressionStats
+        {
+            public Stats stat;
+            public float[] levels;
         }
     }
 }
