@@ -15,22 +15,32 @@ MonoBehaviour:
   progressionCharacterClass:
   - characterClass: 1
     stats:
-      - stat: 0
-        levels:
-          - 50
-          - 75
-          - 100
+    - stat: 0
+      levels:
+      - 50
+      - 75
+      - 100
   - characterClass: 0
     stats:
-      - stat: 0
-        levels:
-          - 20
-          - 35
-          - 60
+    - stat: 0
+      levels:
+      - 20
+      - 35
+      - 60
+    - stat: 1
+      levels:
+      - 10
+      - 20
+      - 30
   - characterClass: 3
     stats:
-      - stat: 0
-        levels:
-          - 10
-          - 20
-          - 30
+    - stat: 0
+      levels:
+      - 10
+      - 20
+      - 30
+    - stat: 1
+      levels:
+      - 15
+      - 25
+      - 40

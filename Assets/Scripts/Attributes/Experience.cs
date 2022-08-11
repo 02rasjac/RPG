@@ -10,6 +10,16 @@ namespace RPG.Attributes
     {
         [SerializeField] float experience = 0f;
 
+        /// <summary>
+        /// Get how much experience this has.
+        /// </summary>
+        /// <returns>Ammount of experience</returns>
+        public float GetExperience() => experience;
+
+        /// <summary>
+        /// Increase experience by <paramref name="ammount"/>.
+        /// </summary>
+        /// <param name="ammount">Ammount of experience to increase by.</param>
         public void GainExperience(float ammount) => experience += ammount;
 
         public JToken CaptureAsJToken()
