@@ -31,6 +31,11 @@ namespace RPG.Stats
             return pcc.health[level - 1];
         }
 
+        public float GetExperienceReward(CharacterClasses characterClass, int level)
+        {
+            return 10;
+        }
+
         ProgressionCharacterClass FindProgressionCharacterClass(CharacterClasses characterClass)
         {
             foreach (var item in progressionCharacterClass)

@@ -16,17 +16,22 @@ namespace RPG.Attributes
         bool isDead = false;
         public bool IsDead { get { return isDead; } }
 
+        BaseStats baseStats;
+
         void Awake()
         {
-            health = GetComponent<BaseStats>().GetHealth();
+            baseStats = GetComponent<BaseStats>();
+            health = baseStats.GetHealth();
         }
 
-        public void TakeDamage(float ammount)
+        public void TakeDamage(GameObject instigator, float ammount)
         {
             health -= ammount;
             if (health <= 0)
             {
                 health = 0;
+                Experience instigatorXP = instigator.GetComponent<Experience>();
+                if (instigatorXP != null) instigatorXP.GainExperience(baseStats.GetExperienceReward());
                 Die();
             }
         }

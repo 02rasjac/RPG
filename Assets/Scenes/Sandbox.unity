@@ -12994,10 +12994,6 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2662515795712114876, guid: 6b829bba887b2fb44addd17a0cb4acf2, type: 3}
-      propertyPath: startLevel
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4408934419344605592, guid: 6b829bba887b2fb44addd17a0cb4acf2, type: 3}
       propertyPath: m_Name
       value: EquipedSword

@@ -20,6 +20,7 @@ namespace RPG.Combat
 
         Health target;
         Collider targetCollider;
+        GameObject instigator;
 
         void Update()
         {
@@ -45,15 +46,16 @@ namespace RPG.Combat
             {
                 hitInstance = Instantiate(hitVFX, other.bounds.center, transform.rotation);
             }
-            health.TakeDamage(damage);
+            health.TakeDamage(instigator, damage);
             this.transform.parent = other.transform;
             speed = 0f;
         }
 
-        public void SetTarget(Health target, float damage)
+        public void SetTarget(Health target, GameObject instigator, float damage)
         {
             this.target = target;
             this.damage = damage;
+            this.instigator = instigator;
             targetCollider = target.GetComponent<Collider>();
             if (targetCollider != null) transform.LookAt(targetCollider.bounds.center);
         }
