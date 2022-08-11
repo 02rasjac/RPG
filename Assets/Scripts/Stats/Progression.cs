@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace RPG.Stats
@@ -7,6 +7,8 @@ namespace RPG.Stats
     public class Progression : ScriptableObject
     {
         [SerializeField] ProgressionCharacterClass[] progressionCharacterClass;
+
+        Dictionary<CharacterClasses, Dictionary<Stats, float[]>> lookupTable = null;
 
         /// <summary>
         /// Get health for <paramref name="characterClass"/> based on its <paramref name="level"/>.
@@ -17,34 +19,44 @@ namespace RPG.Stats
         /// <returns>The health specified for this <paramref name="characterClass"/> and <paramref name="level"/>.</returns>
         public float GetStat(Stats stat, CharacterClasses characterClass, int level)
         {
-            ProgressionCharacterClass pcc = FindProgressionCharacterClass(characterClass);
-            ProgressionStats ps = pcc.FindProgressionStat(stat);
-            if (ps == null)
-            {
-                Debug.LogError($"Requested stat {stat} does not exist in character class {characterClass}.");
-                return -1f;
-            }
-            if ((level - 1) < 0)
-            {
-                level = 1;
-                Debug.LogError("Level < 1 => index out of range => return stat for level = 1");
-            }
-            else if (level > ps.levels.Length)
-            {
-                level = ps.levels.Length;
-                Debug.LogError("No defined health for this level => index out of range => return stat for level = " + level);
-            }
+            BuildLookupTable();
 
-            return ps.levels[level - 1];
+            int index = ClampAndLogLevel() - 1;
+
+            return lookupTable[characterClass][stat][index];
+
+            int ClampAndLogLevel()
+            {
+                if ((level - 1) < 0)
+                {
+                    level = 1;
+                    Debug.LogError("Level < 1 => index out of range => return stat for level = 1");
+                }
+                else if (level > lookupTable[characterClass][stat].Length)
+                {
+                    level = lookupTable[characterClass][stat].Length;
+                    Debug.LogError("No defined health for this level => index out of range => return stat for level = " + level);
+                }
+
+                return level;
+            }
         }
 
-        ProgressionCharacterClass FindProgressionCharacterClass(CharacterClasses characterClass)
+        void BuildLookupTable()
         {
-            foreach (var item in progressionCharacterClass)
+            if (lookupTable != null) return;
+
+            lookupTable = new Dictionary<CharacterClasses, Dictionary<Stats, float[]>>();
+
+            foreach (ProgressionCharacterClass pcc in progressionCharacterClass)
             {
-                if (item.characterClass == characterClass) return item;
+                Dictionary<Stats, float[]> statsDict = new Dictionary<Stats, float[]>();
+                foreach (ProgressionStats ps in pcc.stats)
+                {
+                    statsDict.Add(ps.stat, ps.levels);
+                }
+                lookupTable.Add(pcc.characterClass, statsDict);
             }
-            return null;
         }
 
         [System.Serializable]
@@ -52,15 +64,6 @@ namespace RPG.Stats
         {
             public CharacterClasses characterClass;
             public ProgressionStats[] stats;
-
-            public ProgressionStats FindProgressionStat(Stats stat)
-            {
-                foreach (var item in stats)
-                {
-                    if (item.stat == stat) return item;
-                }
-                return null;
-            }
         }
 
         [System.Serializable]
