@@ -9,6 +9,7 @@ namespace RPG.Stats
         [SerializeField] int startLevel = 1;
         [SerializeField] CharacterClasses characterClass;
         [SerializeField] Progression progression;
+        [SerializeField] GameObject levelUpPrefab;
 
         int currentLevel = 0;
         public int CurrentLevel { get { return currentLevel; } }
@@ -41,6 +42,8 @@ namespace RPG.Stats
             if (experience.GetExperience() >= experienceToLevelUp)
             {
                 currentLevel++;
+                GameObject levelUpObj = Instantiate(levelUpPrefab, transform);
+                Destroy(levelUpObj, 10f);
             }
         }
     }
