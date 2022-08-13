@@ -6,6 +6,7 @@ using RPG.Core;
 using RPG.Saving;
 using Newtonsoft.Json.Linq;
 using RPG.Stats;
+using System;
 
 namespace RPG.Attributes
 {
@@ -21,6 +22,7 @@ namespace RPG.Attributes
         void Start()
         {
             baseStats = GetComponent<BaseStats>();
+            baseStats.OnLevelUp += HealFromLevelling;
             health = baseStats.GetStat(Stats.Stats.Health);
         }
 
@@ -51,6 +53,12 @@ namespace RPG.Attributes
         }
 
         public float GetHealthPercentage() => 100 * (health / GetComponent<BaseStats>().GetStat(Stats.Stats.Health));
+
+        void HealFromLevelling(int oldLevel)
+        {
+            float regeneratedHealth = baseStats.GetStat(Stats.Stats.Health) * (baseStats.levelUpHealPercentage * 0.01f);
+            health = Mathf.Max(regeneratedHealth, health);
+        }
 
         void Die(bool instantDeath = false)
         {

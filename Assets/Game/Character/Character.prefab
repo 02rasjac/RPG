@@ -175,6 +175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startLevel: 1
+  levelUpHealPercentage: 70
   characterClass: 0
   progression: {fileID: 11400000, guid: 2bb214fa28b635f418248e0da859b707, type: 2}
   levelUpPrefab: {fileID: 8683384153127689704, guid: 5ff3cd8d123d570409f85cfa978d8aa5, type: 3}

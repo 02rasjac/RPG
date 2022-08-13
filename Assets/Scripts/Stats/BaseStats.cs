@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace RPG.Stats
@@ -7,6 +8,8 @@ namespace RPG.Stats
     {
         [Range(1, 99)]
         [SerializeField] int startLevel = 1;
+        [Range(0f, 100f)]
+        [SerializeField] public float levelUpHealPercentage = 70f;
         [SerializeField] CharacterClasses characterClass;
         [SerializeField] Progression progression;
         [SerializeField] GameObject levelUpPrefab;
@@ -15,6 +18,9 @@ namespace RPG.Stats
         public int CurrentLevel { get { return currentLevel; } }
 
         Experience experience;
+
+        public delegate void OnLevelUpDel(int oldLevel);
+        public event OnLevelUpDel OnLevelUp;
 
         void Start()
         {
@@ -26,7 +32,9 @@ namespace RPG.Stats
             }
         }
 
-        public float GetStat(Stats stat) => progression.GetStat(stat, characterClass, currentLevel);
+        public float GetStat(Stats stat) => GetStat(stat, currentLevel);
+
+        public float GetStat(Stats stat, int level) => progression.GetStat(stat, characterClass, level);
 
         /// <summary>
         /// Potentially level up and return it's current level AFTER potential levelup.
@@ -40,11 +48,15 @@ namespace RPG.Stats
 
             float experienceToLevelUp = GetStat(Stats.ExperienceToLevelUp);
             if (experience.GetExperience() >= experienceToLevelUp)
-            {
-                currentLevel++;
-                GameObject levelUpObj = Instantiate(levelUpPrefab, transform);
-                Destroy(levelUpObj, 10f);
-            }
+                LevelUp();
+        }
+
+        void LevelUp()
+        {
+            currentLevel++;
+            OnLevelUp(currentLevel - 1);
+            GameObject levelUpObj = Instantiate(levelUpPrefab, transform);
+            Destroy(levelUpObj, 10f);
         }
     }
 }
