@@ -26,7 +26,7 @@ namespace RPG.SceneManagement
         {
             savingSystem.Load(defaultFileName);
         }
-        
+
         public void Delete()
         {
             savingSystem.Delete(defaultFileName);
@@ -35,9 +35,10 @@ namespace RPG.SceneManagement
         void Awake()
         {
             savingSystem = GetComponent<SavingSystem>();
+            StartCoroutine(LoadLastScene());
         }
 
-        IEnumerator Start()
+        IEnumerator LoadLastScene() 
         {
             var fader = FindObjectOfType<Fader>();
             fader.FadeOutInstant();
