@@ -48,6 +48,7 @@ namespace RPG.Saving
         /// </summary>
         public void Delete(string saveFile)
         {
+            print("Deleting " + saveFile);
             File.Delete(GetPathFromSaveFile(saveFile));
         }
 
