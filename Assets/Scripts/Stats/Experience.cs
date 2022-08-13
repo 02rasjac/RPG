@@ -20,7 +20,11 @@ namespace RPG.Stats
         /// Increase experience by <paramref name="ammount"/>.
         /// </summary>
         /// <param name="ammount">Ammount of experience to increase by.</param>
-        public void GainExperience(float ammount) => experience += ammount;
+        public void GainExperience(float ammount)
+        {
+            experience += ammount;
+            GetComponent<BaseStats>().UpdateLevel(experience);
+        }
 
         public JToken CaptureAsJToken()
         {

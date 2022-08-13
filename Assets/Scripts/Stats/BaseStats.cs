@@ -20,18 +20,15 @@ namespace RPG.Stats
         public float GetStat(Stats stat) => progression.GetStat(stat, characterClass, currentLevel);
 
         /// <summary>
-        /// Check if experience-holder can level up and return it's current level AFTER potential levelup.
+        /// Potentially level up and return it's current level AFTER potential levelup.
         /// </summary>
         /// <returns>Current level or it's new level.</returns>
-        public int GetLevel()
+        public int UpdateLevel(float xp)
         {
-            Experience experience = GetComponent<Experience>();
-            if (experience == null) return startLevel;
-
             if (currentLevel >= progression.MaxLevel(characterClass)) return currentLevel;
 
             float experienceToLevelUp = GetStat(Stats.ExperienceToLevelUp);
-            if (experience.GetExperience() >= experienceToLevelUp)
+            if (xp >= experienceToLevelUp)
             {
                 currentLevel++;
             }
