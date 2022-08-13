@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using System;
 
 using RPG.Saving;
 using Newtonsoft.Json.Linq;
@@ -9,6 +10,8 @@ namespace RPG.Stats
     public class Experience : MonoBehaviour, ISaveable
     {
         [SerializeField] float experience = 0f;
+
+        public event Action ExperienceChanged;
 
         /// <summary>
         /// Get how much experience this has.
@@ -23,7 +26,8 @@ namespace RPG.Stats
         public void GainExperience(float ammount)
         {
             experience += ammount;
-            GetComponent<BaseStats>().UpdateLevel(experience);
+            ExperienceChanged();
+            //GetComponent<BaseStats>().UpdateLevel(experience);
         }
 
         public JToken CaptureAsJToken()

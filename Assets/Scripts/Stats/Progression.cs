@@ -57,6 +57,7 @@ namespace RPG.Stats
 
         public int MaxLevel(CharacterClasses characterClass)
         {
+            BuildLookupTable();
             return lookupTable[characterClass][Stats.ExperienceToLevelUp].Length + 1;
         }
 

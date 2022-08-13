@@ -18,7 +18,7 @@ namespace RPG.Attributes
 
         BaseStats baseStats;
 
-        void Awake()
+        void Start()
         {
             baseStats = GetComponent<BaseStats>();
             health = baseStats.GetStat(Stats.Stats.Health);

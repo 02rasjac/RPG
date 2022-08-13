@@ -10,12 +10,19 @@ namespace RPG.Stats
         [SerializeField] CharacterClasses characterClass;
         [SerializeField] Progression progression;
 
-        int currentLevel;
+        int currentLevel = 0;
         public int CurrentLevel { get { return currentLevel; } }
 
-        void Awake()
+        Experience experience;
+
+        void Start()
         {
-            currentLevel = startLevel;
+            experience = GetComponent<Experience>();
+            UpdateLevel();
+            if (experience != null)
+            {
+                experience.ExperienceChanged += UpdateLevel;
+            }
         }
 
         public float GetStat(Stats stat) => progression.GetStat(stat, characterClass, currentLevel);
@@ -24,17 +31,17 @@ namespace RPG.Stats
         /// Potentially level up and return it's current level AFTER potential levelup.
         /// </summary>
         /// <returns>Current level or it's new level.</returns>
-        public int UpdateLevel(float xp)
+        public void UpdateLevel()
         {
-            if (currentLevel >= progression.MaxLevel(characterClass)) return currentLevel;
+            if (currentLevel < 1) currentLevel = 1; // Initialise level
+            if (experience == null) return;
+            if (currentLevel >= progression.MaxLevel(characterClass)) return;
 
             float experienceToLevelUp = GetStat(Stats.ExperienceToLevelUp);
-            if (xp >= experienceToLevelUp)
+            if (experience.GetExperience() >= experienceToLevelUp)
             {
                 currentLevel++;
             }
-
-            return currentLevel;
         }
     }
 }
