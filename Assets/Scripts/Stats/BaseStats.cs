@@ -11,6 +11,7 @@ namespace RPG.Stats
         [SerializeField] Progression progression;
 
         int currentLevel;
+        public int CurrentLevel { get { return currentLevel; } }
 
         void Awake()
         {
