@@ -34,12 +34,30 @@ namespace RPG.Stats
                 }
                 else if (level > lookupTable[characterClass][stat].Length)
                 {
+                    int oldLevel = level;
                     level = lookupTable[characterClass][stat].Length;
-                    Debug.LogError("No defined health for this level => index out of range => return stat for level = " + level);
+                    Debug.LogError("No defined health for level = " + oldLevel + " => index out of range => return stat for level = " + level);
                 }
 
                 return level;
             }
+        }
+
+        /// <summary>
+        /// Get the array for <paramref name="stat"/> per level.
+        /// </summary>
+        /// <param name="stat">The stat you want to get, i.e <c>Stats.ExperienceToLevelUp</c>.</param>
+        /// <param name="characterClass">The type of class this character is, i.e <c>CharacterClasses.Player</c>.</param>
+        /// <returns>Array of <paramref name="stat"/> per level.</returns>
+        public float[] GetLevels(Stats stat, CharacterClasses characterClass)
+        {
+            BuildLookupTable();
+            return lookupTable[characterClass][stat];
+        }
+
+        public int MaxLevel(CharacterClasses characterClass)
+        {
+            return lookupTable[characterClass][Stats.ExperienceToLevelUp].Length + 1;
         }
 
         void BuildLookupTable()
