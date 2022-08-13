@@ -37,9 +37,8 @@ namespace RPG.Stats
         public float GetStat(Stats stat, int level) => progression.GetStat(stat, characterClass, level);
 
         /// <summary>
-        /// Potentially level up and return it's current level AFTER potential levelup.
+        /// Potentially level up (if enough XP & within available range).
         /// </summary>
-        /// <returns>Current level or it's new level.</returns>
         public void UpdateLevel()
         {
             if (currentLevel < 1) currentLevel = 1; // Initialise level
