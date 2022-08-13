@@ -17,11 +17,6 @@ namespace RPG.Stats
             currentLevel = startLevel;
         }
 
-        void Update()
-        {
-            if (gameObject.CompareTag("Player")) print(GetLevel());
-        }
-
         public float GetStat(Stats stat) => progression.GetStat(stat, characterClass, currentLevel);
 
         /// <summary>
