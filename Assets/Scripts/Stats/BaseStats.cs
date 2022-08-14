@@ -53,7 +53,7 @@ namespace RPG.Stats
         void LevelUp()
         {
             currentLevel++;
-            OnLevelUp(currentLevel - 1);
+            if (OnLevelUp != null) OnLevelUp(currentLevel - 1);
             GameObject levelUpObj = Instantiate(levelUpPrefab, transform);
             Destroy(levelUpObj, 10f);
         }
