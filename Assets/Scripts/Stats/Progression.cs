@@ -36,7 +36,7 @@ namespace RPG.Stats
                 {
                     int oldLevel = level;
                     level = lookupTable[characterClass][stat].Length;
-                    Debug.LogError("No defined health for level = " + oldLevel + " => index out of range => return stat for level = " + level);
+                    Debug.LogError($"No defined stat {stat} for level = {oldLevel} => index out of range => return stat for level = {level}");
                 }
 
                 return level;
