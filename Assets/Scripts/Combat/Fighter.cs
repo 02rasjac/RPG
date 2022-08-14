@@ -12,7 +12,7 @@ using Newtonsoft.Json.Linq;
 namespace RPG.Combat
 {
     [RequireComponent(typeof(ActionScheduler))]
-    public class Fighter : MonoBehaviour, IAction, ISaveable
+    public class Fighter : MonoBehaviour, IAction, ISaveable, IModifierProvider
     {
         [Tooltip("Where the weapon is position, i.e under right hand.")]
         [SerializeField] Transform rightHandTransform = null;
@@ -128,7 +128,7 @@ namespace RPG.Combat
         {
             if (target == null) return;
 
-            float damage = baseStats.GetStat(Stats.Stats.BaseDamage);
+            float damage = baseStats.GetStat(Stats.Stats.Damage) + baseStats.GetAdditiveModifiers(Stats.Stats.Damage);
             if (currentWeapon.HasProjectile())
             {
                 currentWeapon.LaunchProjectile(rightHandTransform, leftHandTransform, target, gameObject, damage);
@@ -165,6 +165,14 @@ namespace RPG.Combat
         public void RestoreFromJToken(JToken state)
         {
             EquipWeaponFromName(state.ToObject<string>());
+        }
+
+        public IEnumerable<float> GetAdditiveModifier(Stats.Stats stat)
+        {
+            if (stat == Stats.Stats.Damage)
+            {
+                yield return currentWeapon.AdditiveDamage;
+            }
         }
     }
 }

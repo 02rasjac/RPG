@@ -16,8 +16,8 @@ namespace RPG.Combat
         [SerializeField] float range = 2f;
         public float Range => range;
 
-        //[SerializeField] float damage = 5f;
-        //public float Damage => damage;
+        [SerializeField] float additiveDamage = 5f;
+        public float AdditiveDamage => additiveDamage;
 
         [SerializeField] float timeBetweenAttacks = 1f;
         public float TimeBetweenAttacks => timeBetweenAttacks;

@@ -50,6 +50,26 @@ namespace RPG.Stats
                 LevelUp();
         }
 
+        /// <summary>
+        /// Calculate the sum of additive modifieres (i.e weapons can add onto base damage).
+        /// </summary>
+        /// <param name="stat">The stat to calculate modifiers for.</param>
+        /// <returns>The total sum from the modifiers.</returns>
+        public float GetAdditiveModifiers(Stats stat)
+        {
+            float sum = 0f;
+            var providers = GetComponents<IModifierProvider>();
+            foreach (IModifierProvider provider in providers)
+            {
+                foreach (float modifier in provider.GetAdditiveModifier(stat))
+                {
+                    sum += modifier;
+                }
+            }
+
+            return sum;
+        }
+
         void LevelUp()
         {
             currentLevel++;
