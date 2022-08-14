@@ -34,7 +34,12 @@ namespace RPG.Stats
 
         public float GetStat(Stats stat) => GetStat(stat, currentLevel);
 
-        public float GetStat(Stats stat, int level) => progression.GetStat(stat, characterClass, level);
+        public float GetStat(Stats stat, int level)
+        {
+            float baseStat = progression.GetStat(stat, characterClass, level);
+            float additive = GetAdditiveModifiers(stat);
+            return baseStat + additive;
+        }
 
         /// <summary>
         /// Potentially level up (if enough XP & within available range).
@@ -55,7 +60,7 @@ namespace RPG.Stats
         /// </summary>
         /// <param name="stat">The stat to calculate modifiers for.</param>
         /// <returns>The total sum from the modifiers.</returns>
-        public float GetAdditiveModifiers(Stats stat)
+        float GetAdditiveModifiers(Stats stat)
         {
             float sum = 0f;
             var providers = GetComponents<IModifierProvider>();
