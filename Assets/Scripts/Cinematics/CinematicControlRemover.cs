@@ -9,12 +9,16 @@ namespace RPG.Cinematics
 {
     public class CinematicControlRemover : MonoBehaviour
     {
-
-        // Use this for initialization
-        void Start()
+        void OnEnable()
         {
-            GetComponent<PlayableDirector>().played += DisableControls;
+            GetComponent<PlayableDirector>().played  += DisableControls;
             GetComponent<PlayableDirector>().stopped += EnableControls;
+        }
+
+        void OnDisable()
+        {
+            GetComponent<PlayableDirector>().played  -= DisableControls;
+            GetComponent<PlayableDirector>().stopped -= EnableControls;
         }
 
         void DisableControls(PlayableDirector pd)
