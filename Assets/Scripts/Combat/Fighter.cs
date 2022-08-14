@@ -38,7 +38,6 @@ namespace RPG.Combat
             actionScheduler = GetComponent<ActionScheduler>();
             animator = GetComponent<Animator>();
             baseStats = GetComponent<BaseStats>();
-
             EquipWeaponFromName(defaultWeaponName);
         }
 

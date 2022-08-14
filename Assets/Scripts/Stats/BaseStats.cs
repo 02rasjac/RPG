@@ -22,13 +22,29 @@ namespace RPG.Stats
         public delegate void OnLevelUpDel(int oldLevel);
         public event OnLevelUpDel OnLevelUp;
 
-        void Start()
+        void Awake()
         {
             experience = GetComponent<Experience>();
+        }
+
+        void Start()
+        {
             UpdateLevel();
+        }
+
+        void OnEnable()
+        {
             if (experience != null)
             {
                 experience.ExperienceChanged += UpdateLevel;
+            }
+        }
+
+        void OnDisable()
+        {
+            if (experience != null)
+            {
+                experience.ExperienceChanged -= UpdateLevel;
             }
         }
 

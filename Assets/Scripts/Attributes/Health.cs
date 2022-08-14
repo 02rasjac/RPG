@@ -19,11 +19,24 @@ namespace RPG.Attributes
 
         BaseStats baseStats;
 
-        void Start()
+        void Awake()
         {
             baseStats = GetComponent<BaseStats>();
-            baseStats.OnLevelUp += HealFromLevelling;
+        }
+
+        void Start()
+        {
             health = baseStats.GetBaseStat(Stats.Stats.Health);
+        }
+
+        void OnEnable()
+        {
+            baseStats.OnLevelUp += HealFromLevelling;
+        }
+
+        void OnDisable()
+        {
+            baseStats.OnLevelUp -= HealFromLevelling;
         }
 
         public void TakeDamage(GameObject instigator, float ammount)
