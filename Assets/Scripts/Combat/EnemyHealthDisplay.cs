@@ -22,7 +22,7 @@ namespace RPG.Combat
         {
             Health targetHealth = player.Target;
             if (targetHealth == null) healthText.text = "N/A";
-            else healthText.text = $"{targetHealth.GetHealthPercentage():0}%"; // Remove decimal places
+            else healthText.text = $"{targetHealth.GetHealth():0}/{targetHealth.GetMaxHealth():0}"; // Remove decimal places
         }
     }
 }

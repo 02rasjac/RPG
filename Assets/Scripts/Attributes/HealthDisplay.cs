@@ -19,7 +19,7 @@ namespace RPG.Attributes
 
         void Update()
         {
-            healthText.text = $"{health.GetHealthPercentage():0}%"; // Remove decimal places
+            healthText.text = $"{health.GetHealth():0}/{health.GetMaxHealth():0}"; // Remove decimal places
         }
     }
 }

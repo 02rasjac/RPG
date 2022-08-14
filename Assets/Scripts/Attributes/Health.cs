@@ -54,9 +54,13 @@ namespace RPG.Attributes
 
         public float GetHealthPercentage() => 100 * (health / GetComponent<BaseStats>().GetStat(Stats.Stats.Health));
 
+        public float GetHealth() => health;
+
+        public float GetMaxHealth() => baseStats.GetStat(Stats.Stats.Health);
+
         void HealFromLevelling(int oldLevel)
         {
-            float regeneratedHealth = baseStats.GetStat(Stats.Stats.Health) * (baseStats.levelUpHealPercentage * 0.01f);
+            float regeneratedHealth = GetMaxHealth() * (baseStats.levelUpHealPercentage * 0.01f);
             health = Mathf.Max(regeneratedHealth, health);
         }
 
