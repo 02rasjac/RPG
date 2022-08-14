@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Fireball
   m_EditorClassIdentifier: 
   range: 6
-  damage: 15
+  additiveDamage: 7
+  multiplierDamage: 1.2
   timeBetweenAttacks: 1.3
   isRightHand: 0
   equippedPrefab: {fileID: 9024339226242305201, guid: f8d73f902eb16284aa089be6435af808, type: 3}

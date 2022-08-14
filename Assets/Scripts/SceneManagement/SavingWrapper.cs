@@ -11,6 +11,7 @@ namespace RPG.SceneManagement
     {
         [SerializeField] InputAction save;
         [SerializeField] InputAction load;
+        [SerializeField] InputAction delete;
 
         const string defaultFileName = "save";
 
@@ -20,18 +21,24 @@ namespace RPG.SceneManagement
         {
             savingSystem.Save(defaultFileName);
         }
-        
+
         public void Load()
         {
             savingSystem.Load(defaultFileName);
         }
 
+        public void Delete()
+        {
+            savingSystem.Delete(defaultFileName);
+        }
+
         void Awake()
         {
             savingSystem = GetComponent<SavingSystem>();
+            StartCoroutine(LoadLastScene());
         }
 
-        IEnumerator Start()
+        IEnumerator LoadLastScene() 
         {
             var fader = FindObjectOfType<Fader>();
             fader.FadeOutInstant();
@@ -43,25 +50,26 @@ namespace RPG.SceneManagement
         void Update()
         {
             if (save.WasPressedThisFrame())
-            {
                 Save();
-            }
             else if (load.WasPressedThisFrame())
-            {
                 Load();
-            }
+            else if (delete.WasPressedThisFrame())
+                Delete();
+                
         }
 
         void OnEnable()
         {
             save.Enable();
             load.Enable();
+            delete.Enable();
         }
 
         void OnDisable()
         {
             save.Disable();
             load.Disable();
+            delete.Disable();
         }
     }
 }

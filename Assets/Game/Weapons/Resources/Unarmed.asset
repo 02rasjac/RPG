@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Unarmed
   m_EditorClassIdentifier: 
   range: 2
-  damage: 3
+  additiveDamage: 0
+  multiplierDamage: 1
   timeBetweenAttacks: 1
   isRightHand: 1
   equippedPrefab: {fileID: 0}

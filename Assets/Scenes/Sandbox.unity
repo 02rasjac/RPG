@@ -8088,6 +8088,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Archer (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 452076088313400699, guid: b6ffe04de78d95b42aa036e748e3fa59, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3286983257669677320, guid: b6ffe04de78d95b42aa036e748e3fa59, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -8131,6 +8135,10 @@ PrefabInstance:
     - target: {fileID: 3286983257669677320, guid: b6ffe04de78d95b42aa036e748e3fa59, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456717096478060785, guid: b6ffe04de78d95b42aa036e748e3fa59, type: 3}
+      propertyPath: startLevel
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7410542216689274189, guid: b6ffe04de78d95b42aa036e748e3fa59, type: 3}
       propertyPath: uniqueIdentifier
@@ -8303,7 +8311,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1434909153}
-  m_LocalRotation: {x: 0.18040834, y: 0.19811952, z: -0.037126623, w: 0.9627165}
+  m_LocalRotation: {x: 0.18040833, y: 0.19811955, z: -0.037126627, w: 0.9627165}
   m_LocalPosition: {x: 8.37, y: 4.39, z: -18.59}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -11064,6 +11072,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1670840440696614259, guid: c7873f01f09962843a98fd1c30b67f49, type: 3}
+      propertyPath: startLevel
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2304776282714198725, guid: c7873f01f09962843a98fd1c30b67f49, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -12960,7 +12972,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2156135957219921190, guid: 6b829bba887b2fb44addd17a0cb4acf2, type: 3}
       propertyPath: m_Lens.m_SensorSize.x
-      value: 1.3851281
+      value: 2.0188355
       objectReference: {fileID: 0}
     - target: {fileID: 2156135957501112550, guid: 6b829bba887b2fb44addd17a0cb4acf2, type: 3}
       propertyPath: m_RootOrder
@@ -13038,8 +13050,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: Core
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1225074610090797141, guid: 6b829bba887b2fb44addd17a0cb4acf2, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b829bba887b2fb44addd17a0cb4acf2, type: 3}
 --- !u!1001 &2662109934781210525
 PrefabInstance:

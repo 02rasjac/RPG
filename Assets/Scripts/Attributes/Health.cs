@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using RPG.Core;
 using RPG.Saving;
 using Newtonsoft.Json.Linq;
+using RPG.Stats;
+using System;
 
-namespace RPG.Core
+namespace RPG.Attributes
 {
     public class Health : MonoBehaviour, ISaveable
     {
@@ -14,12 +17,36 @@ namespace RPG.Core
         bool isDead = false;
         public bool IsDead { get { return isDead; } }
 
-        public void TakeDamage(float ammount)
+        BaseStats baseStats;
+
+        void Awake()
+        {
+            baseStats = GetComponent<BaseStats>();
+        }
+
+        void Start()
+        {
+            health = baseStats.GetBaseStat(Stats.Stats.Health);
+        }
+
+        void OnEnable()
+        {
+            baseStats.OnLevelUp += HealFromLevelling;
+        }
+
+        void OnDisable()
+        {
+            baseStats.OnLevelUp -= HealFromLevelling;
+        }
+
+        public void TakeDamage(GameObject instigator, float ammount)
         {
             health -= ammount;
             if (health <= 0)
             {
                 health = 0;
+                Experience instigatorXP = instigator.GetComponent<Experience>();
+                if (instigatorXP != null) instigatorXP.GainExperience(baseStats.GetBaseStat(Stats.Stats.ExperienceReward));
                 Die();
             }
         }
@@ -36,6 +63,18 @@ namespace RPG.Core
                 Die(true);
             else
                 isDead = false;
+        }
+
+        public float GetHealthPercentage() => 100 * (health / GetComponent<BaseStats>().GetStat(Stats.Stats.Health));
+
+        public float GetHealth() => health;
+
+        public float GetMaxHealth() => baseStats.GetStat(Stats.Stats.Health);
+
+        void HealFromLevelling(int oldLevel)
+        {
+            float regeneratedHealth = GetMaxHealth() * (baseStats.levelUpHealPercentage * 0.01f);
+            health = Mathf.Max(regeneratedHealth, health);
         }
 
         void Die(bool instantDeath = false)

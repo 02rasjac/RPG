@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-using RPG.Core;
+using RPG.Attributes;
 
 namespace RPG.Combat
 {
@@ -16,8 +16,12 @@ namespace RPG.Combat
         [SerializeField] float range = 2f;
         public float Range => range;
 
-        [SerializeField] float damage = 5f;
-        public float Damage => damage;
+        [SerializeField] float additiveDamage = 5f;
+        public float AdditiveDamage => additiveDamage;
+
+        [Tooltip("1 is no change, < 1 is less damage and > 1 is more damage.")]
+        [SerializeField] float multiplierDamage = 1f;
+        public float MultiplierDamage => multiplierDamage;
 
         [SerializeField] float timeBetweenAttacks = 1f;
         public float TimeBetweenAttacks => timeBetweenAttacks;
@@ -51,10 +55,10 @@ namespace RPG.Combat
             return projectile != null;
         }
 
-        public void LaunchProjectile(Transform rightHand, Transform leftHand, Health target)
+        public void LaunchProjectile(Transform rightHand, Transform leftHand, Health target, GameObject instigator, float damage)
         {
             GameObject proj = Instantiate(projectile, GetHandTrans(rightHand, leftHand).position, Quaternion.identity);
-            proj.GetComponent<Projectile>().SetTarget(target, damage);
+            proj.GetComponent<Projectile>().SetTarget(target, instigator, damage);
         }
 
         void DestroyOldWeapon(Transform rightHand, Transform leftHand)

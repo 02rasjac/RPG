@@ -92,3 +92,20 @@ MonoBehaviour:
       m_Action: Load
       m_Flags: 0
     m_Flags: 0
+  delete:
+    m_Name: Delete
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 6e77518e-048f-400f-a46a-a45efeb89659
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: d8509311-0518-45a0-8a22-57abaf083217
+      m_Path: <Keyboard>/d
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Delete
+      m_Flags: 0
+    m_Flags: 0

@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using RPG.Attributes;
 using RPG.Core;
 using RPG.Movement;
 using RPG.Saving;
+using RPG.Stats;
 using Newtonsoft.Json.Linq;
 
 namespace RPG.Combat
 {
     [RequireComponent(typeof(ActionScheduler))]
-    public class Fighter : MonoBehaviour, IAction, ISaveable
+    public class Fighter : MonoBehaviour, IAction, ISaveable, IModifierProvider
     {
         [Tooltip("Where the weapon is position, i.e under right hand.")]
         [SerializeField] Transform rightHandTransform = null;
@@ -22,8 +24,10 @@ namespace RPG.Combat
         Mover mover;
         ActionScheduler actionScheduler;
         Animator animator;
+        BaseStats baseStats;
 
         Health target;
+        public Health Target { get { return target; } }
         Weapon currentWeapon;
         public Weapon CurrentWeapon { get { return currentWeapon; } }
         float timeSinceLastAttack = Mathf.Infinity;
@@ -33,7 +37,7 @@ namespace RPG.Combat
             mover = GetComponent<Mover>();
             actionScheduler = GetComponent<ActionScheduler>();
             animator = GetComponent<Animator>();
-
+            baseStats = GetComponent<BaseStats>();
             EquipWeaponFromName(defaultWeaponName);
         }
 
@@ -123,13 +127,14 @@ namespace RPG.Combat
         {
             if (target == null) return;
 
+            float damage = baseStats.GetStat(Stats.Stats.Damage);
             if (currentWeapon.HasProjectile())
             {
-                currentWeapon.LaunchProjectile(rightHandTransform, leftHandTransform, target);
+                currentWeapon.LaunchProjectile(rightHandTransform, leftHandTransform, target, gameObject, damage);
             }
             else
             {
-                target.TakeDamage(currentWeapon.Damage);
+                target.TakeDamage(gameObject, damage);
             }
         }
 
@@ -159,6 +164,22 @@ namespace RPG.Combat
         public void RestoreFromJToken(JToken state)
         {
             EquipWeaponFromName(state.ToObject<string>());
+        }
+
+        public IEnumerable<float> GetAdditiveModifiers(Stats.Stats stat)
+        {
+            if (stat == Stats.Stats.Damage)
+            {
+                yield return currentWeapon.AdditiveDamage;
+            }
+        }
+
+        public IEnumerable<float> GetMultiplyingModifiers(Stats.Stats stat)
+        {
+            if (stat == Stats.Stats.Damage)
+            {
+                yield return currentWeapon.MultiplierDamage;
+            }
         }
     }
 }

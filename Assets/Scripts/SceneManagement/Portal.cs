@@ -46,7 +46,10 @@ namespace RPG.SceneManagement
 
             yield return StartCoroutine(fader.FadeOut());
             saver.Save();
-            yield return SceneManager.LoadSceneAsync(sceneIndex);
+
+            var asyncLoad = SceneManager.LoadSceneAsync(sceneIndex);
+            while (!asyncLoad.isDone) yield return null;
+
             saver.Load();
             Portal otherPortal = GetOtherPortal();
             UpdatePlayer(otherPortal);

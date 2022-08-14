@@ -29,7 +29,10 @@ namespace RPG.Saving
             {
                 buildIndex = (int)stateDict["lastSceneBuildIndex"];
             }
-            yield return SceneManager.LoadSceneAsync(buildIndex);
+
+            var asyncLoad = SceneManager.LoadSceneAsync(buildIndex);
+            while (!asyncLoad.isDone) yield return null;
+
             RestoreFromToken(state);
         }
 
@@ -48,6 +51,7 @@ namespace RPG.Saving
         /// </summary>
         public void Delete(string saveFile)
         {
+            print("Deleting " + saveFile);
             File.Delete(GetPathFromSaveFile(saveFile));
         }
 
