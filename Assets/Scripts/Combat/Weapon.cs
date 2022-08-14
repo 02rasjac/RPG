@@ -19,6 +19,10 @@ namespace RPG.Combat
         [SerializeField] float additiveDamage = 5f;
         public float AdditiveDamage => additiveDamage;
 
+        [Tooltip("1 is no change, < 1 is less damage and > 1 is more damage.")]
+        [SerializeField] float multiplierDamage = 1f;
+        public float MultiplierDamage => multiplierDamage;
+
         [SerializeField] float timeBetweenAttacks = 1f;
         public float TimeBetweenAttacks => timeBetweenAttacks;
 

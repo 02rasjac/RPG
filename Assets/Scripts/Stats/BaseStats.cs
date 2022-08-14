@@ -32,14 +32,25 @@ namespace RPG.Stats
             }
         }
 
-        public float GetStat(Stats stat) => GetStat(stat, currentLevel);
-
-        public float GetStat(Stats stat, int level)
+        /// <summary>
+        /// Get the modified stat. Formula used is <c>(baseStat + additive) * multiply</c>.
+        /// </summary>
+        /// <param name="stat">The stat to fetch.</param>
+        /// <returns>Modified stat.</returns>
+        public float GetStat(Stats stat)
         {
-            float baseStat = progression.GetStat(stat, characterClass, level);
-            float additive = GetAdditiveModifiers(stat);
-            return baseStat + additive;
+            float baseStat = GetBaseStat(stat);
+            float additive = GetAdditiveModifier(stat);
+            float multiply = GetMultiplyingModifier(stat);
+            return (baseStat + additive) * multiply;
         }
+
+        /// <summary>
+        /// Get the unmodified base stat.
+        /// </summary>
+        /// <param name="stat">The stat to fetch.</param>
+        /// <returns>The stat value.</returns>
+        public float GetBaseStat(Stats stat) => progression.GetStat(stat, characterClass, currentLevel);
 
         /// <summary>
         /// Potentially level up (if enough XP & within available range).
@@ -50,9 +61,17 @@ namespace RPG.Stats
             if (experience == null) return;
             if (currentLevel >= progression.MaxLevel(characterClass)) return;
 
-            float experienceToLevelUp = GetStat(Stats.ExperienceToLevelUp);
+            float experienceToLevelUp = GetBaseStat(Stats.ExperienceToLevelUp);
             if (experience.GetExperience() >= experienceToLevelUp)
                 LevelUp();
+
+            void LevelUp()
+            {
+                currentLevel++;
+                if (OnLevelUp != null) OnLevelUp(currentLevel - 1);
+                GameObject levelUpObj = Instantiate(levelUpPrefab, transform);
+                Destroy(levelUpObj, 10f);
+            }
         }
 
         /// <summary>
@@ -60,13 +79,13 @@ namespace RPG.Stats
         /// </summary>
         /// <param name="stat">The stat to calculate modifiers for.</param>
         /// <returns>The total sum from the modifiers.</returns>
-        float GetAdditiveModifiers(Stats stat)
+        float GetAdditiveModifier(Stats stat)
         {
             float sum = 0f;
             var providers = GetComponents<IModifierProvider>();
             foreach (IModifierProvider provider in providers)
             {
-                foreach (float modifier in provider.GetAdditiveModifier(stat))
+                foreach (float modifier in provider.GetAdditiveModifiers(stat))
                 {
                     sum += modifier;
                 }
@@ -75,12 +94,28 @@ namespace RPG.Stats
             return sum;
         }
 
-        void LevelUp()
+        /// <summary>
+        /// Calculate the factor of all multiplying modifieres (i.e weapons can multiply the damage AFTER additive modifiers).
+        /// </summary>
+        /// <example>
+        /// If two multipliers are x = 1.2 (+20%) and y = 0.95 (-5%), then the return value is 
+        /// x * y = 1.2 * 0.95 = 1.14. That means the total increasing percentage is +14% of the (base damage + additive value).
+        /// </example>
+        /// <param name="stat">The stat to calculate modifiers for.</param>
+        /// <returns>The total factor from the modifiers.</returns>
+        float GetMultiplyingModifier(Stats stat)
         {
-            currentLevel++;
-            if (OnLevelUp != null) OnLevelUp(currentLevel - 1);
-            GameObject levelUpObj = Instantiate(levelUpPrefab, transform);
-            Destroy(levelUpObj, 10f);
+            float factor = 1f; // Don't initialize as 0 since all multiplications would result in factor still being 0...
+            var providers = GetComponents<IModifierProvider>();
+            foreach (IModifierProvider provider in providers)
+            {
+                foreach (float modifier in provider.GetMultiplyingModifiers(stat))
+                {
+                    factor *= modifier;
+                }
+            }
+
+            return factor;
         }
     }
 }

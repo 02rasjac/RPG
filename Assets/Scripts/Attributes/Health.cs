@@ -23,7 +23,7 @@ namespace RPG.Attributes
         {
             baseStats = GetComponent<BaseStats>();
             baseStats.OnLevelUp += HealFromLevelling;
-            health = baseStats.GetStat(Stats.Stats.Health);
+            health = baseStats.GetBaseStat(Stats.Stats.Health);
         }
 
         public void TakeDamage(GameObject instigator, float ammount)
@@ -33,7 +33,7 @@ namespace RPG.Attributes
             {
                 health = 0;
                 Experience instigatorXP = instigator.GetComponent<Experience>();
-                if (instigatorXP != null) instigatorXP.GainExperience(baseStats.GetStat(Stats.Stats.ExperienceReward));
+                if (instigatorXP != null) instigatorXP.GainExperience(baseStats.GetBaseStat(Stats.Stats.ExperienceReward));
                 Die();
             }
         }

@@ -167,11 +167,19 @@ namespace RPG.Combat
             EquipWeaponFromName(state.ToObject<string>());
         }
 
-        public IEnumerable<float> GetAdditiveModifier(Stats.Stats stat)
+        public IEnumerable<float> GetAdditiveModifiers(Stats.Stats stat)
         {
             if (stat == Stats.Stats.Damage)
             {
                 yield return currentWeapon.AdditiveDamage;
+            }
+        }
+
+        public IEnumerable<float> GetMultiplyingModifiers(Stats.Stats stat)
+        {
+            if (stat == Stats.Stats.Damage)
+            {
+                yield return currentWeapon.MultiplierDamage;
             }
         }
     }
