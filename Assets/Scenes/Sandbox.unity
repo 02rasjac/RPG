@@ -12970,10 +12970,6 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -6.421726
       objectReference: {fileID: 0}
-    - target: {fileID: 2156135957219921190, guid: 6b829bba887b2fb44addd17a0cb4acf2, type: 3}
-      propertyPath: m_Lens.m_SensorSize.x
-      value: 2.0188355
-      objectReference: {fileID: 0}
     - target: {fileID: 2156135957501112550, guid: 6b829bba887b2fb44addd17a0cb4acf2, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -12997,6 +12993,10 @@ PrefabInstance:
     - target: {fileID: 2156135957509836585, guid: 6b829bba887b2fb44addd17a0cb4acf2, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2156135957536277114, guid: 6b829bba887b2fb44addd17a0cb4acf2, type: 3}
+      propertyPath: cursors.Array.size
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4408934419344605592, guid: 6b829bba887b2fb44addd17a0cb4acf2, type: 3}
       propertyPath: m_Name

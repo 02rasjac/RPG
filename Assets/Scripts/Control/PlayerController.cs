@@ -11,6 +11,10 @@ namespace RPG.Control
 {
     public class PlayerController : MonoBehaviour
     {
+        [Header("Cursors")]
+        [SerializeField] CursorType noneCursors;
+        [SerializeField] CursorType moveCursors;
+        [SerializeField] CursorType attackCursors;
         [SerializeField] InputAction click;
 
         Mover mover;
@@ -40,6 +44,7 @@ namespace RPG.Control
             {
                 if (InteractWithCombat()) return;
                 if (InteractWithMovement()) return;
+                noneCursors.SetCursor();
             }
         }
 
@@ -56,6 +61,7 @@ namespace RPG.Control
                 {
                     fighter.Attack(target.gameObject);
                 }
+                attackCursors.SetCursor();
                 return true;
             }
             return false;
@@ -70,6 +76,7 @@ namespace RPG.Control
                 {
                     mover.StartMoveAction(hit.point);
                 }
+                moveCursors.SetCursor();
                 return true;
             }
             return false;
