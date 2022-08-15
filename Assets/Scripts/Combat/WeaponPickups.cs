@@ -11,11 +11,17 @@ namespace RPG.Combat
     {
         [SerializeField] Weapon weapon;
         [SerializeField] float respawnTime = 5f;
+        [SerializeField] CursorType cursor;
         
         void OnTriggerEnter(Collider other)
         {
             if (!other.CompareTag("Player")) return;
             PickUp(other);
+        }
+
+        public CursorType GetCursorType()
+        {
+            return cursor;
         }
 
         public bool HandleRaycast(GameObject caller, bool isPressed)

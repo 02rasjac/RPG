@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 
 using RPG.Attributes;
 using RPG.Movement;
-using RPG.Combat;
 using RPG.Core;
 
 namespace RPG.Control
@@ -17,11 +16,9 @@ namespace RPG.Control
         [SerializeField] CursorType noneCursors;
         [SerializeField] CursorType uiCursors;
         [SerializeField] CursorType moveCursors;
-        [SerializeField] CursorType attackCursors;
         [SerializeField] InputAction click;
 
         Mover mover;
-        Fighter fighter;
         Health health;
 
         void OnEnable()
@@ -37,7 +34,6 @@ namespace RPG.Control
         void Awake()
         {
             mover = GetComponent<Mover>();
-            fighter = GetComponent<Fighter>();
             health = GetComponent<Health>();
         }
 
@@ -65,7 +61,7 @@ namespace RPG.Control
                 {
                     if (raycastable.HandleRaycast(gameObject, click.IsPressed()))
                     {
-                        attackCursors.SetAsCursor();
+                        raycastable.GetCursorType().SetAsCursor();
                         return true;
                     }
                 }

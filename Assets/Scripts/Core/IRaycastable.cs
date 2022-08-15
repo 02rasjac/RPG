@@ -4,6 +4,7 @@ namespace RPG.Core
 {
     public interface IRaycastable
     {
+        public CursorType GetCursorType();
         /// <summary>
         /// Component will handle a raycast if it implements <c>IRaycastable</c>.
         /// </summary>

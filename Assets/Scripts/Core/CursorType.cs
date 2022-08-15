@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace RPG.Control
+namespace RPG.Core
 {
     [System.Serializable]
     [CreateAssetMenu(fileName = "NewCursorType", menuName = "New Cursor Type")]
