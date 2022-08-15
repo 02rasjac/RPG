@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using RPG.Attributes;
 using RPG.Movement;
 using RPG.Combat;
+using RPG.Core;
 
 namespace RPG.Control
 {
@@ -43,28 +44,31 @@ namespace RPG.Control
         void Update()
         {
             if (InteractWithUI()) return;
-            if (health.IsDead) return;
-            if (InteractWithCombat()) return;
+            if (health.IsDead)
+            {
+                noneCursors.SetAsCursor();
+                return;
+            }
+            if (InteractWithComponent()) return;
             if (InteractWithMovement()) return;
 
             noneCursors.SetAsCursor();
         }
 
-        bool InteractWithCombat()
+        bool InteractWithComponent()
         {
             RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
             foreach (var hit in hits)
             {
-                CombatTarget target = hit.transform.GetComponent<CombatTarget>();
-                if (target == null) continue;
-                if (!fighter.CanAttack(target.gameObject)) continue;
-
-                if (click.IsPressed())
+                var raycastables = hit.transform.GetComponents<IRaycastable>();
+                foreach (var raycastable in raycastables)
                 {
-                    fighter.Attack(target.gameObject);
+                    if (raycastable.HandleRaycast(gameObject, click.IsPressed()))
+                    {
+                        attackCursors.SetAsCursor();
+                        return true;
+                    }
                 }
-                attackCursors.SetAsCursor();
-                return true;
             }
             return false;
         }

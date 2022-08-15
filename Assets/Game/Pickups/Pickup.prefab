@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8415947380842157264}
   - component: {fileID: 953552568092994025}
   - component: {fileID: 7573920647677941409}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Pickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,3 +59,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapon: {fileID: 0}
+  respawnTime: 5
