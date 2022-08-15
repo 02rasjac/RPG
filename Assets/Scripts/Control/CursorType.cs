@@ -7,9 +7,10 @@ namespace RPG.Control
     public class CursorType : ScriptableObject
     {
         public Texture2D texture;
-        public Vector2 hotspot;
+        [Tooltip("For basic: (10, 4). \nFor bonus: (5, 2).")]
+        public Vector2 hotspot = new Vector2(5, 2);
 
-        public void SetCursor()
+        public void SetAsCursor()
         {
             Cursor.SetCursor(texture, hotspot, CursorMode.Auto);
         }

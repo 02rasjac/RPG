@@ -215,6 +215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noneCursors: {fileID: 11400000, guid: f72cb41733896bd46ba53e689cae7953, type: 2}
+  uiCursors: {fileID: 11400000, guid: da660f0a57c6bfb47be9004a65e30ad4, type: 2}
   moveCursors: {fileID: 11400000, guid: a1cdfe011a0189d4aa779f71e133830b, type: 2}
   attackCursors: {fileID: 11400000, guid: 6d4c52ea732518145beec67e03eda472, type: 2}
   click:

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 using RPG.Attributes;
@@ -13,6 +14,7 @@ namespace RPG.Control
     {
         [Header("Cursors")]
         [SerializeField] CursorType noneCursors;
+        [SerializeField] CursorType uiCursors;
         [SerializeField] CursorType moveCursors;
         [SerializeField] CursorType attackCursors;
         [SerializeField] InputAction click;
@@ -40,12 +42,12 @@ namespace RPG.Control
 
         void Update()
         {
-            if (!health.IsDead)
-            {
-                if (InteractWithCombat()) return;
-                if (InteractWithMovement()) return;
-                noneCursors.SetCursor();
-            }
+            if (InteractWithUI()) return;
+            if (health.IsDead) return;
+            if (InteractWithCombat()) return;
+            if (InteractWithMovement()) return;
+
+            noneCursors.SetAsCursor();
         }
 
         bool InteractWithCombat()
@@ -61,7 +63,7 @@ namespace RPG.Control
                 {
                     fighter.Attack(target.gameObject);
                 }
-                attackCursors.SetCursor();
+                attackCursors.SetAsCursor();
                 return true;
             }
             return false;
@@ -76,7 +78,17 @@ namespace RPG.Control
                 {
                     mover.StartMoveAction(hit.point);
                 }
-                moveCursors.SetCursor();
+                moveCursors.SetAsCursor();
+                return true;
+            }
+            return false;
+        }
+
+        bool InteractWithUI()
+        {
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                uiCursors.SetAsCursor();
                 return true;
             }
             return false;
