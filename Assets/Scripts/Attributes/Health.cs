@@ -6,14 +6,18 @@ using RPG.Core;
 using RPG.Saving;
 using Newtonsoft.Json.Linq;
 using RPG.Stats;
+using RPG.UI;
 using System;
 
 namespace RPG.Attributes
 {
     public class Health : MonoBehaviour, ISaveable
     {
-        [SerializeField] float health = 100f;
+        [SerializeField] CharacterFadingTextSpawner characterFadingTextSpawner;
+        [SerializeField] Color healColor = Color.green;
+        [SerializeField] Color damageColor = Color.red;
 
+        float health = 100f;
         bool isDead = false;
         public bool IsDead { get { return isDead; } }
 
@@ -42,6 +46,7 @@ namespace RPG.Attributes
         public void TakeDamage(GameObject instigator, float ammount)
         {
             health -= ammount;
+            characterFadingTextSpawner.Spawn(ammount, damageColor);
             if (health <= 0)
             {
                 health = 0;
@@ -74,7 +79,11 @@ namespace RPG.Attributes
         void HealFromLevelling(int oldLevel)
         {
             float regeneratedHealth = GetMaxHealth() * (baseStats.levelUpHealPercentage * 0.01f);
-            health = Mathf.Max(regeneratedHealth, health);
+            if (regeneratedHealth > health)
+            {
+                characterFadingTextSpawner.Spawn(regeneratedHealth - health, healColor);
+                health = regeneratedHealth;
+            }
         }
 
         void Die(bool instantDeath = false)
