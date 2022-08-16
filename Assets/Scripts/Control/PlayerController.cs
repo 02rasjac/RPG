@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
@@ -84,17 +85,31 @@ namespace RPG.Control
 
         bool InteractWithMovement()
         {
-            RaycastHit hit;
-            if (Physics.Raycast(GetMouseRay(), out hit))
+            Vector3 target;
+            if (RaycastNavmesh(out target))
             {
                 if (click.IsPressed())
                 {
-                    mover.StartMoveAction(hit.point);
+                    mover.StartMoveAction(target);
                 }
                 moveCursors.SetAsCursor();
                 return true;
             }
             return false;
+
+            bool RaycastNavmesh(out Vector3 target)
+            {
+                target = new Vector3();
+                RaycastHit rayHit;
+                NavMeshHit nmHit;
+
+                if (Physics.Raycast(GetMouseRay(), out rayHit) && NavMesh.SamplePosition(rayHit.point, out nmHit, 1f, NavMesh.AllAreas))
+                {
+                    target = nmHit.position;
+                    return true;
+                }
+                return false;
+            }
         }
 
         bool InteractWithUI()
