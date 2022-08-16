@@ -9,19 +9,22 @@ namespace RPG.Attributes
         [SerializeField] Health characterHealth;
         [SerializeField] RectTransform foreground;
 
-        void OnEnable()
+        Canvas canvas;
+
+        void Start()
         {
-            characterHealth.takeDamage += UpdateBar;
+            canvas = GetComponentInChildren<Canvas>();
+            canvas.enabled = false;
         }
 
-        void OnDisable()
+        public void UpdateBar(float amount)
         {
-            characterHealth.takeDamage -= UpdateBar;
-        }
-
-        void UpdateBar()
-        {
-            foreground.localScale = new Vector3(characterHealth.GetHealthFraction(), 1f, 1f);
+            float frac = characterHealth.GetHealthFraction();
+            if (frac <= Mathf.Epsilon || Mathf.Approximately(frac, 1f)) 
+                canvas.enabled = false;
+            else
+                canvas.enabled = true;
+            foreground.localScale = new Vector3(frac, 1f, 1f);
         }
     }
 }

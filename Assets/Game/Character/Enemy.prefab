@@ -123,6 +123,34 @@ PrefabInstance:
       propertyPath: health
       value: 40
       objectReference: {fileID: 0}
+    - target: {fileID: 6639920190588900738, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
+      propertyPath: onTakeDamage.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639920190588900738, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
+      propertyPath: onTakeDamage.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639920190588900738, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
+      propertyPath: onTakeDamage.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6224491070844267703}
+    - target: {fileID: 6639920190588900738, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
+      propertyPath: onTakeDamage.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639920190588900738, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
+      propertyPath: onTakeDamage.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639920190588900738, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
+      propertyPath: onTakeDamage.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RPG.Attributes.HealthBar, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639920190588900738, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
+      propertyPath: onTakeDamage.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7909115739364297349, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
       propertyPath: m_Name
       value: Enemy
@@ -293,5 +321,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe42979f4c57b8e459f4acd5ef4b9aba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6224491070844267703 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3159479256432624910, guid: d04e0ac483f328646be7e03f5680ce6b, type: 3}
+  m_PrefabInstance: {fileID: 9059390883755108793}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 584dc7f6b14309c428d6ffd237838590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
