@@ -214,10 +214,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85df3113bfe6a61499768a0f3814189d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxSampleDistance: 1
+  maxPathDistance: 40
   noneCursors: {fileID: 11400000, guid: f72cb41733896bd46ba53e689cae7953, type: 2}
   uiCursors: {fileID: 11400000, guid: da660f0a57c6bfb47be9004a65e30ad4, type: 2}
   moveCursors: {fileID: 11400000, guid: a1cdfe011a0189d4aa779f71e133830b, type: 2}
-  attackCursors: {fileID: 11400000, guid: 6d4c52ea732518145beec67e03eda472, type: 2}
   click:
     m_Name: Click
     m_Type: 0

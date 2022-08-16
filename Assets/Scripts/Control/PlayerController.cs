@@ -14,6 +14,9 @@ namespace RPG.Control
 {
     public class PlayerController : MonoBehaviour
     {
+        [Header("Nav Mesh Settings")]
+        [SerializeField] float maxSampleDistance = 1f;
+        [SerializeField] float maxPathDistance = 40f;
         [Header("Cursors")]
         [SerializeField] CursorType noneCursors;
         [SerializeField] CursorType uiCursors;
@@ -101,14 +104,29 @@ namespace RPG.Control
             {
                 target = new Vector3();
                 RaycastHit rayHit;
-                NavMeshHit nmHit;
+                if (!Physics.Raycast(GetMouseRay(), out rayHit)) return false;
 
-                if (Physics.Raycast(GetMouseRay(), out rayHit) && NavMesh.SamplePosition(rayHit.point, out nmHit, 1f, NavMesh.AllAreas))
+                NavMeshHit nmHit;
+                if (!NavMesh.SamplePosition(rayHit.point, out nmHit, maxSampleDistance, NavMesh.AllAreas)) return false;
+                target = nmHit.position;
+
+                NavMeshPath path = new NavMeshPath();
+                NavMesh.CalculatePath(transform.position, target, NavMesh.AllAreas, path);
+                if (path.status != NavMeshPathStatus.PathComplete) return false;
+
+                if (CalculatePathDistance(path) > maxPathDistance) return false;
+
+                return true;
+            }
+
+            float CalculatePathDistance(NavMeshPath path)
+            {
+                float distance = 0f;
+                for (int i = 1; i < path.corners.Length; i++)
                 {
-                    target = nmHit.position;
-                    return true;
+                    distance += Vector3.Distance(path.corners[i - 1], path.corners[i]);
                 }
-                return false;
+                return distance;
             }
         }
 
