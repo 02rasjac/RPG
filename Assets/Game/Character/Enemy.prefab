@@ -145,6 +145,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5051208959865812726, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
   m_PrefabInstance: {fileID: 4714633307922684540}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2109938866642882558 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6639920190588900738, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
+  m_PrefabInstance: {fileID: 4714633307922684540}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3219911967799398649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83cc5ce685be647479177db4c4523c0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3219911967799398649 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7909115739364297349, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
@@ -209,6 +220,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 1.998
       objectReference: {fileID: 0}
+    - target: {fileID: 3159479256432624910, guid: d04e0ac483f328646be7e03f5680ce6b, type: 3}
+      propertyPath: characterHealth
+      value: 
+      objectReference: {fileID: 2109938866642882558}
     - target: {fileID: 8304476472692500488, guid: d04e0ac483f328646be7e03f5680ce6b, type: 3}
       propertyPath: m_Name
       value: HealthBar
@@ -257,6 +272,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8420248929097130006, guid: d04e0ac483f328646be7e03f5680ce6b, type: 3}
+      propertyPath: characterHealth
+      value: 
+      objectReference: {fileID: 2109938866642882558}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d04e0ac483f328646be7e03f5680ce6b, type: 3}
 --- !u!1 &3328624466909789403 stripped

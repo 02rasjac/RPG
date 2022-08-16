@@ -17,6 +17,8 @@ namespace RPG.Attributes
         [SerializeField] Color healColor = Color.green;
         [SerializeField] Color damageColor = Color.red;
 
+        public event Action takeDamage;
+
         float health = 100f;
         bool isDead = false;
         public bool IsDead { get { return isDead; } }
@@ -46,6 +48,7 @@ namespace RPG.Attributes
         public void TakeDamage(GameObject instigator, float ammount)
         {
             health -= ammount;
+            if (takeDamage != null) takeDamage();
             characterFadingTextSpawner.Spawn(ammount, damageColor);
             if (health <= 0)
             {
@@ -70,7 +73,9 @@ namespace RPG.Attributes
                 isDead = false;
         }
 
-        public float GetHealthPercentage() => 100 * (health / GetComponent<BaseStats>().GetStat(Stats.Stats.Health));
+        public float GetHealthPercentage() => 100 * GetHealthFraction();
+
+        public float GetHealthFraction() => health / GetComponent<BaseStats>().GetStat(Stats.Stats.Health);
 
         public float GetHealth() => health;
 
