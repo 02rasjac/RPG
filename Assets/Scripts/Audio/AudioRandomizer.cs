@@ -23,9 +23,12 @@ namespace RPG.Audio
         public void PlayRandom()
         {
             int newIndex = 0;
-            do {
-                newIndex = Random.Range(0, audioClips.Length);
-            } while (newIndex == lastIndex);
+            if (audioClips.Length > 1)
+            {
+                do {
+                    newIndex = Random.Range(0, audioClips.Length);
+                } while (newIndex == lastIndex);
+            }
 
             lastIndex = newIndex;
             audioSource.clip = audioClips[newIndex];
