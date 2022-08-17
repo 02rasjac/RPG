@@ -17,7 +17,7 @@ namespace RPG.Combat
         [Tooltip("Where the weapon is position, i.e under right hand.")]
         [SerializeField] Transform rightHandTransform = null;
         [SerializeField] Transform leftHandTransform = null;
-        [SerializeField] Weapon defaultWeapon = null;
+        [SerializeField] WeaponConfig defaultWeapon = null;
         [Tooltip("The name of the weapon scriptable object.")]
         [SerializeField] string defaultWeaponName = "Unarmed";
 
@@ -28,8 +28,8 @@ namespace RPG.Combat
 
         Health target;
         public Health Target { get { return target; } }
-        Weapon currentWeapon;
-        public Weapon CurrentWeapon { get { return currentWeapon; } }
+        WeaponConfig currentWeapon;
+        public WeaponConfig CurrentWeapon { get { return currentWeapon; } }
         float timeSinceLastAttack = Mathf.Infinity;
 
         void Awake()
@@ -89,7 +89,7 @@ namespace RPG.Combat
         /// Equip <paramref name="weapon"/> as the current weapon.
         /// </summary>
         /// <param name="weapon">The weapon to equip.</param>
-        public void EquipWeapon(Weapon weapon)
+        public void EquipWeapon(WeaponConfig weapon)
         {
             currentWeapon = weapon;
             currentWeapon.Spawn(rightHandTransform, leftHandTransform, animator);
@@ -98,7 +98,7 @@ namespace RPG.Combat
         void EquipWeaponFromName(string name)
         {
             //! USING RESOURCES IS BAD
-            Weapon weapon = Resources.Load<Weapon>(name);
+            WeaponConfig weapon = Resources.Load<WeaponConfig>(name);
             if (weapon == null) weapon = defaultWeapon;
             EquipWeapon(weapon);
         }
