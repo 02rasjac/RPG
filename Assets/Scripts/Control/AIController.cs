@@ -17,6 +17,8 @@ namespace RPG.Control
         [SerializeField] float shoutDistance = 5f;
         [SerializeField] float suspicionTime = 2f;
         [SerializeField] float aggroTime = 2f;
+        [Tooltip("This AI can not be aggrevated within this time AFTER it's started to move to patrol.")]
+        [SerializeField] float aggroCooldown = 10f;
 
         [Header("Patrolling")]
         [SerializeField] PatrolPath patrolPath;
@@ -38,6 +40,7 @@ namespace RPG.Control
         float timeSinceLastSawPlayer = Mathf.Infinity;
         float timeSinceAggrevated = Mathf.Infinity;
         float timeSinceLastMove = 0f;
+        bool isAttacking = false;
 
         void Awake()
         {
@@ -77,13 +80,21 @@ namespace RPG.Control
                     PatrolBehaviour();
                 }
 
-                timeSinceLastSawPlayer += Time.deltaTime;
+                timeSinceLastSawPlayer  += Time.deltaTime;
+                timeSinceAggrevated += Time.deltaTime;
             }
         }
 
         public void Aggrevate()
         {
             timeSinceAggrevated = 0;
+            timeSinceLastSawPlayer  = 0;
+        }
+
+        public void AggrevateByEnemy()
+        {
+            timeSinceAggrevated = 0;
+            timeSinceLastSawPlayer = 0;
         }
 
         bool IsAggrevated()
@@ -102,7 +113,8 @@ namespace RPG.Control
                 AIController ai = hit.transform.GetComponent<AIController>();
                 if (ai != null)
                 {
-                    ai.Aggrevate();
+                    
+                    ai.AggrevateByEnemy();
                 }
             }
         }
@@ -144,6 +156,7 @@ namespace RPG.Control
 
         void SuspectBehaviour()
         {
+            isAttacking = false;
             actionScheduler.CancelCurrentAction();
         }
 
@@ -151,8 +164,9 @@ namespace RPG.Control
         {
             mover.SetSpeed(fightSpeed);
             fighter.Attack(player);
+            if (!isAttacking) AggrevateNearbyEnemies();
 
-            AggrevateNearbyEnemies();
+            isAttacking = true;
         }
 
         void OnDrawGizmosSelected()
