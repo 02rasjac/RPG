@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc57347e21e6aea488dc0ea0e6dae925, type: 3}
   m_Name: Bow
   m_EditorClassIdentifier: 
-  range: 10
-  additiveDamage: 5
-  multiplierDamage: 1
+  range: 9
+  additiveDamage: 2
+  multiplierDamage: 1.1
   timeBetweenAttacks: 1
   isRightHand: 0
   equippedPrefab: {fileID: -2205308400866482813, guid: ee1b1ad8c5e8a6f498288d122e8464b1, type: 3}

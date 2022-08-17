@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Sword
   m_EditorClassIdentifier: 
   range: 2.3
-  additiveDamage: 10
+  additiveDamage: 5
   multiplierDamage: 1
   timeBetweenAttacks: 1.2
   isRightHand: 1
