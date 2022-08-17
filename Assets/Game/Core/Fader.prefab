@@ -56,7 +56,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeOutTime: 0.5
-  fadeInTime: 1
+  fadeInTime: 0.5
   waitTime: 0.5
 --- !u!223 &995098417317488868
 Canvas:

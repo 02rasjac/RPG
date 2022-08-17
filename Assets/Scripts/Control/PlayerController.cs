@@ -34,6 +34,7 @@ namespace RPG.Control
         void OnDisable()
         {
             click.Disable();
+            noneCursors.SetAsCursor();
         }
 
         void Awake()
