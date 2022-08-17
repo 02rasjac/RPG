@@ -143,6 +143,10 @@ PrefabInstance:
       propertyPath: health
       value: 200
       objectReference: {fileID: 0}
+    - target: {fileID: 7597194041019865987, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7909115739364297349, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
       propertyPath: m_Name
       value: Player
@@ -150,6 +154,10 @@ PrefabInstance:
     - target: {fileID: 7909115739364297349, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8510619350886486426, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9216354343463921889, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
       propertyPath: weapon

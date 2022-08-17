@@ -90,7 +90,7 @@ namespace RPG.Control
         bool InteractWithMovement()
         {
             Vector3 target;
-            if (RaycastNavmesh(out target))
+            if (RaycastNavmesh(out target) && mover.CanMoveTo(target))
             {
                 if (click.IsPressed())
                 {
@@ -111,23 +111,7 @@ namespace RPG.Control
                 if (!NavMesh.SamplePosition(rayHit.point, out nmHit, maxSampleDistance, NavMesh.AllAreas)) return false;
                 target = nmHit.position;
 
-                NavMeshPath path = new NavMeshPath();
-                NavMesh.CalculatePath(transform.position, target, NavMesh.AllAreas, path);
-                if (path.status != NavMeshPathStatus.PathComplete) return false;
-
-                if (CalculatePathDistance(path) > maxPathDistance) return false;
-
                 return true;
-            }
-
-            float CalculatePathDistance(NavMeshPath path)
-            {
-                float distance = 0f;
-                for (int i = 1; i < path.corners.Length; i++)
-                {
-                    distance += Vector3.Distance(path.corners[i - 1], path.corners[i]);
-                }
-                return distance;
             }
         }
 

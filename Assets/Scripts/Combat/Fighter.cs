@@ -80,8 +80,9 @@ namespace RPG.Combat
         /// <returns><c>true</c> if <paramref name="testTarget"/> is not null and is alive.</returns>
         public bool CanAttack(GameObject testTarget)
         {
-            //return testTarget != null && !testTarget.GetComponent<Health>().IsDead;
-            return !testTarget.GetComponent<Health>().IsDead;
+            return !testTarget.GetComponent<Health>().IsDead
+                && mover.CanMoveTo(testTarget.transform.position);
+
         }
 
         public void Cancel()
