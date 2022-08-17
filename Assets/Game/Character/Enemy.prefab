@@ -124,31 +124,31 @@ PrefabInstance:
       value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 6639920190588900738, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
-      propertyPath: onTakeDamage.m_PersistentCalls.m_Calls.Array.size
+      propertyPath: onTakeDamageAmount.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6639920190588900738, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
-      propertyPath: onTakeDamage.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      propertyPath: onTakeDamageAmount.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6639920190588900738, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
-      propertyPath: onTakeDamage.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      propertyPath: onTakeDamageAmount.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 6224491070844267703}
     - target: {fileID: 6639920190588900738, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
-      propertyPath: onTakeDamage.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      propertyPath: onTakeDamageAmount.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6639920190588900738, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
-      propertyPath: onTakeDamage.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      propertyPath: onTakeDamageAmount.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: UpdateBar
       objectReference: {fileID: 0}
     - target: {fileID: 6639920190588900738, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
-      propertyPath: onTakeDamage.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      propertyPath: onTakeDamageAmount.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: RPG.Attributes.HealthBar, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6639920190588900738, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
-      propertyPath: onTakeDamage.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      propertyPath: onTakeDamageAmount.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 7909115739364297349, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
@@ -157,7 +157,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8510619350886486426, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9112551386345503348, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
       propertyPath: m_Speed

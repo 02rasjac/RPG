@@ -15,7 +15,9 @@ namespace RPG.Attributes
     {
         [SerializeField] Color healColor = Color.green;
         [SerializeField] Color damageColor = Color.red;
-        [SerializeField] UnityEvent<float> onTakeDamage;
+        [SerializeField] UnityEvent onDie;
+        [SerializeField] UnityEvent onTakeDamage;
+        [SerializeField] UnityEvent<float> onTakeDamageAmount;
         [SerializeField] UnityEvent<float, Color> onTakeDamageColor;
         [SerializeField] UnityEvent<float, Color> onHealColor;
 
@@ -48,11 +50,13 @@ namespace RPG.Attributes
         public void TakeDamage(GameObject instigator, float ammount)
         {
             health -= ammount;
-            onTakeDamage?.Invoke(ammount);
+            onTakeDamage?.Invoke();
+            onTakeDamageAmount?.Invoke(ammount);
             onTakeDamageColor?.Invoke(ammount, damageColor);
             if (health <= 0)
             {
                 health = 0;
+                onDie?.Invoke();
                 Experience instigatorXP = instigator.GetComponent<Experience>();
                 if (instigatorXP != null) instigatorXP.GainExperience(baseStats.GetBaseStat(Stats.Stats.ExperienceReward));
                 Die();
