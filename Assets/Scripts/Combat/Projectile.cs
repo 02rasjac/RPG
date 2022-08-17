@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 using RPG.Attributes;
 
@@ -13,6 +14,7 @@ namespace RPG.Combat
         [SerializeField] float speedLossFactor = 1f;
         [SerializeField] bool isHoming = false;
         [SerializeField] GameObject hitVFX;
+        [SerializeField] UnityEvent onHit;
 
         float damage;
         GameObject hitInstance;
@@ -46,6 +48,7 @@ namespace RPG.Combat
             {
                 hitInstance = Instantiate(hitVFX, other.bounds.center, transform.rotation);
             }
+            onHit?.Invoke();
             health.TakeDamage(instigator, damage);
             this.transform.parent = other.transform;
             speed = 0f;

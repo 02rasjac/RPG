@@ -9,13 +9,15 @@ namespace RPG.Audio
     {
         [SerializeField] AudioClip[] audioClips;
         [SerializeField] Vector2 pitchRange = new Vector2(1f, 1f);
+        [SerializeField] bool playOnAwake = false;
         
         AudioSource audioSource;
-        int lastIndex;
+        int lastIndex = -1;
 
         void Start()
         {
             audioSource = GetComponent<AudioSource>();
+            if (playOnAwake) PlayRandom();
         }
 
         public void PlayRandom()
