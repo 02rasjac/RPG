@@ -14,6 +14,7 @@ namespace RPG.Control
         [SerializeField] float patrolSpeed = 1.558401f;
         [SerializeField] float fightSpeed = 3.5f;
         [SerializeField] float chaseDistance = 5f;
+        [SerializeField] float shoutDistance = 5f;
         [SerializeField] float suspicionTime = 2f;
         [SerializeField] float aggroTime = 2f;
 
@@ -93,6 +94,19 @@ namespace RPG.Control
             return inRange || isAggro;
         }
 
+        void AggrevateNearbyEnemies()
+        {
+            RaycastHit[] hits = Physics.SphereCastAll(transform.position, shoutDistance, Vector3.forward, 0);
+            foreach (RaycastHit hit in hits)
+            {
+                AIController ai = hit.transform.GetComponent<AIController>();
+                if (ai != null)
+                {
+                    ai.Aggrevate();
+                }
+            }
+        }
+
         void PatrolBehaviour()
         {
             // No patrolpath, proceed with normal guarding
@@ -137,6 +151,8 @@ namespace RPG.Control
         {
             mover.SetSpeed(fightSpeed);
             fighter.Attack(player);
+
+            AggrevateNearbyEnemies();
         }
 
         void OnDrawGizmosSelected()
