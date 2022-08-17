@@ -2722,14 +2722,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1087784582}
     m_Modifications:
-    - target: {fileID: -9090570667185766257, guid: c7873f01f09962843a98fd1c30b67f49, type: 3}
-      propertyPath: damagePoints
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: -9090570667185766257, guid: c7873f01f09962843a98fd1c30b67f49, type: 3}
-      propertyPath: timeBetweenAttacks
-      value: 0.6
-      objectReference: {fileID: 0}
     - target: {fileID: -1740516425032680274, guid: c7873f01f09962843a98fd1c30b67f49, type: 3}
       propertyPath: fightSpeed
       value: 5
@@ -4382,7 +4374,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.0188355, y: 1}
+    m_SensorSize: {x: 2.0325344, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -8459,7 +8451,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.0188355, y: 1}
+    m_SensorSize: {x: 2.0325344, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -12942,7 +12934,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.0188355, y: 1}
+    m_SensorSize: {x: 2.0325344, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0

@@ -17,6 +17,6 @@ MonoBehaviour:
   multiplierDamage: 1.2
   timeBetweenAttacks: 1.3
   isRightHand: 0
-  equippedPrefab: {fileID: 9024339226242305201, guid: f8d73f902eb16284aa089be6435af808, type: 3}
+  equippedPrefab: {fileID: -8218025055332135896, guid: f8d73f902eb16284aa089be6435af808, type: 3}
   projectile: {fileID: 8884790636573548449, guid: 7d6d31da1c14c3141a95ba542b840be8, type: 3}
   weaponOverride: {fileID: 22100000, guid: 17e5aeaa3b326f64fa77fdafd2768ef8, type: 2}
