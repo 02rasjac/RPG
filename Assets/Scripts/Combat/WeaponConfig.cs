@@ -36,18 +36,21 @@ namespace RPG.Combat
 
         const string weaponName = "Weapon";
 
-        public void Spawn(Transform rightHand, Transform leftHand, Animator animator)
+        public Weapon Spawn(Transform rightHand, Transform leftHand, Animator animator)
         {
+            Weapon weapon = null;
             if (equippedPrefab != null)
             {
                 DestroyOldWeapon(rightHand, leftHand);
-                Weapon weapon = Instantiate(equippedPrefab, GetHandTrans(rightHand, leftHand));
+                weapon = Instantiate(equippedPrefab, GetHandTrans(rightHand, leftHand));
                 weapon.gameObject.name = weaponName;
             }
             if (weaponOverride != null)
                 animator.runtimeAnimatorController = weaponOverride;
             else
                 Debug.LogWarning("No weapon override controller assigned to " + this.name + ".");
+
+            return weapon;
         }
 
         public bool HasProjectile()

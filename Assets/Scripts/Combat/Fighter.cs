@@ -17,9 +17,9 @@ namespace RPG.Combat
         [Tooltip("Where the weapon is position, i.e under right hand.")]
         [SerializeField] Transform rightHandTransform = null;
         [SerializeField] Transform leftHandTransform = null;
-        [SerializeField] WeaponConfig defaultWeapon = null;
-        [Tooltip("The name of the weapon scriptable object.")]
-        [SerializeField] string defaultWeaponName = "Unarmed";
+        [SerializeField] WeaponConfig defaultWeaponConfig = null;
+        //[Tooltip("The name of the weapon scriptable object.")]
+        //[SerializeField] string defaultWeaponName = "Unarmed";
 
         Mover mover;
         ActionScheduler actionScheduler;
@@ -28,8 +28,9 @@ namespace RPG.Combat
 
         Health target;
         public Health Target { get { return target; } }
-        WeaponConfig currentWeapon;
-        public WeaponConfig CurrentWeapon { get { return currentWeapon; } }
+        WeaponConfig currentWeaponConfig;
+        public WeaponConfig CurrentWeaponConfig { get { return currentWeaponConfig; } }
+        Weapon currentWeapon;
         float timeSinceLastAttack = Mathf.Infinity;
 
         void Awake()
@@ -38,7 +39,13 @@ namespace RPG.Combat
             actionScheduler = GetComponent<ActionScheduler>();
             animator = GetComponent<Animator>();
             baseStats = GetComponent<BaseStats>();
-            EquipWeaponFromName(defaultWeaponName);
+            //EquipWeaponFromName(defaultWeaponName);
+            currentWeaponConfig = defaultWeaponConfig;
+        }
+
+        void Start()
+        {
+            EquipWeapon(currentWeaponConfig);
         }
 
         void Update()
@@ -47,7 +54,7 @@ namespace RPG.Combat
 
             if (target != null)
             {
-                if (currentWeapon.Range <= Vector3.Distance(transform.position, target.transform.position))
+                if (currentWeaponConfig.Range <= Vector3.Distance(transform.position, target.transform.position))
                 {
                     mover.SetDestination(target.transform.position);
                 }
@@ -86,28 +93,28 @@ namespace RPG.Combat
         }
 
         /// <summary>
-        /// Equip <paramref name="weapon"/> as the current weapon.
+        /// Equip <paramref name="weaponConfig"/> as the current weapon.
         /// </summary>
-        /// <param name="weapon">The weapon to equip.</param>
-        public void EquipWeapon(WeaponConfig weapon)
+        /// <param name="weaponConfig">The weapon to equip.</param>
+        public void EquipWeapon(WeaponConfig weaponConfig)
         {
-            currentWeapon = weapon;
-            currentWeapon.Spawn(rightHandTransform, leftHandTransform, animator);
+            currentWeaponConfig = weaponConfig;
+            currentWeapon = currentWeaponConfig.Spawn(rightHandTransform, leftHandTransform, animator);
         }
 
         void EquipWeaponFromName(string name)
         {
             //! USING RESOURCES IS BAD
-            WeaponConfig weapon = Resources.Load<WeaponConfig>(name);
-            if (weapon == null) weapon = defaultWeapon;
-            EquipWeapon(weapon);
+            WeaponConfig weaponConfig = Resources.Load<WeaponConfig>(name);
+            if (weaponConfig == null) weaponConfig = defaultWeaponConfig;
+            EquipWeapon(weaponConfig);
         }
 
         void AttackBehavior()
         {
             transform.LookAt(target.transform);
 
-            if (timeSinceLastAttack > currentWeapon.TimeBetweenAttacks)
+            if (timeSinceLastAttack > currentWeaponConfig.TimeBetweenAttacks)
             {
                 // Hit()-event will be triggered here.
                 timeSinceLastAttack = 0f;
@@ -128,9 +135,10 @@ namespace RPG.Combat
             if (target == null) return;
 
             float damage = baseStats.GetStat(Stats.Stats.Damage);
-            if (currentWeapon.HasProjectile())
+            currentWeapon?.OnHit();
+            if (currentWeaponConfig.HasProjectile())
             {
-                currentWeapon.LaunchProjectile(rightHandTransform, leftHandTransform, target, gameObject, damage);
+                currentWeaponConfig.LaunchProjectile(rightHandTransform, leftHandTransform, target, gameObject, damage);
             }
             else
             {
@@ -149,16 +157,16 @@ namespace RPG.Combat
         void OnDrawGizmosSelected()
         {
             // Render attack-range
-            if (defaultWeapon != null)
+            if (defaultWeaponConfig != null)
             {
                 Gizmos.color = Color.red;
-                Gizmos.DrawWireSphere(transform.position, defaultWeapon.Range);
+                Gizmos.DrawWireSphere(transform.position, defaultWeaponConfig.Range);
             }
         }
 
         public JToken CaptureAsJToken()
         {
-            return JToken.FromObject(currentWeapon.name);
+            return JToken.FromObject(currentWeaponConfig.name);
         }
 
         public void RestoreFromJToken(JToken state)
@@ -170,7 +178,7 @@ namespace RPG.Combat
         {
             if (stat == Stats.Stats.Damage)
             {
-                yield return currentWeapon.AdditiveDamage;
+                yield return currentWeaponConfig.AdditiveDamage;
             }
         }
 
@@ -178,7 +186,7 @@ namespace RPG.Combat
         {
             if (stat == Stats.Stats.Damage)
             {
-                yield return currentWeapon.MultiplierDamage;
+                yield return currentWeaponConfig.MultiplierDamage;
             }
         }
     }

@@ -52,6 +52,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 2ebf38d5081e6024eb5214ce611bd747, type: 3}
   - {fileID: 8300000, guid: e7a068fc894ced2438c719feae89ea40, type: 3}
   pitchRange: {x: 0.9, y: 1.1}
+  playOnAwake: 0
 --- !u!82 &8759336759275305490
 AudioSource:
   m_ObjectHideFlags: 0
@@ -200,6 +201,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1bf9ee80f2374534b80d6c5880558f5e, type: 3}
   - {fileID: 8300000, guid: 0a490d2ac2e526246ab488aed902f6f1, type: 3}
   pitchRange: {x: 0.9, y: 1.1}
+  playOnAwake: 0
 --- !u!82 &5524090576817604908
 AudioSource:
   m_ObjectHideFlags: 0
@@ -441,8 +443,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rightHandTransform: {fileID: 0}
   leftHandTransform: {fileID: 0}
-  defaultWeapon: {fileID: 11400000, guid: 4ddddd1444fd649488a9e56bb0690f53, type: 2}
-  defaultWeaponName: Unarmed
+  defaultWeaponConfig: {fileID: 11400000, guid: 4ddddd1444fd649488a9e56bb0690f53, type: 2}
 --- !u!114 &3405792107571759897
 MonoBehaviour:
   m_ObjectHideFlags: 0
