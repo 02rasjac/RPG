@@ -14,7 +14,11 @@ namespace RPG.Control
         [SerializeField] float patrolSpeed = 1.558401f;
         [SerializeField] float fightSpeed = 3.5f;
         [SerializeField] float chaseDistance = 5f;
+        [SerializeField] float shoutDistance = 5f;
         [SerializeField] float suspicionTime = 2f;
+        [SerializeField] float aggroTime = 2f;
+        [Tooltip("This AI can not be aggrevated within this time AFTER it's started to move to patrol.")]
+        [SerializeField] float aggroCooldown = 10f;
 
         [Header("Patrolling")]
         [SerializeField] PatrolPath patrolPath;
@@ -34,7 +38,9 @@ namespace RPG.Control
         Vector3 guardLocation;
         int currentWaypointIndex = 0;
         float timeSinceLastSawPlayer = Mathf.Infinity;
+        float timeSinceAggrevated = Mathf.Infinity;
         float timeSinceLastMove = 0f;
+        bool isAttacking = false;
 
         void Awake()
         {
@@ -60,8 +66,7 @@ namespace RPG.Control
         {
             if (!health.IsDead)
             {
-                float dist = Vector3.Distance(transform.position, player.transform.position);
-                if ((dist <= chaseDistance || dist < fighter.CurrentWeapon.Range) && fighter.CanAttack(player))
+                if (IsAggrevated() && fighter.CanAttack(player))
                 {
                     timeSinceLastSawPlayer = 0f;
                     AttackBehaviour();
@@ -75,7 +80,42 @@ namespace RPG.Control
                     PatrolBehaviour();
                 }
 
-                timeSinceLastSawPlayer += Time.deltaTime;
+                timeSinceLastSawPlayer  += Time.deltaTime;
+                timeSinceAggrevated += Time.deltaTime;
+            }
+        }
+
+        public void Aggrevate()
+        {
+            timeSinceAggrevated = 0;
+            timeSinceLastSawPlayer  = 0;
+        }
+
+        public void AggrevateByEnemy()
+        {
+            timeSinceAggrevated = 0;
+            timeSinceLastSawPlayer = 0;
+        }
+
+        bool IsAggrevated()
+        {
+            float dist = Vector3.Distance(transform.position, player.transform.position);
+            bool inRange = dist <= chaseDistance || dist < fighter.CurrentWeaponConfig.Range;
+            bool isAggro = timeSinceAggrevated < aggroTime;
+            return inRange || isAggro;
+        }
+
+        void AggrevateNearbyEnemies()
+        {
+            RaycastHit[] hits = Physics.SphereCastAll(transform.position, shoutDistance, Vector3.forward, 0);
+            foreach (RaycastHit hit in hits)
+            {
+                AIController ai = hit.transform.GetComponent<AIController>();
+                if (ai != null)
+                {
+                    
+                    ai.AggrevateByEnemy();
+                }
             }
         }
 
@@ -116,6 +156,7 @@ namespace RPG.Control
 
         void SuspectBehaviour()
         {
+            isAttacking = false;
             actionScheduler.CancelCurrentAction();
         }
 
@@ -123,6 +164,9 @@ namespace RPG.Control
         {
             mover.SetSpeed(fightSpeed);
             fighter.Attack(player);
+            if (!isAttacking) AggrevateNearbyEnemies();
+
+            isAttacking = true;
         }
 
         void OnDrawGizmosSelected()

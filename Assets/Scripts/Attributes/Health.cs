@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 using RPG.Core;
 using RPG.Saving;
@@ -12,8 +13,17 @@ namespace RPG.Attributes
 {
     public class Health : MonoBehaviour, ISaveable
     {
-        [SerializeField] float health = 100f;
+        [SerializeField] Color healColor = Color.green;
+        [SerializeField] Color damageColor = Color.red;
+        [Tooltip("Prefab that has healing particle system.")]
+        [SerializeField] GameObject healPrefab;
+        [SerializeField] UnityEvent onDie;
+        [SerializeField] UnityEvent onTakeDamage;
+        [SerializeField] UnityEvent<float> onTakeDamageAmount;
+        [SerializeField] UnityEvent<float, Color> onTakeDamageColor;
+        [SerializeField] UnityEvent<float, Color> onHealColor;
 
+        float health = 100f;
         bool isDead = false;
         public bool IsDead { get { return isDead; } }
 
@@ -42,9 +52,13 @@ namespace RPG.Attributes
         public void TakeDamage(GameObject instigator, float ammount)
         {
             health -= ammount;
+            onTakeDamage?.Invoke();
+            onTakeDamageAmount?.Invoke(ammount);
+            onTakeDamageColor?.Invoke(ammount, damageColor);
             if (health <= 0)
             {
                 health = 0;
+                onDie?.Invoke();
                 Experience instigatorXP = instigator.GetComponent<Experience>();
                 if (instigatorXP != null) instigatorXP.GainExperience(baseStats.GetBaseStat(Stats.Stats.ExperienceReward));
                 Die();
@@ -65,16 +79,33 @@ namespace RPG.Attributes
                 isDead = false;
         }
 
-        public float GetHealthPercentage() => 100 * (health / GetComponent<BaseStats>().GetStat(Stats.Stats.Health));
+        public float GetHealthPercentage() => 100 * GetHealthFraction();
+
+        public float GetHealthFraction() => health / GetComponent<BaseStats>().GetStat(Stats.Stats.Health);
 
         public float GetHealth() => health;
 
         public float GetMaxHealth() => baseStats.GetStat(Stats.Stats.Health);
 
+        public void Heal(float amount)
+        {
+            float maxHealth = GetMaxHealth();
+            health = Mathf.Min(maxHealth, health + amount);
+            onHealColor?.Invoke(amount, healColor);
+
+            if (healPrefab == null) return;
+            GameObject healObj = Instantiate(healPrefab, transform);
+            Destroy(healObj, 10f);
+        }
+
         void HealFromLevelling(int oldLevel)
         {
             float regeneratedHealth = GetMaxHealth() * (baseStats.levelUpHealPercentage * 0.01f);
-            health = Mathf.Max(regeneratedHealth, health);
+            if (regeneratedHealth > health)
+            {
+                onHealColor?.Invoke(regeneratedHealth - health, healColor);
+                health = regeneratedHealth;
+            }
         }
 
         void Die(bool instantDeath = false)

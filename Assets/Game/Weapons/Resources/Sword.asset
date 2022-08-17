@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Sword
   m_EditorClassIdentifier: 
   range: 2.3
-  additiveDamage: 10
+  additiveDamage: 5
   multiplierDamage: 1
   timeBetweenAttacks: 1.2
   isRightHand: 1
-  equippedPrefab: {fileID: 5626988971140380859, guid: 6ac21e74b3950cf44ba0fcd8e32508d3, type: 3}
+  equippedPrefab: {fileID: -1852240971813270770, guid: 6ac21e74b3950cf44ba0fcd8e32508d3, type: 3}
   projectile: {fileID: 0}
   weaponOverride: {fileID: 22100000, guid: 037f29633cfb7dd47ab96e64473656d6, type: 2}

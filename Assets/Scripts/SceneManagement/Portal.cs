@@ -3,7 +3,8 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
-using RPG.Saving;
+using RPG.Control;
+using RPG.Core;
 
 namespace RPG.SceneManagement
 {
@@ -44,11 +45,14 @@ namespace RPG.SceneManagement
 
             DontDestroyOnLoad(this);
 
-            yield return StartCoroutine(fader.FadeOut());
+            SetPlayerControl(false);
+
+            yield return fader.FadeOut();
             saver.Save();
 
             var asyncLoad = SceneManager.LoadSceneAsync(sceneIndex);
             while (!asyncLoad.isDone) yield return null;
+            SetPlayerControl(false);
 
             saver.Load();
             Portal otherPortal = GetOtherPortal();
@@ -57,7 +61,8 @@ namespace RPG.SceneManagement
             saver.Save();
 
             yield return new WaitForSeconds(fader.WaitTime);
-            yield return StartCoroutine(fader.FadeIn());
+            SetPlayerControl(true);
+            fader.FadeIn();
 
             Destroy(gameObject);
         }
@@ -81,6 +86,13 @@ namespace RPG.SceneManagement
             Vector3 directionVector = (otherPortal.spawnPoint.position - otherPortal.transform.position).normalized;
             player.transform.rotation = Quaternion.LookRotation(directionVector);
             nma.enabled = true;
+        }
+
+        void SetPlayerControl(bool status)
+        {
+            GameObject player = GameObject.FindWithTag("Player");
+            player.GetComponent<ActionScheduler>().CancelCurrentAction();
+            player.GetComponent<PlayerController>().enabled = status;
         }
     }
 }

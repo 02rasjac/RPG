@@ -56,7 +56,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeOutTime: 0.5
-  fadeInTime: 1
+  fadeInTime: 0.5
   waitTime: 0.5
 --- !u!223 &995098417317488868
 Canvas:
@@ -89,7 +89,7 @@ CanvasGroup:
   m_Enabled: 1
   m_Alpha: 0
   m_Interactable: 0
-  m_BlocksRaycasts: 1
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &995098417317488870
 MonoBehaviour:

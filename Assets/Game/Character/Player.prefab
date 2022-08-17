@@ -143,6 +143,10 @@ PrefabInstance:
       propertyPath: health
       value: 200
       objectReference: {fileID: 0}
+    - target: {fileID: 7597194041019865987, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7909115739364297349, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
       propertyPath: m_Name
       value: Player
@@ -150,6 +154,10 @@ PrefabInstance:
     - target: {fileID: 7909115739364297349, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8510619350886486426, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9216354343463921889, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
       propertyPath: weapon
@@ -202,6 +210,40 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-6041814205877300281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180252149560540994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85df3113bfe6a61499768a0f3814189d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSampleDistance: 1
+  maxPathDistance: 40
+  noneCursors: {fileID: 11400000, guid: f72cb41733896bd46ba53e689cae7953, type: 2}
+  uiCursors: {fileID: 11400000, guid: da660f0a57c6bfb47be9004a65e30ad4, type: 2}
+  moveCursors: {fileID: 11400000, guid: a1cdfe011a0189d4aa779f71e133830b, type: 2}
+  click:
+    m_Name: Click
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: c4ce9284-d270-493f-8395-c0711c6aee5b
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 70cd9fa6-253e-483e-8ecf-bd9d3e5f0746
+      m_Path: <Mouse>/leftButton
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Click
+      m_Flags: 0
+    m_Flags: 0
 --- !u!114 &-116728456745685652
 MonoBehaviour:
   m_ObjectHideFlags: 0
