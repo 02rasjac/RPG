@@ -54,7 +54,7 @@ namespace RPG.Combat
 
             if (target != null)
             {
-                if (currentWeaponConfig.Range <= Vector3.Distance(transform.position, target.transform.position))
+                if (!IsInRange(target.transform.position))
                 {
                     mover.SetDestination(target.transform.position);
                 }
@@ -80,9 +80,10 @@ namespace RPG.Combat
         /// <returns><c>true</c> if <paramref name="testTarget"/> is not null and is alive.</returns>
         public bool CanAttack(GameObject testTarget)
         {
-            return !testTarget.GetComponent<Health>().IsDead
-                && mover.CanMoveTo(testTarget.transform.position);
-
+            if (testTarget == null) return false;
+            if (!mover.CanMoveTo(testTarget.transform.position) && !IsInRange(testTarget.transform.position)) return false;
+            Health targetHealth = testTarget.GetComponent<Health>();
+            return targetHealth != null && !targetHealth.IsDead;
         }
 
         public void Cancel()
@@ -101,6 +102,11 @@ namespace RPG.Combat
         {
             currentWeaponConfig = weaponConfig;
             currentWeapon = currentWeaponConfig.Spawn(rightHandTransform, leftHandTransform, animator);
+        }
+
+        private bool IsInRange(Vector3 targetPos)
+        {
+            return currentWeaponConfig.Range >= Vector3.Distance(transform.position, targetPos);
         }
 
         void EquipWeaponFromName(string name)
