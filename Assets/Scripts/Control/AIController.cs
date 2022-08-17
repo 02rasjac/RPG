@@ -15,6 +15,7 @@ namespace RPG.Control
         [SerializeField] float fightSpeed = 3.5f;
         [SerializeField] float chaseDistance = 5f;
         [SerializeField] float suspicionTime = 2f;
+        [SerializeField] float aggroTime = 2f;
 
         [Header("Patrolling")]
         [SerializeField] PatrolPath patrolPath;
@@ -34,6 +35,7 @@ namespace RPG.Control
         Vector3 guardLocation;
         int currentWaypointIndex = 0;
         float timeSinceLastSawPlayer = Mathf.Infinity;
+        float timeSinceAggrevated = Mathf.Infinity;
         float timeSinceLastMove = 0f;
 
         void Awake()
@@ -60,8 +62,7 @@ namespace RPG.Control
         {
             if (!health.IsDead)
             {
-                float dist = Vector3.Distance(transform.position, player.transform.position);
-                if ((dist <= chaseDistance || dist < fighter.CurrentWeaponConfig.Range) && fighter.CanAttack(player))
+                if (IsAggrevated() && fighter.CanAttack(player))
                 {
                     timeSinceLastSawPlayer = 0f;
                     AttackBehaviour();
@@ -77,6 +78,19 @@ namespace RPG.Control
 
                 timeSinceLastSawPlayer += Time.deltaTime;
             }
+        }
+
+        public void Aggrevate()
+        {
+            timeSinceAggrevated = 0;
+        }
+
+        bool IsAggrevated()
+        {
+            float dist = Vector3.Distance(transform.position, player.transform.position);
+            bool inRange = dist <= chaseDistance || dist < fighter.CurrentWeaponConfig.Range;
+            bool isAggro = timeSinceAggrevated < aggroTime;
+            return inRange || isAggro;
         }
 
         void PatrolBehaviour()
