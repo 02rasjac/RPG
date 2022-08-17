@@ -4,12 +4,14 @@ using UnityEngine;
 
 using RPG.Core;
 using RPG.Movement;
+using RPG.Attributes;
 
 namespace RPG.Combat
 {
     public class WeaponPickups : MonoBehaviour, IRaycastable
     {
         [SerializeField] WeaponConfig weapon;
+        [SerializeField] float healAmount = 0;
         [SerializeField] float respawnTime = 5f;
         [SerializeField] CursorType cursor;
         
@@ -35,7 +37,10 @@ namespace RPG.Combat
 
         void PickUp(Collider other)
         {
-            other.GetComponent<Fighter>().EquipWeapon(weapon);
+            if (weapon != null) 
+                other.GetComponent<Fighter>().EquipWeapon(weapon);
+            if (healAmount > 0)
+                other.GetComponent<Health>().Heal(healAmount);
             StartCoroutine(HideAndShow());
         }
 

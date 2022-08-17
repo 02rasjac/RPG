@@ -482,6 +482,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healColor: {r: 0.47395778, g: 0.8207547, b: 0.23616053, a: 1}
   damageColor: {r: 0.9150943, g: 0.375534, b: 0.375534, a: 1}
+  healPrefab: {fileID: 8683384153127689704, guid: e15837c4a6a5ac74ea7c338d2f32266f, type: 3}
   onDie:
     m_PersistentCalls:
       m_Calls:

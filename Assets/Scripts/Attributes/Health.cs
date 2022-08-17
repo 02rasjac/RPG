@@ -15,6 +15,8 @@ namespace RPG.Attributes
     {
         [SerializeField] Color healColor = Color.green;
         [SerializeField] Color damageColor = Color.red;
+        [Tooltip("Prefab that has healing particle system.")]
+        [SerializeField] GameObject healPrefab;
         [SerializeField] UnityEvent onDie;
         [SerializeField] UnityEvent onTakeDamage;
         [SerializeField] UnityEvent<float> onTakeDamageAmount;
@@ -84,6 +86,17 @@ namespace RPG.Attributes
         public float GetHealth() => health;
 
         public float GetMaxHealth() => baseStats.GetStat(Stats.Stats.Health);
+
+        public void Heal(float amount)
+        {
+            float maxHealth = GetMaxHealth();
+            health = Mathf.Min(maxHealth, health + amount);
+            onHealColor?.Invoke(amount, healColor);
+
+            if (healPrefab == null) return;
+            GameObject healObj = Instantiate(healPrefab, transform);
+            Destroy(healObj, 10f);
+        }
 
         void HealFromLevelling(int oldLevel)
         {
