@@ -16,7 +16,6 @@ namespace RPG.Control
     {
         [Header("Nav Mesh Settings")]
         [SerializeField] float maxSampleDistance = 1f;
-        [SerializeField] float maxPathDistance = 40f;
         [Header("Cursors")]
         [SerializeField] CursorType noneCursors;
         [SerializeField] CursorType uiCursors;

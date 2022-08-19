@@ -17,8 +17,6 @@ namespace RPG.Control
         [SerializeField] float shoutDistance = 5f;
         [SerializeField] float suspicionTime = 2f;
         [SerializeField] float aggroTime = 2f;
-        [Tooltip("This AI can not be aggrevated within this time AFTER it's started to move to patrol.")]
-        [SerializeField] float aggroCooldown = 10f;
 
         [Header("Patrolling")]
         [SerializeField] PatrolPath patrolPath;
