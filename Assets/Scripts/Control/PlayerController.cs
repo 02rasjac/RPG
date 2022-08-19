@@ -25,6 +25,8 @@ namespace RPG.Control
         Mover mover;
         Health health;
 
+        bool isDraggingUI = false;
+
         void OnEnable()
         {
             click.Enable();
@@ -119,8 +121,11 @@ namespace RPG.Control
             if (EventSystem.current.IsPointerOverGameObject())
             {
                 uiCursors.SetAsCursor();
+                if (click.IsPressed()) isDraggingUI = true;
                 return true;
             }
+            if (!click.IsPressed()) isDraggingUI = false;
+            if (isDraggingUI) return true;
             return false;
         }
 
