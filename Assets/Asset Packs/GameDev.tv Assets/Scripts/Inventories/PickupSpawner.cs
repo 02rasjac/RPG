@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
-using GameDevTV.Saving;
+//using GameDevTV.Saving;
 using Newtonsoft.Json.Linq;
+using RPG.Saving;
 
 namespace GameDevTV.Inventories
 {
@@ -8,7 +9,7 @@ namespace GameDevTV.Inventories
     /// Spawns pickups that should exist on first load in a level. This
     /// automatically spawns the correct prefab for a given inventory item.
     /// </summary>
-    public class PickupSpawner : MonoBehaviour, RPG.Saving.ISaveable
+    public class PickupSpawner : MonoBehaviour, ISaveable
     {
         // CONFIG DATA
         [SerializeField] InventoryItem item = null;

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using GameDevTV.Saving;
+//using GameDevTV.Saving;
+using RPG.Saving;
+using Newtonsoft.Json.Linq;
 
 namespace GameDevTV.Inventories
 {
@@ -74,21 +76,47 @@ namespace GameDevTV.Inventories
 
         // PRIVATE
 
-        object ISaveable.CaptureState()
+        //object ISaveable.CaptureState()
+        //{
+        //    var equippedItemsForSerialization = new Dictionary<EquipLocation, string>();
+        //    foreach (var pair in equippedItems)
+        //    {
+        //        equippedItemsForSerialization[pair.Key] = pair.Value.GetItemID();
+        //    }
+        //    return equippedItemsForSerialization;
+        //}
+
+        //void ISaveable.RestoreState(object state)
+        //{
+        //    equippedItems = new Dictionary<EquipLocation, EquipableItem>();
+
+        //    var equippedItemsForSerialization = (Dictionary<EquipLocation, string>)state;
+
+        //    foreach (var pair in equippedItemsForSerialization)
+        //    {
+        //        var item = (EquipableItem)InventoryItem.GetFromID(pair.Value);
+        //        if (item != null)
+        //        {
+        //            equippedItems[pair.Key] = item;
+        //        }
+        //    }
+        //}
+
+        public JToken CaptureAsJToken()
         {
             var equippedItemsForSerialization = new Dictionary<EquipLocation, string>();
             foreach (var pair in equippedItems)
             {
                 equippedItemsForSerialization[pair.Key] = pair.Value.GetItemID();
             }
-            return equippedItemsForSerialization;
+            return JToken.FromObject(equippedItemsForSerialization);
         }
 
-        void ISaveable.RestoreState(object state)
+        public void RestoreFromJToken(JToken state)
         {
             equippedItems = new Dictionary<EquipLocation, EquipableItem>();
 
-            var equippedItemsForSerialization = (Dictionary<EquipLocation, string>)state;
+            var equippedItemsForSerialization = state.ToObject<Dictionary<EquipLocation, string>>();
 
             foreach (var pair in equippedItemsForSerialization)
             {
@@ -98,6 +126,8 @@ namespace GameDevTV.Inventories
                     equippedItems[pair.Key] = item;
                 }
             }
+
+            equipmentUpdated();
         }
     }
 }

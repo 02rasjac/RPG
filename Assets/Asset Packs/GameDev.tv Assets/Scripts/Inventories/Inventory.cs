@@ -1,6 +1,8 @@
 ﻿using System;
 using UnityEngine;
-using GameDevTV.Saving;
+//using GameDevTV.Saving;
+using RPG.Saving;
+using Newtonsoft.Json.Linq;
 
 namespace GameDevTV.Inventories
 {
@@ -219,14 +221,7 @@ namespace GameDevTV.Inventories
             return -1;
         }
 
-        [System.Serializable]
-        private struct InventorySlotRecord
-        {
-            public string itemID;
-            public int number;
-        }
-    
-        object ISaveable.CaptureState()
+        public JToken CaptureAsJToken()
         {
             var slotStrings = new InventorySlotRecord[inventorySize];
             for (int i = 0; i < inventorySize; i++)
@@ -237,12 +232,12 @@ namespace GameDevTV.Inventories
                     slotStrings[i].number = slots[i].number;
                 }
             }
-            return slotStrings;
+            return JToken.FromObject(slotStrings);
         }
 
-        void ISaveable.RestoreState(object state)
+        public void RestoreFromJToken(JToken state)
         {
-            var slotStrings = (InventorySlotRecord[])state;
+            var slotStrings = state.ToObject<InventorySlotRecord[]>();
             for (int i = 0; i < inventorySize; i++)
             {
                 slots[i].item = InventoryItem.GetFromID(slotStrings[i].itemID);
@@ -253,5 +248,40 @@ namespace GameDevTV.Inventories
                 inventoryUpdated();
             }
         }
+
+        [System.Serializable]
+        private struct InventorySlotRecord
+        {
+            public string itemID;
+            public int number;
+        }
+    
+        //object ISaveable.CaptureState()
+        //{
+        //    var slotStrings = new InventorySlotRecord[inventorySize];
+        //    for (int i = 0; i < inventorySize; i++)
+        //    {
+        //        if (slots[i].item != null)
+        //        {
+        //            slotStrings[i].itemID = slots[i].item.GetItemID();
+        //            slotStrings[i].number = slots[i].number;
+        //        }
+        //    }
+        //    return slotStrings;
+        //}
+
+        //void ISaveable.RestoreState(object state)
+        //{
+        //    var slotStrings = (InventorySlotRecord[])state;
+        //    for (int i = 0; i < inventorySize; i++)
+        //    {
+        //        slots[i].item = InventoryItem.GetFromID(slotStrings[i].itemID);
+        //        slots[i].number = slotStrings[i].number;
+        //    }
+        //    if (inventoryUpdated != null)
+        //    {
+        //        inventoryUpdated();
+        //    }
+        //}
     }
 }

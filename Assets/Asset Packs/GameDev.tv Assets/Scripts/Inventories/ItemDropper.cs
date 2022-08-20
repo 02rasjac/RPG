@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using GameDevTV.Saving;
+//using GameDevTV.Saving;
+using RPG.Saving;
+using Newtonsoft.Json.Linq;
 
 namespace GameDevTV.Inventories
 {
@@ -64,30 +66,30 @@ namespace GameDevTV.Inventories
             public int number;
         }
 
-        object ISaveable.CaptureState()
-        {
-            RemoveDestroyedDrops();
-            var droppedItemsList = new DropRecord[droppedItems.Count];
-            for (int i = 0; i < droppedItemsList.Length; i++)
-            {
-                droppedItemsList[i].itemID = droppedItems[i].GetItem().GetItemID();
-                droppedItemsList[i].position = new SerializableVector3(droppedItems[i].transform.position);
-                droppedItemsList[i].number = droppedItems[i].GetNumber();
-            }
-            return droppedItemsList;
-        }
+        //object ISaveable.CaptureState()
+        //{
+        //    RemoveDestroyedDrops();
+        //    var droppedItemsList = new DropRecord[droppedItems.Count];
+        //    for (int i = 0; i < droppedItemsList.Length; i++)
+        //    {
+        //        droppedItemsList[i].itemID = droppedItems[i].GetItem().GetItemID();
+        //        droppedItemsList[i].position = new SerializableVector3(droppedItems[i].transform.position);
+        //        droppedItemsList[i].number = droppedItems[i].GetNumber();
+        //    }
+        //    return droppedItemsList;
+        //}
 
-        void ISaveable.RestoreState(object state)
-        {
-            var droppedItemsList = (DropRecord[])state;
-            foreach (var item in droppedItemsList)
-            {
-                var pickupItem = InventoryItem.GetFromID(item.itemID);
-                Vector3 position = item.position.ToVector();
-                int number = item.number;
-                SpawnPickup(pickupItem, position, number);
-            }
-        }
+        //void ISaveable.RestoreState(object state)
+        //{
+        //    var droppedItemsList = (DropRecord[])state;
+        //    foreach (var item in droppedItemsList)
+        //    {
+        //        var pickupItem = InventoryItem.GetFromID(item.itemID);
+        //        Vector3 position = item.position.ToVector();
+        //        int number = item.number;
+        //        SpawnPickup(pickupItem, position, number);
+        //    }
+        //}
 
         /// <summary>
         /// Remove any drops in the world that have subsequently been picked up.
@@ -103,6 +105,31 @@ namespace GameDevTV.Inventories
                 }
             }
             droppedItems = newList;
+        }
+
+        public JToken CaptureAsJToken()
+        {
+            RemoveDestroyedDrops();
+            var droppedItemsList = new DropRecord[droppedItems.Count];
+            for (int i = 0; i < droppedItemsList.Length; i++)
+            {
+                droppedItemsList[i].itemID = droppedItems[i].GetItem().GetItemID();
+                droppedItemsList[i].position = new SerializableVector3(droppedItems[i].transform.position);
+                droppedItemsList[i].number = droppedItems[i].GetNumber();
+            }
+            return JToken.FromObject(droppedItemsList);
+        }
+
+        public void RestoreFromJToken(JToken state)
+        {
+            var droppedItemsList = state.ToObject<DropRecord[]>();
+            foreach (var item in droppedItemsList)
+            {
+                var pickupItem = InventoryItem.GetFromID(item.itemID);
+                Vector3 position = item.position.ToVector3();
+                int number = item.number;
+                SpawnPickup(pickupItem, position, number);
+            }
         }
     }
 }
