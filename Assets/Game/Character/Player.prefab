@@ -293,7 +293,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventorySize: 16
---- !u!114 &830665872739392773
+--- !u!114 &3377519222724473246
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -302,10 +302,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 180252149560540994}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcb54e8b4f3bbe84588912514a9dd242, type: 3}
+  m_Script: {fileID: 11500000, guid: fe69e5f84ceb8b94da52181ef17c78ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scatterDistance: 1
 --- !u!4 &2980203680120079153 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5051208959865812726, guid: 041fa6278d1b02d47b319792e7b581aa, type: 3}
