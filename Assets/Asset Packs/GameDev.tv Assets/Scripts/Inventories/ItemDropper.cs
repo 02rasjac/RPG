@@ -3,6 +3,7 @@ using UnityEngine;
 //using GameDevTV.Saving;
 using RPG.Saving;
 using Newtonsoft.Json.Linq;
+using UnityEngine.SceneManagement;
 
 namespace GameDevTV.Inventories
 {
@@ -58,39 +59,6 @@ namespace GameDevTV.Inventories
             droppedItems.Add(pickup);
         }
 
-        [System.Serializable]
-        private struct DropRecord
-        {
-            public string itemID;
-            public SerializableVector3 position;
-            public int number;
-        }
-
-        //object ISaveable.CaptureState()
-        //{
-        //    RemoveDestroyedDrops();
-        //    var droppedItemsList = new DropRecord[droppedItems.Count];
-        //    for (int i = 0; i < droppedItemsList.Length; i++)
-        //    {
-        //        droppedItemsList[i].itemID = droppedItems[i].GetItem().GetItemID();
-        //        droppedItemsList[i].position = new SerializableVector3(droppedItems[i].transform.position);
-        //        droppedItemsList[i].number = droppedItems[i].GetNumber();
-        //    }
-        //    return droppedItemsList;
-        //}
-
-        //void ISaveable.RestoreState(object state)
-        //{
-        //    var droppedItemsList = (DropRecord[])state;
-        //    foreach (var item in droppedItemsList)
-        //    {
-        //        var pickupItem = InventoryItem.GetFromID(item.itemID);
-        //        Vector3 position = item.position.ToVector();
-        //        int number = item.number;
-        //        SpawnPickup(pickupItem, position, number);
-        //    }
-        //}
-
         /// <summary>
         /// Remove any drops in the world that have subsequently been picked up.
         /// </summary>
@@ -107,29 +75,95 @@ namespace GameDevTV.Inventories
             droppedItems = newList;
         }
 
+        class otherSceneDropRecord
+        {
+            public string id;
+            public int number;
+            public Vector3 location;
+            public int scene;
+        }
+
+        private List<otherSceneDropRecord> otherSceneDrops = new List<otherSceneDropRecord>();
+
+        List<otherSceneDropRecord> MergeDroppedItemsWithOtherSceneDrops()
+        {
+            List<otherSceneDropRecord> result = new List<otherSceneDropRecord>();
+            result.AddRange(otherSceneDrops);
+            foreach (var item in droppedItems)
+            {
+                otherSceneDropRecord drop = new otherSceneDropRecord();
+                drop.id = item.GetItem().GetItemID();
+                drop.number = item.GetNumber();
+                drop.location = item.transform.position;
+                drop.scene = SceneManager.GetActiveScene().buildIndex;
+                result.Add(drop);
+            }
+            return result;
+        }
+
         public JToken CaptureAsJToken()
         {
             RemoveDestroyedDrops();
-            var droppedItemsList = new DropRecord[droppedItems.Count];
-            for (int i = 0; i < droppedItemsList.Length; i++)
+            var drops = MergeDroppedItemsWithOtherSceneDrops();
+            JArray state = new JArray();
+            IList<JToken> stateList = state;
+            foreach (var drop in drops)
             {
-                droppedItemsList[i].itemID = droppedItems[i].GetItem().GetItemID();
-                droppedItemsList[i].position = new SerializableVector3(droppedItems[i].transform.position);
-                droppedItemsList[i].number = droppedItems[i].GetNumber();
+                JObject dropState = new JObject();
+                IDictionary<string, JToken> dropStateDict = dropState;
+                dropStateDict["id"] = JToken.FromObject(drop.id);
+                dropStateDict["number"] = drop.number;
+                dropStateDict["location"] = drop.location.ToToken();
+                dropStateDict["scene"] = drop.scene;
+                stateList.Add(dropState);
             }
-            return JToken.FromObject(droppedItemsList);
+
+            return state;
+        }
+
+        private void ClearExistingDrops()
+        {
+            foreach (var oldDrop in droppedItems)
+            {
+                if (oldDrop != null) Destroy(oldDrop.gameObject);
+            }
+
+            otherSceneDrops.Clear();
         }
 
         public void RestoreFromJToken(JToken state)
         {
-            var droppedItemsList = state.ToObject<DropRecord[]>();
-            foreach (var item in droppedItemsList)
+            if (state is JArray stateArray)
             {
-                var pickupItem = InventoryItem.GetFromID(item.itemID);
-                Vector3 position = item.position.ToVector3();
-                int number = item.number;
-                SpawnPickup(pickupItem, position, number);
+                int currentScene = SceneManager.GetActiveScene().buildIndex;
+                IList<JToken> stateList = stateArray;
+                ClearExistingDrops();
+                foreach (var entry in stateList)
+                {
+                    if (entry is JObject dropState)
+                    {
+                        IDictionary<string, JToken> dropStateDict = dropState;
+                        int scene = dropStateDict["scene"].ToObject<int>();
+                        InventoryItem item = InventoryItem.GetFromID(dropStateDict["id"].ToObject<string>());
+                        int number = dropStateDict["number"].ToObject<int>();
+                        Vector3 location = dropStateDict["location"].ToVector3();
+                        if (scene == currentScene)
+                        {
+                            SpawnPickup(item, location, number);
+                        }
+                        else
+                        {
+                            var otherDrop = new otherSceneDropRecord();
+                            otherDrop.id = item.GetItemID();
+                            otherDrop.number = number;
+                            otherDrop.location = location;
+                            otherDrop.scene = scene;
+                            otherSceneDrops.Add(otherDrop);
+                        }
+                    }
+                }
             }
         }
+
     }
 }
