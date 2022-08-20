@@ -298,13 +298,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcb54e8b4f3bbe84588912514a9dd242, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scatterDistance: 1
-  dropLibrary:
-  - {fileID: 11400000, guid: 3f7bb77363144be41802d71c5fc6180e, type: 2}
-  - {fileID: 11400000, guid: 3fb63abdc7ada8445bd0e6dbc77b7696, type: 2}
-  - {fileID: 11400000, guid: b5fa646b27c87bf48ae05fa8b0d2d4a5, type: 2}
-  - {fileID: 11400000, guid: c58d1ace934996d43b773b397f854ad9, type: 2}
-  - {fileID: 11400000, guid: f1f9cc76eee6d694fa61ba801c42ac7b, type: 2}
+  scatterDistance: 3
+  dropLibrary: {fileID: 11400000, guid: 6c745a4792d448545ac4ed820ee3a63f, type: 2}
 --- !u!1001 &9059390883755108793
 PrefabInstance:
   m_ObjectHideFlags: 0

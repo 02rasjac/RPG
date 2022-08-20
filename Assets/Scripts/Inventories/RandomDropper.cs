@@ -1,4 +1,5 @@
 ﻿using GameDevTV.Inventories;
+using RPG.Stats;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -9,14 +10,17 @@ namespace RPG.Inventories
     {
         [Tooltip("The radius from drop-point the items can get dropped at")]
         [SerializeField] float scatterDistance = 1f;
-        [SerializeField] InventoryItem[] dropLibrary;
+        [SerializeField] DropLibrary dropLibrary;
 
         const int MAX_ATTEMPTS = 30;
 
         public void RandomDrop()
         {
-            int index = Random.Range(0, dropLibrary.Length);
-            DropItem(dropLibrary[index], 1);
+            int level = GetComponent<BaseStats>().CurrentLevel;
+            foreach (var drop in dropLibrary.GetRandomDrops(level))
+            {
+                DropItem(drop.item, 1);
+            }
         }
 
         protected override Vector3 GetDropLocation()
