@@ -68,6 +68,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SwordPickup
       objectReference: {fileID: 0}
+    - target: {fileID: 3601401593293096295, guid: 64aecd960796a6d4c9e4e8ffbb025dd1, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7573920647677941409, guid: 64aecd960796a6d4c9e4e8ffbb025dd1, type: 3}
       propertyPath: weapon
       value: 

@@ -12,6 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc57347e21e6aea488dc0ea0e6dae925, type: 3}
   m_Name: Sword
   m_EditorClassIdentifier: 
+  itemID: 62a97091-9775-4a14-981a-26d8b0fa3f94
+  displayName: Sword
+  description: Swing this sharpt metal piece to hurt enemies.
+  icon: {fileID: 21300000, guid: d19901b0ee3c38743a7d383bd484b0b5, type: 3}
+  pickup: {fileID: 6843746608492594737, guid: de34ad68e9b16d741ac841234a425f97, type: 3}
+  stackable: 0
+  allowedEquipLocation: 5
   range: 2.3
   additiveDamage: 5
   multiplierDamage: 1

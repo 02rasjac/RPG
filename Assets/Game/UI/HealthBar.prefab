@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7030199441390724673}
   - component: {fileID: 7352598078321768444}
   - component: {fileID: 8731359152685148649}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,8 +88,7 @@ GameObject:
   - component: {fileID: 1058142653522341075}
   - component: {fileID: 949388494236319308}
   - component: {fileID: 4949087833519872155}
-  - component: {fileID: 3265185767915090143}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -161,23 +160,6 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 1
---- !u!114 &3265185767915090143
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6019283362218661218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!1 &6291708910255990803
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,7 +171,7 @@ GameObject:
   - component: {fileID: 380527734821204463}
   - component: {fileID: 4588614249787939023}
   - component: {fileID: 8909781740888366363}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: Foreground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -264,7 +246,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8351092977589980595}
   - component: {fileID: 3159479256432624910}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}

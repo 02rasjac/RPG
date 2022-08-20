@@ -8,11 +8,13 @@ using RPG.Movement;
 using RPG.Saving;
 using RPG.Stats;
 using Newtonsoft.Json.Linq;
+using GameDevTV.Inventories;
+using System;
 
 namespace RPG.Combat
 {
     [RequireComponent(typeof(ActionScheduler))]
-    public class Fighter : MonoBehaviour, IAction, ISaveable, IModifierProvider
+    public class Fighter : MonoBehaviour, IAction, ISaveable
     {
         [Tooltip("Where the weapon is position, i.e under right hand.")]
         [SerializeField] Transform rightHandTransform = null;
@@ -25,6 +27,7 @@ namespace RPG.Combat
         ActionScheduler actionScheduler;
         Animator animator;
         BaseStats baseStats;
+        Equipment equipment;
 
         Health target;
         public Health Target { get { return target; } }
@@ -39,6 +42,7 @@ namespace RPG.Combat
             actionScheduler = GetComponent<ActionScheduler>();
             animator = GetComponent<Animator>();
             baseStats = GetComponent<BaseStats>();
+            equipment = GetComponent<Equipment>();
             //EquipWeaponFromName(defaultWeaponName);
             currentWeaponConfig = defaultWeaponConfig;
         }
@@ -46,6 +50,16 @@ namespace RPG.Combat
         void Start()
         {
             EquipWeapon(currentWeaponConfig);
+        }
+
+        void OnEnable()
+        {
+            if (equipment != null) equipment.equipmentUpdated += UpdateWeapon;
+        }
+
+        void OnDisable()
+        {
+            if (equipment != null) equipment.equipmentUpdated -= UpdateWeapon;
         }
 
         void Update()
@@ -107,6 +121,17 @@ namespace RPG.Combat
         private bool IsInRange(Vector3 targetPos)
         {
             return currentWeaponConfig.Range >= Vector3.Distance(transform.position, targetPos);
+        }
+
+        void UpdateWeapon()
+        {
+            WeaponConfig config = equipment.GetItemInSlot(EquipLocation.Weapon) as WeaponConfig;
+            if (config == null)
+            {
+                EquipWeapon(defaultWeaponConfig);
+                return;
+            }
+            EquipWeapon(config);
         }
 
         void EquipWeaponFromName(string name)
@@ -179,22 +204,6 @@ namespace RPG.Combat
         public void RestoreFromJToken(JToken state)
         {
             EquipWeaponFromName(state.ToObject<string>());
-        }
-
-        public IEnumerable<float> GetAdditiveModifiers(Stats.Stats stat)
-        {
-            if (stat == Stats.Stats.Damage)
-            {
-                yield return currentWeaponConfig.AdditiveDamage;
-            }
-        }
-
-        public IEnumerable<float> GetMultiplyingModifiers(Stats.Stats stat)
-        {
-            if (stat == Stats.Stats.Damage)
-            {
-                yield return currentWeaponConfig.MultiplierDamage;
-            }
         }
     }
 }
