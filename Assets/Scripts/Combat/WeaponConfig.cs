@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 using RPG.Attributes;
+using GameDevTV.Inventories;
 
 namespace RPG.Combat
 {
     [CreateAssetMenu(fileName = "Weapon", menuName = "Weapons/Weapon", order = 0)]
-    public class WeaponConfig : ScriptableObject
+    public class WeaponConfig : EquipableItem
     {
         [Header("Weapon stats")]
         [SerializeField] float range = 2f;

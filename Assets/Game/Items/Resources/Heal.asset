@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be8358f0fcfcb22418d7b5d788e02cc4, type: 3}
+  m_Name: Heal
+  m_EditorClassIdentifier: 
+  itemID: 9ce22fb6-0fd4-4811-a2b2-52151ad08eb3
+  displayName: Heal potion
+  description: 
+  icon: {fileID: 21300000, guid: f1dd815974b2d4240a6bc912d6585497, type: 3}
+  pickup: {fileID: 747688609684086729, guid: 4fbaeccb6d388854ebcf96102c0a8093, type: 3}
+  stackable: 1
+  consumable: 1
