@@ -14,7 +14,7 @@ using System;
 namespace RPG.Combat
 {
     [RequireComponent(typeof(ActionScheduler))]
-    public class Fighter : MonoBehaviour, IAction, ISaveable, IModifierProvider
+    public class Fighter : MonoBehaviour, IAction, ISaveable
     {
         [Tooltip("Where the weapon is position, i.e under right hand.")]
         [SerializeField] Transform rightHandTransform = null;
@@ -204,22 +204,6 @@ namespace RPG.Combat
         public void RestoreFromJToken(JToken state)
         {
             EquipWeaponFromName(state.ToObject<string>());
-        }
-
-        public IEnumerable<float> GetAdditiveModifiers(Stats.Stats stat)
-        {
-            if (stat == Stats.Stats.Damage)
-            {
-                yield return currentWeaponConfig.AdditiveDamage;
-            }
-        }
-
-        public IEnumerable<float> GetMultiplyingModifiers(Stats.Stats stat)
-        {
-            if (stat == Stats.Stats.Damage)
-            {
-                yield return currentWeaponConfig.MultiplierDamage;
-            }
         }
     }
 }
