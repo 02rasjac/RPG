@@ -11,11 +11,10 @@ GameObject:
   - component: {fileID: 2317312897402354935}
   - component: {fileID: 438034967804083745}
   - component: {fileID: 1880939893708691950}
-  - component: {fileID: 530954649104214732}
   - component: {fileID: 8820265665792706351}
   - component: {fileID: 1899616199933400839}
   - component: {fileID: 5213288490420804748}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,23 +86,6 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 1
---- !u!114 &530954649104214732
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1323183712633924756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!114 &8820265665792706351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,7 +137,7 @@ GameObject:
   - component: {fileID: 4524957871138313916}
   - component: {fileID: 725116620657427241}
   - component: {fileID: 7072648358716512699}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -288,7 +270,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7138361723944521052}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CharacterFadingText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
